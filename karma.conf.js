@@ -12,7 +12,10 @@ module.exports = function (config) {
       require('angular-cli/plugins/karma')
     ],
     files: [
-      { pattern: './src/test.ts', watched: false }
+      { 
+        pattern: './src/test.ts', watched: false 
+      },
+      './node_modules/three/build/three.min.js'
     ],
     preprocessors: {
       './src/test.ts': ['angular-cli']

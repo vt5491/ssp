@@ -2,10 +2,10 @@
 
 // import { addProviders, async, inject } from '@angular/core/testing';
 import { TestBed, async, inject } from '@angular/core/testing';
-import {VREPCamera} from './vrepcamera';
+import {CylProj} from './cyl-proj';
 
-describe('VREPCamera', () => {
+describe('CylProj', () => {
   it('should create an instance', () => {
-    expect(new VREPCamera()).toBeTruthy();
+    expect(new CylProj()).toBeTruthy();
   });
 });
