@@ -1,4 +1,4 @@
-/// <reference path="../../../typings/index.d.ts" />
+/// <reference path="../../../../typings/index.d.ts" />
 /* tslint:disable:no-unused-variable */
 
 // import { addProviders, async, inject } from '@angular/core/testing';
@@ -9,7 +9,7 @@ import {CylProj} from './cyl-proj';
 import * as _ from 'lodash';
 
 
-fdescribe('CylProj', () => {
+describe('CylProj', () => {
   let cylProj: CylProj;
 
   beforeEach( () => {
@@ -33,16 +33,20 @@ fdescribe('CylProj', () => {
     // let cylProj = new CylProj()
     let funcs = _.functions(Object.getPrototypeOf(cylProj));
     
-    console.log(`ut: funcs=${funcs}`);
-    console.log(`ut: funcs.length=${funcs.length}`);
-    console.log(`ut: funcs[0]=${funcs[0]}`);
+    // console.log(`ut: funcs=${funcs}`);
+    // console.log(`ut: funcs.length=${funcs.length}`);
+    // console.log(`ut: funcs[0]=${funcs[0]}`);
     
     expect(_.find(funcs, (fName) => { return fName === 'init'; }).length === 1);
     expect(_.find(funcs, (fName) => { return fName === 'animationLoop'; }).length === 1);
   });
   
   it('has the appropriate properties', () => {
+    // debugger;
     expect(cylProj.webGLRenderer).toBeTruthy();
+    // verify its of type 'webGLRenderer'
+    expect((<any> cylProj.webGLRenderer.constructor).name 
+      === (<any> (new THREE.WebGLRenderer()).constructor).name);
   });
 
 });

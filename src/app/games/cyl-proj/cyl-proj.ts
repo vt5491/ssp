@@ -1,7 +1,7 @@
-/// <reference path="../../../typings/index.d.ts" />
+/// <reference path="../../../../typings/index.d.ts" />
 import { Component, OnInit } from '@angular/core';
 import {Injectable} from '@angular/core';
-import {VREPRuntime} from '../vrepruntime';
+import {VREPRuntime} from '../../vrepruntime';
 
 @Injectable()
 export class CylProj implements VREPRuntime{
