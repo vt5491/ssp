@@ -10,7 +10,7 @@ import Mesh = THREE.Mesh;
 import VRControls = THREE.VRControls;
 import VREffect = THREE.VREffect;
 
-export class VREPScene {
+export class SSPScene {
   scene: THREE.Scene;
   camera: PerspectiveCamera;
   dolly: Object3D;

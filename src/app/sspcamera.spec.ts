@@ -2,10 +2,10 @@
 
 // import { addProviders, async, inject } from '@angular/core/testing';
 import { TestBed, async, inject } from '@angular/core/testing';
-import {VREPCamera} from './vrepcamera';
+import {SSPCamera} from './sspcamera';
 
 describe('VREPCamera', () => {
   it('should create an instance', () => {
-    expect(new VREPCamera()).toBeTruthy();
+    expect(new SSPCamera()).toBeTruthy();
   });
 });

@@ -1,4 +1,4 @@
-export interface VREPRuntime {
+export interface SSPRuntime {
   init();
   animationLoop();
 }

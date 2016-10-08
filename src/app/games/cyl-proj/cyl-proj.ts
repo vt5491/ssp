@@ -1,10 +1,10 @@
 /// <reference path="../../../../typings/index.d.ts" />
 import { Component, OnInit } from '@angular/core';
 import {Injectable} from '@angular/core';
-import {VREPRuntime} from '../../vrepruntime';
+import {SSPRuntime} from '../../sspruntime';
 
 @Injectable()
-export class CylProj implements VREPRuntime{
+export class CylProj implements SSPRuntime{
   // abc: number = 7
   webGLRenderer: THREE.WebGLRenderer;
   bufferGamePlaneTexture: THREE.WebGLRenderTarget;

@@ -2,26 +2,26 @@
 
 // import { addProviders, async, inject } from '@angular/core/testing';
 import { TestBed, async, inject } from '@angular/core/testing';
-import { VREPScene} from './vrepscene';
+import { SSPScene} from './sspscene';
 
-fdescribe('VREPScene', () => {
-  let vrepScene: VREPScene;
+describe('SSPScene', () => {
+  let sspScene: SSPScene;
 
   beforeEach(() => {
-    vrepScene = new VREPScene();
+    sspScene = new SSPScene();
   });
 
   it('should create an instance', () => {
-    expect(new VREPScene()).toBeTruthy();
+    expect(new SSPScene()).toBeTruthy();
   });
-  
+
   it('should have a camera', () => {
     // debugger;
-    expect(vrepScene.camera).toBeTruthy();
+    expect(sspScene.camera).toBeTruthy();
   })
 
   it('should have a dolly', () => {
     // debugger;
-    expect(vrepScene.dolly).toBeTruthy();
+    expect(sspScene.dolly).toBeTruthy();
   })
 });
