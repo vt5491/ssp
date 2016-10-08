@@ -26,26 +26,26 @@ describe('CylProj', () => {
   //   console.log(`typeof cylProj instanceof CylProj=${cylProj instanceof CylProj}`)
   //   // console.log(`typeof cylProj instanceof CylProj=${cylProj instanceof VREPRuntime}`)
   // })
- 
-  it('implements the VREPRuntime interface', () => {
+
+  it('implements the SSPRuntime interface', () => {
     // console.log(`ut: cylProj.toJson=${JSON.stringify(cylProj)}`)
     // expect(_.functions(CylProj))
     // let cylProj = new CylProj()
     let funcs = _.functions(Object.getPrototypeOf(cylProj));
-    
+
     // console.log(`ut: funcs=${funcs}`);
     // console.log(`ut: funcs.length=${funcs.length}`);
     // console.log(`ut: funcs[0]=${funcs[0]}`);
-    
+
     expect(_.find(funcs, (fName) => { return fName === 'init'; }).length === 1);
     expect(_.find(funcs, (fName) => { return fName === 'animationLoop'; }).length === 1);
   });
-  
+
   it('has the appropriate properties', () => {
     // debugger;
     expect(cylProj.webGLRenderer).toBeTruthy();
     // verify its of type 'webGLRenderer'
-    expect((<any> cylProj.webGLRenderer.constructor).name 
+    expect((<any> cylProj.webGLRenderer.constructor).name
       === (<any> (new THREE.WebGLRenderer()).constructor).name);
   });
 

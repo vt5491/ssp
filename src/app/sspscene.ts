@@ -17,14 +17,14 @@ export class SSPScene {
   vrControls: VRControls;
   vrEffect: VREffect;
   webVrManager;
-  
+
   constructor(vrRenderer?) {
     this.scene = new THREE.Scene;
 
     this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight);
-    this.camera.name = 'vrep-scene-camera'
+    this.camera.name = 'ssp-scene-camera'
     this.camera.position.set(0, 1.5, 100);
-    
+
     this.dolly = new THREE.Object3D();
     this.dolly.position.z = 50;
     this.scene.add(this.dolly);

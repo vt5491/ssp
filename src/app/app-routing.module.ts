@@ -8,4 +8,4 @@ const routes: Routes = [];
   exports: [RouterModule],
   providers: []
 })
-export class VrepRoutingModule { }
+export class SspRoutingModule { }

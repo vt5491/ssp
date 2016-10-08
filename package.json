@@ -1,6 +1,6 @@
 {
-  "name": "vrep",
-  "version": "0.0.0",
+  "name": "ssp",
+  "version": "0.0.1",
   "license": "MIT",
   "angular-cli": {},
   "scripts": {
