@@ -13,15 +13,6 @@
     "typeRoots": [
       "../node_modules/@types"
     ],
-    //vt add
     "noResolve": true
-    //vt end
   },
-  "filesGlob": [
-    "**/*.ts",
-    "../typings/index.d.ts"
-  ]
-//  "exclude": [
-//    "../typings/globals/jasmine/index.d.ts"
-//  ]
 }
