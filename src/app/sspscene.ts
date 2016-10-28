@@ -1,4 +1,4 @@
-// <reference path="../../typings/index.d.ts" />
+/// <reference path="../../typings/index.d.ts" />
 import {Injectable} from '@angular/core';
 import {Injector} from '@angular/core';
 import {Provider} from '@angular/core';
@@ -16,9 +16,9 @@ export class SSPScene {
   dolly: Object3D;
   vrControls: VRControls;
   vrEffect: VREffect;
-  webVrManager;
+  webVRManager;
 
-  constructor(vrRenderer?) {
+  constructor(webGLRenderer? : THREE.WebGLRenderer) {
     this.scene = new THREE.Scene;
 
     this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight);
@@ -30,10 +30,15 @@ export class SSPScene {
     this.scene.add(this.dolly);
 
     this.vrControls = new THREE.VRControls(this.camera);
+    this.vrControls = new VRControls(this.camera);
 
-    // this.vrEffect = new THREE.VREffect(vrRenderer.renderer);
-    // this.vrEffect.setSize(width, height);
-    // this.webVrManager = new (<any>window).WebVRManager(vrRenderer.renderer, this.vrEffect);
+    console.log(`SSPScene: webGLRenderer.getSize=${webGLRenderer.getSize()}`);
+    this.vrEffect = new THREE.VREffect(webGLRenderer);
+    // debugger;
+    this.vrEffect.setSize(window.innerWidth, window.innerHeight);
+
+    this.webVRManager = new (<any>window).WebVRManager(webGLRenderer, this.vrEffect);
     // this.camera.quaternion.copy(this.BaseRotation);
   }
 }
+    // debugger;

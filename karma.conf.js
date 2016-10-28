@@ -15,7 +15,10 @@ module.exports = function (config) {
       { 
         pattern: './src/test.ts', watched: false 
       },
-      './node_modules/three/build/three.min.js'
+      './node_modules/three/build/three.min.js',
+      './node_modules/three/examples/js/controls/VRControls.js',
+      './node_modules/three/examples/js/effects/VREffect.js',
+      './node_modules/webvr-boilerplate/build/webvr-manager.js'
     ],
     preprocessors: {
       './src/test.ts': ['angular-cli']
