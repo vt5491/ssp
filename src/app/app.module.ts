@@ -6,12 +6,17 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { TorroidsComponent } from './torroids/torroids.component';
+import { WebGLCanvasComponent } from './directives/webgl-canvas/webgl-canvas.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TorroidsComponent
+    TorroidsComponent,
+    WebGLCanvasComponent
   ],
+  // exports: [
+  //   WebGLCanvasComponent
+  // ],
   imports: [
     BrowserModule,
     FormsModule,
