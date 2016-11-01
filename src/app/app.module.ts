@@ -7,12 +7,13 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { TorroidsComponent } from './torroids/torroids.component';
 import { WebGLCanvasComponent } from './directives/webgl-canvas/webgl-canvas.component';
+// import { VRSceneService, VRSceneServiceProvider} from './vr-scene.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     TorroidsComponent,
-    WebGLCanvasComponent
+    WebGLCanvasComponent,
   ],
   // exports: [
   //   WebGLCanvasComponent

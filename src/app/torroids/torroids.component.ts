@@ -1,16 +1,19 @@
 /// <reference path="../../../typings/index.d.ts" />
-import { Component, OnInit, ElementRef, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, Inject, ViewChild, Injectable } from '@angular/core';
 import { WebGLCanvasComponent } from '../directives/webgl-canvas/webgl-canvas.component';
+import { VRSceneService, VRSceneServiceProvider } from '../vr-scene.service';
 
 @Component({
   selector: 'app-torroids',
   templateUrl: './torroids.component.html',
-  styleUrls: ['./torroids.component.css']
+  styleUrls: ['./torroids.component.css'],
   // providers: [ElementRef],
+  providers: [VRSceneServiceProvider, WebGLCanvasComponent]
 })
 
 // @ViewChild('webGLCanvas') someElement;
 
+@Injectable()
 export class TorroidsComponent implements OnInit {
   @ViewChild(WebGLCanvasComponent) webGLCanvas : WebGLCanvasComponent;
 
@@ -19,8 +22,11 @@ export class TorroidsComponent implements OnInit {
   canvasWidth: number;
   canvasHeight: number;
   // private el: ElementRef;
+  vrScene : VRSceneService;
   
   constructor(private el: ElementRef) { 
+  // constructor(private el: ElementRef, private vrscene: VRSceneService) { 
+    // console.log('TorroidComponent: ctor: vrscene=' + vrscene);
   // constructor(@Inject(ElementRef) ElementRef) {
   // constructor() { 
     // this.el = ElementRef;
@@ -29,6 +35,8 @@ export class TorroidsComponent implements OnInit {
 
   ngOnInit() {
     console.log('TorroidsComponent.ngOnInit: entered');
+
+    this.vrScene = new VRSceneService(window.innerWidth, window.innerHeight, this.webGLCanvas.webGLRenderer)
 
     // console.log(`canvas.width = ${this.el.nativeElement.querySelector('#scene-view').width}`);
     // console.log(`canvas.height=${canvas.height}`);

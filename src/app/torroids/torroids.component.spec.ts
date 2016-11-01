@@ -27,7 +27,7 @@ class MockElementRef implements ElementRef {
 };
 
 
-fdescribe('Component: Torroids', () => {
+describe('Component: Torroids', () => {
   // component : TorroidsComponent;
 
   // beforeEachProviders(() => [Component, provide(ElementRef, { useValue: new MockElementRef() })]);
