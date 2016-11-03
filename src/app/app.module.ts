@@ -7,7 +7,8 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { TorroidsComponent } from './torroids/torroids.component';
 import { WebGLCanvasComponent } from './directives/webgl-canvas/webgl-canvas.component';
-// import { VRSceneService, VRSceneServiceProvider} from './vr-scene.service';
+import { VRSceneService, VRSceneServiceProvider} from './services/vr-scene.service';
+// import { SspTorusSceneService, SspTorusSceneProvider} from './services/ssp-torus-scene.service';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,9 @@ import { WebGLCanvasComponent } from './directives/webgl-canvas/webgl-canvas.com
     FormsModule,
     HttpModule
   ],
-  providers: [],
+  // providers: [],
+  // providers: [THREE.WebGLRenderer],
+  providers: [VRSceneServiceProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

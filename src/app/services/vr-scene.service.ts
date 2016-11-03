@@ -1,4 +1,4 @@
-///<reference path="../../typings/index.d.ts" />
+///<reference path="../../../typings/index.d.ts" />
 import {Injectable} from '@angular/core';
 import {Injector} from '@angular/core';
 import {Provider} from '@angular/core';
@@ -9,7 +9,7 @@ import PerspectiveCamera = THREE.PerspectiveCamera;
 import Mesh = THREE.Mesh;
 import VRControls = THREE.VRControls;
 import VREffect = THREE.VREffect;
-import { WebGLCanvasComponent} from './directives/webgl-canvas/webgl-canvas.component';
+import { WebGLCanvasComponent} from '../directives/webgl-canvas/webgl-canvas.component';
 
 // @Component ({ 
 // });
@@ -32,6 +32,7 @@ export class VRSceneService {
   // };
 
   // constructor(width, height, webGLCanvasComponent: WebGLCanvasComponent) {
+  //TODO: width, height not needed here
   constructor(width, height, public webGLRenderer: THREE.WebGLRenderer) {
     // shouldn't have to do this, but..
     // glRenderer.init()
@@ -63,20 +64,21 @@ export class VRSceneService {
   };
 }
 
-let VRSceneFactory = (glRenderer: THREE.WebGLRenderer) => {
-// let VRSceneFactory = () => {
+// let VRSceneFactory = (glRenderer: THREE.WebGLRenderer) => {
+let VRSceneFactory = () => {
   var width = window.innerWidth
   var height = window.innerHeight
 
   // glRenderer.init(width, height)
+  var webGLRenderer = new THREE.WebGLRenderer({antialias: true});
 
-  return new VRSceneService(window.innerWidth, window.innerHeight, glRenderer);
+  return new VRSceneService(window.innerWidth, window.innerHeight, webGLRenderer);
 };
 
 export let VRSceneServiceProvider = {
   provide: VRSceneService,
   useFactory: VRSceneFactory,
   // deps: [VRRenderer]
-  deps: [WebGLCanvasComponent]
+  // deps: [WebGLCanvasComponent]
 }
 

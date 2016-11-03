@@ -1,9 +1,11 @@
 /// <reference path="../../../typings/index.d.ts" />
 /* tslint:disable:no-unused-variable */
 
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, async, inject } from '@angular/core/testing';
 import { TorroidsComponent } from './torroids.component';
 import { ElementRef } from '@angular/core';
+import { VRSceneService, VRSceneServiceProvider } from '../services/vr-scene.service';
+import { SspTorusSceneService, SspTorusSceneProvider } from '../services/ssp-torus-scene.service';
 
 let dummyCanvas = document.createElement('canvas');
 let dummyNativeElement = {
@@ -32,11 +34,18 @@ describe('Component: Torroids', () => {
 
   // beforeEachProviders(() => [Component, provide(ElementRef, { useValue: new MockElementRef() })]);
   // beforeEachProviders(() => [TorroidsComponent, provide(ElementRef, { useValue: new MockElementRef() })]);
+  // beforeEachProviders(() => [SspTorusSceneProvider]);
 
   beforeEach ( () => {
     // this.component = new TorroidsComponent(new ElementRef());
     // this.component = new TorroidsComponent({ provide: ElementRef, useClass: MockElementRef })
-    this.component = new TorroidsComponent( new MockElementRef());
+    this.component = new TorroidsComponent( 
+      new MockElementRef(), 
+      // inject([SspTorusSceneService],(service: SspTorusSceneService));
+      // inject([SspTorusSceneService]))
+      new SspTorusSceneService(100, 100, 
+        new VRSceneService(10, 10, new THREE.WebGLRenderer({}))))
+    // this.component = new TorroidsComponent(new ElementRef(), new SspService());
     // this.component = new TorroidsComponent( new ElementRef({}));
   });
   // beforeEach(() => {

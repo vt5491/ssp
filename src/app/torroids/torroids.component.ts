@@ -1,14 +1,15 @@
 /// <reference path="../../../typings/index.d.ts" />
 import { Component, OnInit, ElementRef, Inject, ViewChild, Injectable } from '@angular/core';
 import { WebGLCanvasComponent } from '../directives/webgl-canvas/webgl-canvas.component';
-import { VRSceneService, VRSceneServiceProvider } from '../vr-scene.service';
+import { VRSceneService, VRSceneServiceProvider } from '../services/vr-scene.service';
+import { SspTorusSceneService, SspTorusSceneProvider } from '../services/ssp-torus-scene.service';
 
 @Component({
   selector: 'app-torroids',
   templateUrl: './torroids.component.html',
   styleUrls: ['./torroids.component.css'],
   // providers: [ElementRef],
-  providers: [VRSceneServiceProvider, WebGLCanvasComponent]
+  providers: [VRSceneServiceProvider, WebGLCanvasComponent, SspTorusSceneProvider]
 })
 
 // @ViewChild('webGLCanvas') someElement;
@@ -24,9 +25,10 @@ export class TorroidsComponent implements OnInit {
   // private el: ElementRef;
   vrScene : VRSceneService;
   
-  constructor(private el: ElementRef) { 
+  constructor(private el: ElementRef, sspTorusSceneService: SspTorusSceneService) { 
   // constructor(private el: ElementRef, private vrscene: VRSceneService) { 
     // console.log('TorroidComponent: ctor: vrscene=' + vrscene);
+    console.log('TorroidComponent: ctor: sspTorusSceneService=' + sspTorusSceneService);
   // constructor(@Inject(ElementRef) ElementRef) {
   // constructor() { 
     // this.el = ElementRef;
