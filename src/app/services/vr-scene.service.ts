@@ -33,7 +33,7 @@ export class VRSceneService {
 
   // constructor(width, height, webGLCanvasComponent: WebGLCanvasComponent) {
   //TODO: width, height not needed here
-  constructor(width, height, public webGLRenderer: THREE.WebGLRenderer) {
+  constructor(width, height, private _webGLRenderer: THREE.WebGLRenderer) {
     // shouldn't have to do this, but..
     // glRenderer.init()
     // console.log(`VrScene.ctor: glRenderer.guid=${glRenderer.guid}`)
@@ -52,16 +52,25 @@ export class VRSceneService {
     if ((<any>window).navigator.getVRDisplays) {
       this.vrControls = new THREE.VRControls(this.camera);
 
-      this.vrEffect = new THREE.VREffect(webGLRenderer);
+      this.vrEffect = new THREE.VREffect(this.webGLRenderer);
       // this.vrEffect = new THREE.VREffect(glRenderer.domElement);
-      this.vrEffect = new THREE.VREffect(webGLRenderer);
+      this.vrEffect = new THREE.VREffect(this.webGLRenderer);
       this.vrEffect.setSize(width, height);
-      this.webVrManager = new (<any>window).WebVRManager(webGLRenderer, this.vrEffect);
+      this.webVrManager = new (<any>window).WebVRManager(this.webGLRenderer, this.vrEffect);
     }
     this.camera.quaternion.copy(this.BaseRotation);
 
     // glRenderer.canvas.focus();
   };
+
+  // Getters and Setters
+  get webGLRenderer(): THREE.WebGLRenderer {
+    // console.log('---> now accessing _webGLRenderer');
+    return this._webGLRenderer;
+  };
+  set webGLRenderer(theWebGLRenderer: THREE.WebGLRenderer) {
+    this._webGLRenderer = theWebGLRenderer;
+  }
 }
 
 // let VRSceneFactory = (glRenderer: THREE.WebGLRenderer) => {

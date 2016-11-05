@@ -3,7 +3,7 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { VRSceneService, VRSceneServiceProvider } from './vr-scene.service';
 
-fdescribe('Service: VrScene', () => {
+describe('Service: VrScene', () => {
   
   beforeEach(() => {
     TestBed.configureTestingModule({

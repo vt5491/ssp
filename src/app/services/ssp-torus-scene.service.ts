@@ -12,7 +12,7 @@ export class SspTorusSceneService {
 
   torusMesh : THREE.Mesh;
   // constructor(width, height, webGLRenderer: THREE.WebGLRenderer) { 
-  constructor(width, height, public vrSceneService: VRSceneService) { 
+  constructor(width, height, private _vrSceneService: VRSceneService) { 
     console.log(`SspTorusSceneService.ctor: entered`);
     this.init();
   }
@@ -22,15 +22,34 @@ export class SspTorusSceneService {
     let torusMaterial = new THREE.MeshBasicMaterial();
 
     this.torusMesh = new THREE.Mesh(torusGeom, torusMaterial);
+    this.torusMesh.name = "abc";
     // this.torusMesh.rotateX(Base.ONE_DEG * 90.0);
 
+  }
+
+  // Getters and Setters
+  get vrSceneService(): VRSceneService {
+    return this._vrSceneService;
+  };
+  set vrSceneService(theVrSceneService: VRSceneService) {
+    this._vrSceneService = theVrSceneService;
+  }
+
+  // this returns the webGLRenderer from the injected VRSceneService
+  // Just a shortcut so the user doesn't have to chain two object to get
+  // a simple value.
+  get webGLRenderer(): THREE.WebGLRenderer {
+    return this._vrSceneService.webGLRenderer;
+  };
+  set webGLRenderer(webGLRenderer: THREE.WebGLRenderer) {
+    this._vrSceneService.webGLRenderer = webGLRenderer;
   }
 }
 
 // let SspTorusSceneFactory = (webGLRenderer: THREE.WebGLRenderer) => {
 // let SspTorusSceneFactory = () => {
 let SspTorusSceneFactory = (vrSceneService: VRSceneService) => {
-  console.log(`SspTorusSceneFactor.ctor: entered`);
+  // console.log(`SspTorusSceneFactor.ctor: entered`);
   var width = window.innerWidth
   var height = window.innerHeight
 
