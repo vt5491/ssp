@@ -9,6 +9,7 @@ import { TorroidsComponent } from './torroids/torroids.component';
 import { WebGLCanvasComponent } from './directives/webgl-canvas/webgl-canvas.component';
 import { VRSceneService, VRSceneServiceProvider} from './services/vr-scene.service';
 // import { SspTorusSceneService, SspTorusSceneProvider} from './services/ssp-torus-scene.service';
+import { SspTorusRuntimeService } from './services/ssp-torus-runtime.service';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,10 @@ import { VRSceneService, VRSceneServiceProvider} from './services/vr-scene.servi
   ],
   // providers: [],
   // providers: [THREE.WebGLRenderer],
-  providers: [VRSceneServiceProvider],
+  providers: [
+    VRSceneServiceProvider,
+    // SspTorusRuntimeService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

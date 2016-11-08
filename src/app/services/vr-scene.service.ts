@@ -50,6 +50,7 @@ export class VRSceneService {
     this.dolly.add(this.camera);
 
     if ((<any>window).navigator.getVRDisplays) {
+      console.log(`VRSceneService.ctor: now on webVR path`);
       this.vrControls = new THREE.VRControls(this.camera);
 
       this.vrEffect = new THREE.VREffect(this.webGLRenderer);
@@ -61,6 +62,7 @@ export class VRSceneService {
     this.camera.quaternion.copy(this.BaseRotation);
 
     // glRenderer.canvas.focus();
+    this._webGLRenderer.domElement.focus();
   };
 
   // Getters and Setters
@@ -71,6 +73,10 @@ export class VRSceneService {
   set webGLRenderer(theWebGLRenderer: THREE.WebGLRenderer) {
     this._webGLRenderer = theWebGLRenderer;
   }
+
+  // get webVrManager() {
+  //   return this._webVrManager;
+  // };
 }
 
 // let VRSceneFactory = (glRenderer: THREE.WebGLRenderer) => {

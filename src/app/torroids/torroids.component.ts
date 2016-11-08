@@ -4,6 +4,7 @@ import { WebGLCanvasComponent } from '../directives/webgl-canvas/webgl-canvas.co
 import { VRSceneService, VRSceneServiceProvider } from '../services/vr-scene.service';
 import { SspTorusSceneService, SspTorusSceneProvider } from '../services/ssp-torus-scene.service';
 import { BaseService } from '../services/base.service';
+import { SspTorusRuntimeService } from '../services/ssp-torus-runtime.service';
 
 @Component({
   selector: 'app-torroids',
@@ -27,11 +28,14 @@ export class TorroidsComponent implements OnInit {
   canvasHeight: number;
   // private el: ElementRef;
   vrScene : VRSceneService;
+  sspTorusRuntimeService : SspTorusRuntimeService;
   
   constructor(
     private el: ElementRef, 
     private _sspTorusSceneService: SspTorusSceneService,
-    public baseService: BaseService) { 
+    public baseService: BaseService
+    // public sspTorusRuntimeService: SspTorusRuntimeService
+    ) { 
   // constructor(private el: ElementRef, private vrscene: VRSceneService) { 
     // console.log('TorroidComponent: ctor: vrscene=' + vrscene);
     console.log('TorroidComponent: ctor: sspTorusSceneService=' + this.sspTorusSceneService);
@@ -40,6 +44,7 @@ export class TorroidsComponent implements OnInit {
   // constructor() { 
     // this.el = ElementRef;
     // this.initOuterScene();
+    this.sspTorusRuntimeService = new SspTorusRuntimeService(this._sspTorusSceneService.vrSceneService);
   }
 
   ngOnInit() {
@@ -48,7 +53,7 @@ export class TorroidsComponent implements OnInit {
     // console.log('TorroidComponent: ngOnInit: sspTorusSceneService.vrSceneService.webGLRenderer=' + this.sspTorusSceneService.vrSceneService.webGLRenderer);
 
     // this.vrScene = new VRSceneService(window.innerWidth, window.innerHeight, this.webGLCanvas.webGLRenderer)
-    this.vrScene = new VRSceneService(window.innerWidth, window.innerHeight, this.webGLRenderer)
+    // this.vrScene = new VRSceneService(window.innerWidth, window.innerHeight, this.webGLRenderer)
 
     // console.log(`canvas.width = ${this.el.nativeElement.querySelector('#scene-view').width}`);
     // console.log(`canvas.height=${canvas.height}`);
@@ -92,7 +97,26 @@ export class TorroidsComponent implements OnInit {
   }
 
   startButtonClick(input, $event) {
-    this.quickScene();
+    // this.quickScene();
+    this.startGame();
+  }
+
+  startGame() {
+    console.log('TorroidsComponent.startGame: entered');
+
+    let scene = this._sspTorusSceneService.vrSceneService.scene;
+    let camera = this._sspTorusSceneService.vrSceneService.camera;
+
+    var geometry = new THREE.PlaneGeometry( 65, 40, 32 );                                            
+    var material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );         
+    var plane = new THREE.Mesh( geometry, material );                                                
+    // plane.rotateX(Math.PI / 180.0 * 90.0)                                                               
+    plane.rotateX( BaseService.ONE_DEG * 90.0)                                                               
+    scene.add( plane );     
+
+    // this.webGLRenderer.render(scene, camera);
+    // this.sspTorusSceneService.vrSceneService.webVrManager.render(scene, camera);
+    this.sspTorusRuntimeService.mainLoop();
   }
 
   quickScene() {
@@ -111,7 +135,7 @@ export class TorroidsComponent implements OnInit {
     scene.add( plane );     
 
     // this.webGLCanvas.webGLRenderer.render(scene, camera);
-    this.webGLRenderer.render(scene, camera);
+    // this.webGLRenderer.render(scene, camera);
 
   }
 

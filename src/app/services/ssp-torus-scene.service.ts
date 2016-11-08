@@ -24,6 +24,7 @@ export class SspTorusSceneService {
     this.torusMesh = new THREE.Mesh(torusGeom, torusMaterial);
     this.torusMesh.name = "abc";
     // this.torusMesh.rotateX(Base.ONE_DEG * 90.0);
+    this._vrSceneService.scene.add(this.torusMesh);
 
   }
 
