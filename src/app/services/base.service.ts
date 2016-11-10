@@ -7,4 +7,8 @@ export class BaseService {
 
   constructor() { }
 
+  //getters and setters
+  get ONE_DEG(): number {
+    return BaseService.ONE_DEG;
+  } 
 }

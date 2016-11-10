@@ -1,7 +1,8 @@
 Torroids.
-<div class='container' id='webgl-container' >
+<!-- <div class='container' id='webgl-container'  (click)='kbdEventHandler($event)' (keydown)='kbdEventHandler($event)' uabindex="1"> -->
+<div class='container' id='webgl-container'>
   <!-- original canvas<br/>
-  <canvas [width]="canvasWidth" [height]="canvasHeight" id="scene-view"></canvas> -->
+  <canvas width="100" height="100" id="scene-view" (keydown)='kbdEventHandler($event)' ></canvas> -->
   <p>
     <button (click)="startButtonClick(input, $event)">Start Game</button>
   <br/><br/>

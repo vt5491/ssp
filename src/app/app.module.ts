@@ -10,6 +10,9 @@ import { WebGLCanvasComponent } from './directives/webgl-canvas/webgl-canvas.com
 import { VRSceneService, VRSceneServiceProvider} from './services/vr-scene.service';
 // import { SspTorusSceneService, SspTorusSceneProvider} from './services/ssp-torus-scene.service';
 import { SspTorusRuntimeService } from './services/ssp-torus-runtime.service';
+import { BaseService } from './services/base.service';
+import { KbdHandlerRouterService } from './services/kbd-handler-router.service';
+import { CameraKbdHandlerService } from './services/camera-kbd-handler.service';
 
 @NgModule({
   declarations: [
@@ -30,6 +33,9 @@ import { SspTorusRuntimeService } from './services/ssp-torus-runtime.service';
   providers: [
     VRSceneServiceProvider,
     // SspTorusRuntimeService
+    BaseService,
+    KbdHandlerRouterService,
+    CameraKbdHandlerService
   ],
   bootstrap: [AppComponent]
 })

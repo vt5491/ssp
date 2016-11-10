@@ -1,10 +1,11 @@
 /// <reference path="../../../typings/index.d.ts" />
-import { Component, OnInit, ElementRef, Inject, ViewChild, Injectable } from '@angular/core';
+import { Component, OnInit, ElementRef, Inject, ViewChild, Injectable, Renderer } from '@angular/core';
 import { WebGLCanvasComponent } from '../directives/webgl-canvas/webgl-canvas.component';
 import { VRSceneService, VRSceneServiceProvider } from '../services/vr-scene.service';
 import { SspTorusSceneService, SspTorusSceneProvider } from '../services/ssp-torus-scene.service';
 import { BaseService } from '../services/base.service';
 import { SspTorusRuntimeService } from '../services/ssp-torus-runtime.service';
+import { KbdHandlerRouterService} from '../services/kbd-handler-router.service';
 
 @Component({
   selector: 'app-torroids',
@@ -12,7 +13,7 @@ import { SspTorusRuntimeService } from '../services/ssp-torus-runtime.service';
   styleUrls: ['./torroids.component.css'],
   // providers: [ElementRef],
   providers: [VRSceneServiceProvider, WebGLCanvasComponent, SspTorusSceneProvider,
-  BaseService 
+  // BaseService 
   ]
 })
 
@@ -33,17 +34,13 @@ export class TorroidsComponent implements OnInit {
   constructor(
     private el: ElementRef, 
     private _sspTorusSceneService: SspTorusSceneService,
-    public baseService: BaseService
+    public baseService: BaseService,
+    private renderer : Renderer,
+    private _kbdHandlerRouterService : KbdHandlerRouterService
     // public sspTorusRuntimeService: SspTorusRuntimeService
-    ) { 
-  // constructor(private el: ElementRef, private vrscene: VRSceneService) { 
-    // console.log('TorroidComponent: ctor: vrscene=' + vrscene);
+    ) 
+  { 
     console.log('TorroidComponent: ctor: sspTorusSceneService=' + this.sspTorusSceneService);
-    // console.log('TorroidComponent: ctor: sspTorusSceneService.vrSceneService.webGLRenderer=' + this.sspTorusSceneService.vrSceneService.webGLRenderer);
-  // constructor(@Inject(ElementRef) ElementRef) {
-  // constructor() { 
-    // this.el = ElementRef;
-    // this.initOuterScene();
     this.sspTorusRuntimeService = new SspTorusRuntimeService(this._sspTorusSceneService.vrSceneService);
   }
 
@@ -66,11 +63,22 @@ export class TorroidsComponent implements OnInit {
   }
 
   initOuterScene() {
+    console.log(`TorroidsComponent.initOuterScene: entered`);
     let webglDiv = this.el.nativeElement.querySelector('#webgl-container');
     webglDiv.appendChild(this.webGLRenderer.domElement).setAttribute("id", 'webgl-renderer-canvas');
     // webglDiv.setAttribute("id", 'webgl-renderer');
 
     this.webGLRenderer.setSize(window.innerWidth, window.innerHeight);
+
+    let webglRendererCanvas : HTMLElement = this.el.nativeElement.querySelector('#webgl-renderer-canvas');
+    // note: this is needed to give the element keyboard focus
+    webglRendererCanvas.setAttribute('tabindex', "1");
+    let listenFunc = this.renderer.listen(webglRendererCanvas, 'keydown', (event) => {
+      console.log(`listenFunc: event=${event}`);
+      this.kbdEventHandler(event);
+      // console.log('Element clicked');
+    });
+    webglRendererCanvas.focus();
     // console.log(`TorroidsComponent.initOuterScene: webGLCanvasComponent.width=
     //   ${this.webGLCanvas.webGLRenderer.getSize().width}`);
     // let canvas = this.el.nativeElement.querySelector('#scene-view');
@@ -114,10 +122,17 @@ export class TorroidsComponent implements OnInit {
     plane.rotateX( BaseService.ONE_DEG * 90.0)                                                               
     scene.add( plane );     
 
+    document.getElementById('webgl-container').focus();
     // this.webGLRenderer.render(scene, camera);
     // this.sspTorusSceneService.vrSceneService.webVrManager.render(scene, camera);
     this.sspTorusRuntimeService.mainLoop();
   }
+
+  kbdEventHandler($event) {
+    console.log(`TorroidComponent.kbdEventHandler: $event.type=${$event.type}, $event=${$event}`);
+    // this.kbdHandlerRouterService.keyHandler ($event, this.vrScene.dolly);
+    this.kbdHandlerRouterService.keyHandler ($event, this.sspTorusSceneService.vrSceneService.dolly);
+  };
 
   quickScene() {
     console.log('TorroidsComponent.quickScene: entered');
@@ -146,4 +161,8 @@ export class TorroidsComponent implements OnInit {
   set sspTorusSceneService(thesspTorusSceneService: SspTorusSceneService) {
     this._sspTorusSceneService = thesspTorusSceneService;
   }
+
+  get kbdHandlerRouterService(): KbdHandlerRouterService {
+    return this._kbdHandlerRouterService;
+  };
 }

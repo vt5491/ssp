@@ -3,10 +3,12 @@
 
 import { TestBed, async, inject  } from '@angular/core/testing';
 import { TorroidsComponent } from './torroids.component';
-import { ElementRef } from '@angular/core';
+import { ElementRef, Renderer } from '@angular/core';
 import { VRSceneService, VRSceneServiceProvider } from '../services/vr-scene.service';
 import { SspTorusSceneService, SspTorusSceneProvider } from '../services/ssp-torus-scene.service';
 import { BaseService } from '../services/base.service';
+import { KbdHandlerRouterService } from '../services/kbd-handler-router.service';
+import { CameraKbdHandlerService } from '../services/camera-kbd-handler.service';
 
 let dummyCanvas = document.createElement('canvas');
 let dummyNativeElement = {
@@ -62,7 +64,11 @@ describe('Component: Torroids', () => {
       // ]
         providers: [
           VRSceneServiceProvider, // note: needed
-          SspTorusSceneProvider, BaseService]
+          SspTorusSceneProvider, 
+          BaseService,
+          KbdHandlerRouterService, 
+          CameraKbdHandlerService, 
+          ]
     });
     // this.component = new TorroidsComponent( new MockElementRef(), 
     //   new SspTorusSceneService())
@@ -94,10 +100,13 @@ describe('Component: Torroids', () => {
   //   // expect(this.component.webGLRenderer).toBeFalsy();
   // });
 
-  it('ctor works', inject([SspTorusSceneService, BaseService], 
+  it('ctor works', inject([SspTorusSceneService, BaseService, 
+    KbdHandlerRouterService, CameraKbdHandlerService], 
     (sspTorusSceneService: SspTorusSceneService, baseService : BaseService, 
+    renderer : Renderer, kbdHandlerRouterService : KbdHandlerRouterService, 
     component: TorroidsComponent = new TorroidsComponent(
-      new MockElementRef(), sspTorusSceneService, BaseService)) => {
+      new MockElementRef(), sspTorusSceneService, BaseService, renderer,
+      kbdHandlerRouterService)) => {
      expect(component).toBeTruthy(); 
      expect(component.sspTorusSceneService).toBeTruthy(); 
      expect(component.baseService).toBeTruthy(); 
