@@ -1,8 +1,30 @@
+<router-outlet></router-outlet>
 Torroids.
 <!-- <div class='container' id='webgl-container'  (click)='kbdEventHandler($event)' (keydown)='kbdEventHandler($event)' uabindex="1"> -->
 <div class='container' id='webgl-container'>
   <!-- original canvas<br/>
   <canvas width="100" height="100" id="scene-view" (keydown)='kbdEventHandler($event)' ></canvas> -->
+  <span [hidden]="hideSpan1" id='outer-scene-select'>
+  <label>Select Outer Scene:<br/></label>
+  <!-- <input type="radio" [(ngModel)]="{checked: model.outerScene == 'torus'}" -->
+  <!-- <input type="radio" [(ngModel)]="torus"
+    (ngModelChange)="model.outerScene='torus'"
+    name="outerScene"
+    value="torus"
+    tabindex="1"
+    dhecked="checked">torus<br/> -->
+    <input name="options" type="radio" [(ngModel)]="options" [value]="1"
+       [checked]="options==1" />torus<br/>
+    <input name="options" type="radio" [(ngModel)]="options" [value]="2"
+       [checked]="options==2" />cyl<br/>
+  <!-- <input type="radio" [(ngModel)]="{checked: model.outerScene == 'cyl'}" -->
+  <!-- <input type="radio" [(ngModel)]="cyl"
+   (ngModelChange)="model.OuterScene='cyl'"
+   name="outerScene"
+   value="cyl"
+   tabindex="2"
+   dhecked="checked">Cyl<br/> -->
+ </span>
   <p>
     <button (click)="startButtonClick(input, $event)">Start Game</button>
   <br/><br/>

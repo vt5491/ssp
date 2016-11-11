@@ -2,3 +2,7 @@
 #scene-view {
   border: 1px solid;
 }
+
+#outer-scene-select  {
+  font-size: medium; 
+}
