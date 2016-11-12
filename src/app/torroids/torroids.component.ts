@@ -1,8 +1,10 @@
 /// <reference path="../../../typings/index.d.ts" />
-import { Component, OnInit, ElementRef, Inject, ViewChild, Injectable, Renderer } from '@angular/core';
+import { Component, OnInit, ElementRef, Inject, ViewChild, Injectable, Renderer, Injector } from '@angular/core';
 import { WebGLCanvasComponent } from '../directives/webgl-canvas/webgl-canvas.component';
 import { VRSceneService, VRSceneServiceProvider } from '../services/vr-scene.service';
+import { SspScene } from '../ssp-scene';
 import { SspTorusSceneService, SspTorusSceneProvider } from '../services/ssp-torus-scene.service';
+import { SspCylSceneService, SspCylSceneProvider } from '../services/ssp-cyl-scene.service';
 import { BaseService } from '../services/base.service';
 import { SspTorusRuntimeService } from '../services/ssp-torus-runtime.service';
 import { KbdHandlerRouterService} from '../services/kbd-handler-router.service';
@@ -28,24 +30,33 @@ export class TorroidsComponent implements OnInit {
   canvasWidth: number;
   canvasHeight: number;
   // private el: ElementRef;
-  vrScene : VRSceneService;
+  // vrScene : VRSceneService;
+  sspScene : SspScene;
   sspTorusRuntimeService : SspTorusRuntimeService;
+  model;
+  outerScene : String;
   
   constructor(
     private el: ElementRef, 
-    private _sspTorusSceneService: SspTorusSceneService,
+    // private _sspTorusSceneService: SspTorusSceneService,
     public baseService: BaseService,
     private renderer : Renderer,
-    private _kbdHandlerRouterService : KbdHandlerRouterService
+    private _kbdHandlerRouterService : KbdHandlerRouterService,
+    private injector: Injector
     // public sspTorusRuntimeService: SspTorusRuntimeService
     ) 
   { 
-    console.log('TorroidComponent: ctor: sspTorusSceneService=' + this.sspTorusSceneService);
-    this.sspTorusRuntimeService = new SspTorusRuntimeService(this._sspTorusSceneService.vrSceneService);
+    this.model = {
+      outerScene: "torus"
+    }; 
+    // console.log('TorroidComponent: ctor: sspTorusSceneService=' + this.sspTorusSceneService);
+    // this.sspTorusRuntimeService = new SspTorusRuntimeService(this._sspTorusSceneService.vrSceneService);
+    // this.sspTorusRuntimeService = new SspTorusRuntimeService(this.sspScene.vrSceneService);
+    // console.log('TorroidComponent: ctor: outerScene=' + this.model.outerScene);
   }
 
   ngOnInit() {
-    // console.log('TorroidsComponent.ngOnInit: entered');
+    console.log('TorroidsComponent.ngOnInit: entered');
     // console.log('TorroidComponent: ngOnInit: sspTorusSceneService=' + this.sspTorusSceneService);
     // console.log('TorroidComponent: ngOnInit: sspTorusSceneService.vrSceneService.webGLRenderer=' + this.sspTorusSceneService.vrSceneService.webGLRenderer);
 
@@ -57,9 +68,9 @@ export class TorroidsComponent implements OnInit {
     // console.log(`TorroidComponent.ngOnInit: this.ssTorusSceneService.vrSceneService=${this.sspTorusSceneService}`);
     // console.log(`TorroidComponent.ngOnInit: this.ssTorusSceneService.vrSceneService=${this.sspTorusSceneService}`);
 
-    this.webGLRenderer = this.sspTorusSceneService.webGLRenderer;
+    // this.webGLRenderer = this.sspTorusSceneService.webGLRenderer;
 
-    this.initOuterScene();
+    // this.initOuterScene();
   }
 
   initOuterScene() {
@@ -106,61 +117,97 @@ export class TorroidsComponent implements OnInit {
 
   startButtonClick(input, $event) {
     // this.quickScene();
+    console.log('TorroidComponent: startGame: outerScene=' + this.outerScene);
     this.startGame();
   }
 
   startGame() {
     console.log('TorroidsComponent.startGame: entered');
 
-    let scene = this._sspTorusSceneService.vrSceneService.scene;
-    let camera = this._sspTorusSceneService.vrSceneService.camera;
+    switch (this.model.outerScene) {
+      case 'torus':
+        this.sspScene = this.injector.get(SspTorusSceneService);
+        break;
+      case 'cyl':
+        this.sspScene = this.injector.get(SspCylSceneService);
+        break;
+      // case 'sandbox' :
+      //   this.vrRuntime = new SandboxComponent(this.vrScene, this.vrRenderer)
+      // break;
+      // case 'cyl-proj':
+      //   this.vrRuntime = new CylProjComponent(this.vrScene, this.vrRenderer)
+      //   break;
+      // case 'torus-proj':
+      //   this.vrRuntime = new TorusProj(this.vrScene, this.vrRenderer)
+      //   break;
+      default:
+        console.log('invalid switch selection');
+    }
 
-    var geometry = new THREE.PlaneGeometry( 65, 40, 32 );                                            
-    var material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );         
-    var plane = new THREE.Mesh( geometry, material );                                                
-    // plane.rotateX(Math.PI / 180.0 * 90.0)                                                               
-    plane.rotateX( BaseService.ONE_DEG * 90.0)                                                               
-    scene.add( plane );     
+    // this.webGLRenderer = this.sspScene.webGLRenderer;
+    this.webGLRenderer = this.sspScene.vrSceneService.webGLRenderer;
 
-    document.getElementById('webgl-container').focus();
-    // this.webGLRenderer.render(scene, camera);
-    // this.sspTorusSceneService.vrSceneService.webVrManager.render(scene, camera);
+    this.initOuterScene();
+
+    this.sspTorusRuntimeService = new SspTorusRuntimeService(this.sspScene.vrSceneService);
+    console.log('TorroidComponent: ctor: outerScene=' + this.model.outerScene);
+
+    // let scene = this._sspTorusSceneService.vrSceneService.scene;
+    // let camera = this._sspTorusSceneService.vrSceneService.camera;
+
+    // var geometry = new THREE.PlaneGeometry( 65, 40, 32 );                                            
+    // var material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );         
+    // var plane = new THREE.Mesh( geometry, material );                                                
+    // // plane.rotateX(Math.PI / 180.0 * 90.0)                                                               
+    // plane.rotateX( BaseService.ONE_DEG * 90.0)                                                               
+    // scene.add( plane );     
+
+    // document.getElementById('webgl-container').focus();
+    // // this.webGLRenderer.render(scene, camera);
+    // // this.sspTorusSceneService.vrSceneService.webVrManager.render(scene, camera);
     this.sspTorusRuntimeService.mainLoop();
   }
 
   kbdEventHandler($event) {
     console.log(`TorroidComponent.kbdEventHandler: $event.type=${$event.type}, $event=${$event}`);
     // this.kbdHandlerRouterService.keyHandler ($event, this.vrScene.dolly);
-    this.kbdHandlerRouterService.keyHandler ($event, this.sspTorusSceneService.vrSceneService.dolly);
+    // this.kbdHandlerRouterService.keyHandler ($event, this.sspTorusSceneService.vrSceneService.dolly);
+    this.kbdHandlerRouterService.keyHandler ($event, this.sspScene.vrSceneService.dolly);
   };
 
-  quickScene() {
-    console.log('TorroidsComponent.quickScene: entered');
-    let scene = new THREE.Scene();
+  // quickScene() {
+  //   console.log('TorroidsComponent.quickScene: entered');
+  //   let scene = new THREE.Scene();
 
-    let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight);           
-    camera.name = 'vrscene_camera';                                                              
-    camera.position.set(0, 1.5, 10);  
+  //   let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight);           
+  //   camera.name = 'vrscene_camera';                                                              
+  //   camera.position.set(0, 1.5, 10);  
 
-    var geometry = new THREE.PlaneGeometry( 65, 40, 32 );                                            
-    var material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );         
-    var plane = new THREE.Mesh( geometry, material );                                                
-    // plane.rotateX(Math.PI / 180.0 * 90.0)                                                               
-    plane.rotateX( BaseService.ONE_DEG * 90.0)                                                               
-    scene.add( plane );     
+  //   var geometry = new THREE.PlaneGeometry( 65, 40, 32 );                                            
+  //   var material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );         
+  //   var plane = new THREE.Mesh( geometry, material );                                                
+  //   // plane.rotateX(Math.PI / 180.0 * 90.0)                                                               
+  //   plane.rotateX( BaseService.ONE_DEG * 90.0)                                                               
+  //   scene.add( plane );     
 
-    // this.webGLCanvas.webGLRenderer.render(scene, camera);
-    // this.webGLRenderer.render(scene, camera);
+  //   // this.webGLCanvas.webGLRenderer.render(scene, camera);
+  //   // this.webGLRenderer.render(scene, camera);
 
-  }
+  // }
 
   // Getters and Setters
-  get sspTorusSceneService(): SspTorusSceneService {
-    return this._sspTorusSceneService;
-  };
-  set sspTorusSceneService(thesspTorusSceneService: SspTorusSceneService) {
-    this._sspTorusSceneService = thesspTorusSceneService;
-  }
+  // get sspTorusSceneService(): SspTorusSceneService {
+  //   return this._sspTorusSceneService;
+  // };
+  // set sspTorusSceneService(thesspTorusSceneService: SspTorusSceneService) {
+  //   this._sspTorusSceneService = thesspTorusSceneService;
+  // }
+  // get sspScene(): SspScene {
+  //   return this.sspScene;
+  // };
+  // set sspTorusSceneService(thesspTorusSceneService: SspTorusSceneService) {
+  //   this._sspTorusSceneService = thesspTorusSceneService;
+  // }
 
   get kbdHandlerRouterService(): KbdHandlerRouterService {
     return this._kbdHandlerRouterService;

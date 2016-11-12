@@ -1,6 +1,7 @@
 ///<reference path="../../../typings/index.d.ts" />
 import { Injectable, Component } from '@angular/core';
 import { VRSceneService, VRSceneServiceProvider } from './vr-scene.service';
+import { SspScene} from '../ssp-scene';
 
 // @Component({
 //   // providers: [VRSceneServiceProvider]
@@ -8,7 +9,7 @@ import { VRSceneService, VRSceneServiceProvider } from './vr-scene.service';
 // })
 
 @Injectable()
-export class SspTorusSceneService {
+export class SspTorusSceneService implements SspScene {
 
   torusMesh : THREE.Mesh;
   // constructor(width, height, webGLRenderer: THREE.WebGLRenderer) { 
