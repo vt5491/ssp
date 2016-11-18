@@ -11,7 +11,8 @@ describe('Service: SspTorusRuntime', () => {
     });
   });
 
-  it('should ...', inject([SspTorusRuntimeService], (service: SspTorusRuntimeService) => {
+  it('should ...', inject([SspTorusRuntimeService], 
+    (service: SspTorusRuntimeService) => {
     expect(service).toBeTruthy();
   }));
 });

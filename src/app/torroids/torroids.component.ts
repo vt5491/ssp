@@ -6,10 +6,14 @@ import { SspScene } from '../ssp-scene';
 import { SspRuntime } from '../ssp-runtime';
 import { SspTorusSceneService, SspTorusSceneProvider } from '../services/ssp-torus-scene.service';
 import { SspCylSceneService, SspCylSceneProvider } from '../services/ssp-cyl-scene.service';
+import { SspPlaneSceneService, SspPlaneSceneProvider } from '../services/ssp-plane-scene.service';
 import { BaseService } from '../services/base.service';
 import { SspTorusRuntimeService } from '../services/ssp-torus-runtime.service';
 import { SspCylRuntimeService } from '../services/ssp-cyl-runtime.service';
+import { SspRuntimeService } from '../services/ssp-runtime.service';
 import { KbdHandlerRouterService} from '../services/kbd-handler-router.service';
+import { AsteroidsMainService} from '../inner-games/asteroids/asteroids-main.service';
+import { AsteroidsGame } from '../inner-games/asteroids/asteroids-game';
 
 @Component({
   selector: 'app-torroids',
@@ -17,7 +21,8 @@ import { KbdHandlerRouterService} from '../services/kbd-handler-router.service';
   styleUrls: ['./torroids.component.css'],
   // providers: [ElementRef],
   providers: [VRSceneServiceProvider, WebGLCanvasComponent, SspTorusSceneProvider,
-    SspCylSceneProvider,
+    SspCylSceneProvider, SspPlaneSceneProvider, AsteroidsMainService, 
+    AsteroidsGame,
   // BaseService 
   ]
 })
@@ -40,6 +45,9 @@ export class TorroidsComponent implements OnInit {
   // model : { [outerScene : string] : string} = {};
   model : any = {};
   outerScene : String;
+  //TODO create an official interface for this type
+  // innerGame : any;
+  innerGame : AsteroidsMainService;
   
   constructor(
     private el: ElementRef, 
@@ -51,11 +59,13 @@ export class TorroidsComponent implements OnInit {
     // public sspTorusRuntimeService: SspTorusRuntimeService
     ) 
   { 
+    console.log(`TorroidComponent.ctor: entered`);
     // this.model = {
     //   outerScene: "torus"
     // }; 
     this.model.outerScene = 'torus';
     // console.log('TorroidComponent: ctor: sspTorusSceneService=' + this.sspTorusSceneService);
+    console.log('TorroidComponent: ctor: baseService=' + this.baseService);
     // this.sspTorusRuntimeService = new SspTorusRuntimeService(this._sspTorusSceneService.vrSceneService);
     // this.sspTorusRuntimeService = new SspTorusRuntimeService(this.sspScene.vrSceneService);
     // console.log('TorroidComponent: ctor: outerScene=' + this.model.outerScene);
@@ -131,25 +141,36 @@ export class TorroidsComponent implements OnInit {
     console.log('TorroidsComponent.startGame: entered');
     console.log('TorroidsComponent.startGame: this.model.outerScene=' + this.model.outerScene);
 
+    this.innerGame = this.injector.get(AsteroidsMainService);
+
     switch (this.model.outerScene) {
       case 'torus':
         this.sspScene = this.injector.get(SspTorusSceneService);
-        this.webGLRenderer = this.sspScene.vrSceneService.webGLRenderer;
+        // this.webGLRenderer = this.sspScene.vrSceneService.webGLRenderer;
 
-        this.initOuterScene();
+        // this.initOuterScene();
 
-        this.sspTorusRuntimeService = new SspTorusRuntimeService(this.sspScene.vrSceneService);
-        this.sspRuntime = new SspTorusRuntimeService(this.sspScene.vrSceneService);
+        // this.sspTorusRuntimeService = new SspTorusRuntimeService(this.sspScene.vrSceneService);
+        // this.sspRuntime = new SspTorusRuntimeService(this.sspScene.vrSceneService);
         // console.log('TorroidComponent: ctor: outerScene=' + this.model.outerScene);
         break;
       case 'cyl':
         this.sspScene = this.injector.get(SspCylSceneService);
 
-        this.webGLRenderer = this.sspScene.vrSceneService.webGLRenderer;
+        // this.webGLRenderer = this.sspScene.vrSceneService.webGLRenderer;
 
-        this.initOuterScene();
+        // this.initOuterScene();
 
-        this.sspRuntime = new SspCylRuntimeService(this.sspScene.vrSceneService);
+        // this.sspRuntime = new SspCylRuntimeService(this.sspScene.vrSceneService);
+        break;
+      case 'plane':
+        this.sspScene = this.injector.get(SspPlaneSceneService);
+
+        // this.webGLRenderer = this.sspScene.vrSceneService.webGLRenderer;
+
+        // this.initOuterScene();
+
+        // this.sspRuntime = new SspCylRuntimeService(this.sspScene.vrSceneService);
         break;
       // case 'sandbox' :
       //   this.vrRuntime = new SandboxComponent(this.vrScene, this.vrRenderer)
@@ -164,28 +185,11 @@ export class TorroidsComponent implements OnInit {
         console.log('invalid switch selection');
     }
 
-    // this.webGLRenderer = this.sspScene.webGLRenderer;
-    // this.webGLRenderer = this.sspScene.vrSceneService.webGLRenderer;
+    console.log(`TorroidsComponent.startGame: this.innerGame.asteroidsGame.asteroids[0].vx= ${this.innerGame.asteroidsGame.asteroids[0].vx}`);
+    this.webGLRenderer = this.sspScene.vrSceneService.webGLRenderer;
+    this.sspRuntime = new SspRuntimeService(this.sspScene.vrSceneService);
+    this.initOuterScene();
 
-    // this.initOuterScene();
-
-    // this.sspTorusRuntimeService = new SspTorusRuntimeService(this.sspScene.vrSceneService);
-    // console.log('TorroidComponent: ctor: outerScene=' + this.model.outerScene);
-
-    // let scene = this._sspTorusSceneService.vrSceneService.scene;
-    // let camera = this._sspTorusSceneService.vrSceneService.camera;
-
-    // var geometry = new THREE.PlaneGeometry( 65, 40, 32 );                                            
-    // var material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );         
-    // var plane = new THREE.Mesh( geometry, material );                                                
-    // // plane.rotateX(Math.PI / 180.0 * 90.0)                                                               
-    // plane.rotateX( BaseService.ONE_DEG * 90.0)                                                               
-    // scene.add( plane );     
-
-    // document.getElementById('webgl-container').focus();
-    // // this.webGLRenderer.render(scene, camera);
-    // // this.sspTorusSceneService.vrSceneService.webVrManager.render(scene, camera);
-    // this.sspTorusRuntimeService.mainLoop();
     this.sspRuntime.mainLoop();
   }
 
@@ -195,26 +199,6 @@ export class TorroidsComponent implements OnInit {
     // this.kbdHandlerRouterService.keyHandler ($event, this.sspTorusSceneService.vrSceneService.dolly);
     this.kbdHandlerRouterService.keyHandler ($event, this.sspScene.vrSceneService.dolly);
   };
-
-  // quickScene() {
-  //   console.log('TorroidsComponent.quickScene: entered');
-  //   let scene = new THREE.Scene();
-
-  //   let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight);           
-  //   camera.name = 'vrscene_camera';                                                              
-  //   camera.position.set(0, 1.5, 10);  
-
-  //   var geometry = new THREE.PlaneGeometry( 65, 40, 32 );                                            
-  //   var material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );         
-  //   var plane = new THREE.Mesh( geometry, material );                                                
-  //   // plane.rotateX(Math.PI / 180.0 * 90.0)                                                               
-  //   plane.rotateX( BaseService.ONE_DEG * 90.0)                                                               
-  //   scene.add( plane );     
-
-  //   // this.webGLCanvas.webGLRenderer.render(scene, camera);
-  //   // this.webGLRenderer.render(scene, camera);
-
-  // }
 
   // Getters and Setters
   // get sspTorusSceneService(): SspTorusSceneService {

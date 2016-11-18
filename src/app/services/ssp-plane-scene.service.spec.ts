@@ -1,17 +1,17 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async, inject } from '@angular/core/testing';
-import { SspCylSceneService, SspCylSceneProvider } from './ssp-cyl-scene.service';
+import { SspPlaneSceneService, SspPlaneSceneProvider } from './ssp-plane-scene.service';
 import { VRSceneService, VRSceneServiceProvider } from './vr-scene.service';
 
-describe('Service: SspCylScene', () => {
+describe('Service: SspPlaneScene', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [SspCylSceneProvider, VRSceneServiceProvider]
+      providers: [SspPlaneSceneProvider, VRSceneServiceProvider]
     });
   });
 
-  it('should ...', inject([SspCylSceneService], (service: SspCylSceneService) => {
+  it('should ...', inject([SspPlaneSceneService], (service: SspPlaneSceneService) => {
     expect(service).toBeTruthy();
   }));
 });
