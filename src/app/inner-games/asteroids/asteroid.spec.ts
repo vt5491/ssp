@@ -6,7 +6,7 @@ import { Asteroid } from './asteroid';
 // import { SspTorusRuntimeService } from './ssp-torus-runtime.service';
 // import { VRSceneService, VRSceneServiceProvider } from './vr-scene.service';
 
-fdescribe('Class: Asteroids', () => {
+describe('Class: Asteroids', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       // providers: [SspTorusRuntimeService, VRSceneServiceProvider]

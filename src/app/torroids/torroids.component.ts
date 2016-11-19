@@ -14,6 +14,7 @@ import { SspRuntimeService } from '../services/ssp-runtime.service';
 import { KbdHandlerRouterService} from '../services/kbd-handler-router.service';
 import { AsteroidsMainService} from '../inner-games/asteroids/asteroids-main.service';
 import { AsteroidsGame } from '../inner-games/asteroids/asteroids-game';
+import { InnerGame } from '../inner-game';
 
 @Component({
   selector: 'app-torroids',
@@ -47,7 +48,7 @@ export class TorroidsComponent implements OnInit {
   outerScene : String;
   //TODO create an official interface for this type
   // innerGame : any;
-  innerGame : AsteroidsMainService;
+  innerGame : InnerGame;
   
   constructor(
     private el: ElementRef, 
@@ -63,12 +64,14 @@ export class TorroidsComponent implements OnInit {
     // this.model = {
     //   outerScene: "torus"
     // }; 
-    this.model.outerScene = 'torus';
+    // this.model.outerScene = 'torus';
+    this.model.outerScene = 'plane';
     // console.log('TorroidComponent: ctor: sspTorusSceneService=' + this.sspTorusSceneService);
     console.log('TorroidComponent: ctor: baseService=' + this.baseService);
     // this.sspTorusRuntimeService = new SspTorusRuntimeService(this._sspTorusSceneService.vrSceneService);
     // this.sspTorusRuntimeService = new SspTorusRuntimeService(this.sspScene.vrSceneService);
     // console.log('TorroidComponent: ctor: outerScene=' + this.model.outerScene);
+    this.innerGame = new AsteroidsGame();
   }
 
   ngOnInit() {
@@ -141,7 +144,7 @@ export class TorroidsComponent implements OnInit {
     console.log('TorroidsComponent.startGame: entered');
     console.log('TorroidsComponent.startGame: this.model.outerScene=' + this.model.outerScene);
 
-    this.innerGame = this.injector.get(AsteroidsMainService);
+    // this.innerGame = this.injector.get(AsteroidsMainService);
 
     switch (this.model.outerScene) {
       case 'torus':
@@ -185,10 +188,15 @@ export class TorroidsComponent implements OnInit {
         console.log('invalid switch selection');
     }
 
-    console.log(`TorroidsComponent.startGame: this.innerGame.asteroidsGame.asteroids[0].vx= ${this.innerGame.asteroidsGame.asteroids[0].vx}`);
+    console.log(`TorroidsComponent.startGame: this.innerGame.asteroidsGame.asteroids[0].vx= ${(<any>this.innerGame).asteroids[0].vx}`);
     this.webGLRenderer = this.sspScene.vrSceneService.webGLRenderer;
-    this.sspRuntime = new SspRuntimeService(this.sspScene.vrSceneService);
+    this.sspRuntime = new SspRuntimeService(this.sspScene.vrSceneService, this.innerGame);
     this.initOuterScene();
+
+    // start hack
+    // add the asteroid directly to the outer scene
+    this.sspScene.vrSceneService.scene.add((<any>this.innerGame).asteroids[0].mesh);
+    // end hack
 
     this.sspRuntime.mainLoop();
   }
