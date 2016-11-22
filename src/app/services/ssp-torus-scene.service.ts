@@ -1,7 +1,8 @@
 ///<reference path="../../../typings/index.d.ts" />
 import { Injectable, Component } from '@angular/core';
 import { VRSceneService, VRSceneServiceProvider } from './vr-scene.service';
-import { SspScene} from '../ssp-scene';
+// import { SspScene} from '../ssp-scene';
+import { SspSceneService} from './ssp-scene.service';
 
 // @Component({
 //   // providers: [VRSceneServiceProvider]
@@ -9,11 +10,14 @@ import { SspScene} from '../ssp-scene';
 // })
 
 @Injectable()
-export class SspTorusSceneService implements SspScene {
+// export class SspTorusSceneService implements SspScene {
+export class SspTorusSceneService extends SspSceneService {
 
   torusMesh : THREE.Mesh;
   // constructor(width, height, webGLRenderer: THREE.WebGLRenderer) { 
-  constructor(width, height, private _vrSceneService: VRSceneService) { 
+  // constructor(width, height, private _vrSceneService: VRSceneService) { 
+  constructor(width, height) { 
+    super();
     console.log(`SspTorusSceneService.ctor: entered`);
     this.init();
   }
@@ -25,27 +29,31 @@ export class SspTorusSceneService implements SspScene {
     this.torusMesh = new THREE.Mesh(torusGeom, torusMaterial);
     this.torusMesh.name = "abc";
     // this.torusMesh.rotateX(Base.ONE_DEG * 90.0);
-    this._vrSceneService.scene.add(this.torusMesh);
+    this.vrSceneService.scene.add(this.torusMesh);
+
+    // assign to the api level var 'sspSurface', so other components using this
+    // component know what to draw on.
+    this.sspSurface = this.torusMesh;
 
   }
 
   // Getters and Setters
-  get vrSceneService(): VRSceneService {
-    return this._vrSceneService;
-  };
-  set vrSceneService(theVrSceneService: VRSceneService) {
-    this._vrSceneService = theVrSceneService;
-  }
+  // get vrSceneService(): VRSceneService {
+  //   return this._vrSceneService;
+  // };
+  // set vrSceneService(theVrSceneService: VRSceneService) {
+  //   this._vrSceneService = theVrSceneService;
+  // }
 
   // this returns the webGLRenderer from the injected VRSceneService
   // Just a shortcut so the user doesn't have to chain two object to get
   // a simple value.
-  get webGLRenderer(): THREE.WebGLRenderer {
-    return this._vrSceneService.webGLRenderer;
-  };
-  set webGLRenderer(webGLRenderer: THREE.WebGLRenderer) {
-    this._vrSceneService.webGLRenderer = webGLRenderer;
-  }
+  // get webGLRenderer(): THREE.WebGLRenderer {
+  //   return this._vrSceneService.webGLRenderer;
+  // };
+  // set webGLRenderer(webGLRenderer: THREE.WebGLRenderer) {
+  //   this._vrSceneService.webGLRenderer = webGLRenderer;
+  // }
 }
 
 // let SspTorusSceneFactory = (webGLRenderer: THREE.WebGLRenderer) => {
@@ -59,7 +67,8 @@ let SspTorusSceneFactory = (vrSceneService: VRSceneService) => {
   // var webGLRenderer = new THREE.WebGLRenderer({antialias: true});
 
   // return new SspTorusSceneService(window.innerWidth, window.innerHeight, webGLRenderer);
-  return new SspTorusSceneService(window.innerWidth, window.innerHeight, vrSceneService);
+  // return new SspTorusSceneService(window.innerWidth, window.innerHeight, vrSceneService);
+  return new SspTorusSceneService(window.innerWidth, window.innerHeight);
 };
 
 export let SspTorusSceneProvider = {

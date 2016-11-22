@@ -23,6 +23,7 @@ describe('Service: SspTorusScene', () => {
   // it('should ...', inject([SspTorusSceneProvider], (service: SspTorusSceneService) => {
     // console.log(`ssp-torus-scene.service.spec.ts: service=${service}`);
     expect(service).toBeTruthy();
+    expect(service.sspSurface).toBeTruthy();
   }));
 
   it('should have the proper instance variables', inject([SspTorusSceneService], (service: SspTorusSceneService) => {

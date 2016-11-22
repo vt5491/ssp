@@ -1,13 +1,25 @@
+import { Component } from '@angular/core'; 
 import { Asteroid } from './asteroid';
 import { InnerGame } from '../../inner-game';
 
+@Component({
+  providers: [THREE.Scene]
+})
 export class AsteroidsGame implements InnerGame {
 
   _asteroids : Asteroid [] = [];
 
-  constructor() {
-    this.asteroids.push( new Asteroid());
+  constructor(
+    private _scene : THREE.Scene
+  ) {
+    // this.asteroids.push( new Asteroid());
+    this.initScene();
   }
+
+  initScene() {
+    this.asteroids.push( new Asteroid());
+    this.scene.add(this.asteroids[0].mesh);
+  };
 
   updateScene() {
     let asteroid = this.asteroids[0];
@@ -21,5 +33,9 @@ export class AsteroidsGame implements InnerGame {
   //getters and setters
   get asteroids(): Asteroid [] {
     return this._asteroids;
+  }
+
+  get scene(): THREE.Scene {
+    return this._scene;
   }
 }
