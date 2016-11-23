@@ -4,25 +4,33 @@ import { SspScene} from '../ssp-scene';
 import { SspSceneService} from './ssp-scene.service';
 
 @Injectable()
-// export class SspPlaneSceneService implements SspScene {
-export class SspPlaneSceneService extends SspSceneService {
+export class SspPlaneSceneService implements SspScene {
+// export class SspPlaneSceneService extends SspSceneService {
   planeMesh: THREE.Mesh;
+  sspSurface : THREE.Mesh;
+  sspMaterial : THREE.MeshBasicMaterial;
 
-  // constructor(width, height, private _vrSceneService: VRSceneService) { 
-  constructor(width, height) { 
-    super();
+
+  // constructor(width, height, private _vrSceneService: VRSceneService) {
+  constructor(width, height, public vrSceneService) {
+    // super();
     console.log(`SspplaneSceneService.ctor: entered`);
     this.init();
   }
 
   init() {
     let planeGeom   = new THREE.PlaneGeometry(50, 50);
-    let planeMaterial = new THREE.MeshBasicMaterial();
+    let planeMaterial = new THREE.MeshBasicMaterial({ color: 0xff0080 });
 
     this.planeMesh = new THREE.Mesh(planeGeom, planeMaterial);
     this.planeMesh.name = "abc";
     // this.planeMesh.rotateX(Base.ONE_DEG * 90.0);
     this.vrSceneService.scene.add(this.planeMesh);
+
+    // assign to the api level var 'sspSurface', so other components using this
+    // component know what to draw on.
+    this.sspSurface = this.planeMesh;
+    this.sspMaterial = planeMaterial;
 
   };
 
@@ -45,7 +53,7 @@ let SspPlaneSceneFactory = (vrSceneService: VRSceneService) => {
 
   // return new SspCylSceneService(window.innerWidth, window.innerHeight, webGLRenderer);
   // return new SspPlaneSceneService(window.innerWidth, window.innerHeight, vrSceneService);
-  return new SspPlaneSceneService(window.innerWidth, window.innerHeight);
+  return new SspPlaneSceneService(window.innerWidth, window.innerHeight, vrSceneService);
 };
 
 export let SspPlaneSceneProvider = {
@@ -55,5 +63,3 @@ export let SspPlaneSceneProvider = {
   // deps: [VRSceneServiceProvider]
   deps: [VRSceneService]
 }
-
-

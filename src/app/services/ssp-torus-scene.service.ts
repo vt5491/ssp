@@ -1,8 +1,8 @@
 ///<reference path="../../../typings/index.d.ts" />
 import { Injectable, Component } from '@angular/core';
 import { VRSceneService, VRSceneServiceProvider } from './vr-scene.service';
-// import { SspScene} from '../ssp-scene';
-import { SspSceneService} from './ssp-scene.service';
+import { SspScene} from '../ssp-scene';
+// import { SspSceneService} from './ssp-scene.service';
 
 // @Component({
 //   // providers: [VRSceneServiceProvider]
@@ -10,21 +10,23 @@ import { SspSceneService} from './ssp-scene.service';
 // })
 
 @Injectable()
-// export class SspTorusSceneService implements SspScene {
-export class SspTorusSceneService extends SspSceneService {
+export class SspTorusSceneService implements SspScene {
+// export class SspTorusSceneService extends SspSceneService {
 
   torusMesh : THREE.Mesh;
-  // constructor(width, height, webGLRenderer: THREE.WebGLRenderer) { 
-  // constructor(width, height, private _vrSceneService: VRSceneService) { 
-  constructor(width, height) { 
-    super();
+  sspSurface : THREE.Mesh;
+  sspMaterial : THREE.MeshBasicMaterial;
+  // constructor(width, height, webGLRenderer: THREE.WebGLRenderer) {
+  // constructor(width, height, private _vrSceneService: VRSceneService) {
+  constructor(width, height, public vrSceneService: VRSceneService) {
+    // super();
     console.log(`SspTorusSceneService.ctor: entered`);
     this.init();
   }
 
   init() {
     let torusGeom   = new THREE.TorusGeometry(25, 8, 50, 50);
-    let torusMaterial = new THREE.MeshBasicMaterial();
+    let torusMaterial = new THREE.MeshBasicMaterial({ color: 0xff0080 });
 
     this.torusMesh = new THREE.Mesh(torusGeom, torusMaterial);
     this.torusMesh.name = "abc";
@@ -34,6 +36,7 @@ export class SspTorusSceneService extends SspSceneService {
     // assign to the api level var 'sspSurface', so other components using this
     // component know what to draw on.
     this.sspSurface = this.torusMesh;
+    this.sspMaterial = torusMaterial;
 
   }
 
@@ -68,7 +71,7 @@ let SspTorusSceneFactory = (vrSceneService: VRSceneService) => {
 
   // return new SspTorusSceneService(window.innerWidth, window.innerHeight, webGLRenderer);
   // return new SspTorusSceneService(window.innerWidth, window.innerHeight, vrSceneService);
-  return new SspTorusSceneService(window.innerWidth, window.innerHeight);
+  return new SspTorusSceneService(window.innerWidth, window.innerHeight, vrSceneService);
 };
 
 export let SspTorusSceneProvider = {
@@ -78,5 +81,3 @@ export let SspTorusSceneProvider = {
   // deps: [VRSceneServiceProvider]
   deps: [VRSceneService]
 }
-
-

@@ -14,8 +14,9 @@ import { SspCylRuntimeService } from '../services/ssp-cyl-runtime.service';
 import { SspRuntimeService } from '../services/ssp-runtime.service';
 import { KbdHandlerRouterService} from '../services/kbd-handler-router.service';
 import { AsteroidsMainService} from '../inner-games/asteroids/asteroids-main.service';
-import { AsteroidsGame } from '../inner-games/asteroids/asteroids-game';
+import { AsteroidsGame, AsteroidsGameProvider } from '../inner-games/asteroids/asteroids-game';
 import { InnerGame } from '../inner-game';
+import { WebGLRenderTargetProvider } from '../services/utils.service';
 
 @Component({
   selector: 'app-torroids',
@@ -24,7 +25,9 @@ import { InnerGame } from '../inner-game';
   // providers: [ElementRef],
   providers: [VRSceneServiceProvider, WebGLCanvasComponent, SspTorusSceneProvider,
     SspCylSceneProvider, SspPlaneSceneProvider, AsteroidsMainService, 
-    AsteroidsGame, THREE.WebGLRenderTarget
+    AsteroidsGameProvider, 
+    //THREE.WebGLRenderTarget
+    WebGLRenderTargetProvider
   // BaseService 
   ]
 })
@@ -66,8 +69,8 @@ export class TorroidsComponent implements OnInit {
     // this.model = {
     //   outerScene: "torus"
     // }; 
-    // this.model.outerScene = 'torus';
-    this.model.outerScene = 'plane';
+    this.model.outerScene = 'torus';
+    // this.model.outerScene = 'plane';
     // console.log('TorroidComponent: ctor: sspTorusSceneService=' + this.sspTorusSceneService);
     console.log('TorroidComponent: ctor: baseService=' + this.baseService);
     // this.sspTorusRuntimeService = new SspTorusRuntimeService(this._sspTorusSceneService.vrSceneService);
@@ -182,9 +185,8 @@ export class TorroidsComponent implements OnInit {
     // this.sspRuntime = new SspRuntimeService(this.sspScene.vrSceneService, this.innerGame);
     // this.sspRuntime = new SspRuntimeService(this.sspScene.vrSceneService, 
     this.sspRuntime = new SspRuntimeService(this.sspScene, 
-    // this.injector.get(THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight
-    // )),
-      new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight, { minFilter: THREE.LinearFilter, magFilter: THREE.NearestFilter }), 
+      this.injector.get(THREE.WebGLRenderTarget),
+      // new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight, { minFilter: THREE.LinearFilter, magFilter: THREE.NearestFilter }), 
       this.innerGame);
     this.initOuterScene();
 

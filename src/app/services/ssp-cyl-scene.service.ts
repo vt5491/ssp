@@ -1,23 +1,25 @@
 import { Injectable } from '@angular/core';
 import { VRSceneService, VRSceneServiceProvider } from './vr-scene.service';
-// import { SspScene} from '../ssp-scene';
-import { SspSceneService} from './ssp-scene.service';
+import { SspScene} from '../ssp-scene';
+// import { SspSceneService} from './ssp-scene.service';
 
 @Injectable()
-// export class SspCylSceneService implements SspScene {
-export class SspCylSceneService extends SspSceneService {
+export class SspCylSceneService implements SspScene {
+// export class SspCylSceneService extends SspSceneService {
   cylMesh : THREE.Mesh;
+  sspSurface : THREE.Mesh;
+  sspMaterial : THREE.MeshBasicMaterial;
 
-  // constructor(width, height, private _vrSceneService: VRSceneService) { 
-  constructor(width, height) { 
-    super();
+  // constructor(width, height, private _vrSceneService: VRSceneService) {
+  constructor(width, height, public vrSceneService: VRSceneService) {
+    // super();
     console.log(`SspCylSceneService.ctor: entered`);
     this.init();
   }
 
   init() {
     let cylGeom   = new THREE.CylinderBufferGeometry(25, 25, 50);
-    let cylMaterial = new THREE.MeshBasicMaterial();
+    let cylMaterial = new THREE.MeshBasicMaterial({ color: 0xff0080 });
 
     this.cylMesh = new THREE.Mesh(cylGeom, cylMaterial);
     this.cylMesh.name = "abc";
@@ -25,6 +27,10 @@ export class SspCylSceneService extends SspSceneService {
     // this._vrSceneService.scene.add(this.cylMesh);
     this.vrSceneService.scene.add(this.cylMesh);
 
+    // assign to the api level var 'sspSurface', so other components using this
+    // component know what to draw on.
+    this.sspSurface = this.cylMesh;
+    this.sspMaterial = cylMaterial;
   };
 
   // Getters and Setters
@@ -46,7 +52,7 @@ let SspCylSceneFactory = (vrSceneService: VRSceneService) => {
   // var webGLRenderer = new THREE.WebGLRenderer({antialias: true});
 
   // return new SspCylSceneService(window.innerWidth, window.innerHeight, webGLRenderer);
-  return new SspCylSceneService(window.innerWidth, window.innerHeight);
+  return new SspCylSceneService(window.innerWidth, window.innerHeight, vrSceneService);
 };
 
 export let SspCylSceneProvider = {
@@ -57,5 +63,3 @@ export let SspCylSceneProvider = {
   deps: [VRSceneService]
   // deps: [SspSceneService]
 }
-
-

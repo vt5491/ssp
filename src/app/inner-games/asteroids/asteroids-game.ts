@@ -1,18 +1,22 @@
 import { Component } from '@angular/core'; 
 import { Asteroid } from './asteroid';
 import { InnerGame } from '../../inner-game';
+import { ThreeJsSceneProvider } from '../../services/utils.service';
 
 @Component({
-  providers: [THREE.Scene]
+  providers: [ThreeJsSceneProvider]
 })
 export class AsteroidsGame implements InnerGame {
 
-  _asteroids : Asteroid [] = [];
+  private _asteroids : Asteroid [] = [];
+  // private _scene: THREE.Scene;
+
 
   constructor(
     private _scene : THREE.Scene
   ) {
     // this.asteroids.push( new Asteroid());
+    // this._scene = new THREE.Scene();
     this.initScene();
   }
 
@@ -38,4 +42,18 @@ export class AsteroidsGame implements InnerGame {
   get scene(): THREE.Scene {
     return this._scene;
   }
+}
+
+// let AsteroidsGameFactory = (scene : THREE.Scene) => {
+let AsteroidsGameFactory = () => {
+  // return new AsteroidsGame(scene);
+  console.log(`AsteroidsGameFactor: entered`);
+  return new AsteroidsGame(new THREE.Scene());
+};
+
+export let AsteroidsGameProvider = {
+  provide: AsteroidsGame,
+  // deps: [THREE.Scene],
+  // deps: [ThreeJsSceneProvider],
+  useFactory: AsteroidsGameFactory,
 }

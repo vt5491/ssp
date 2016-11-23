@@ -10,6 +10,7 @@ import { AsteroidsGame } from '../inner-games/asteroids/asteroids-game';
 describe('Service: SspRuntime', () => {
   // let dummyInnerGame : InnerGame = {}; 
   // let mockVRSceneService : VRSceneService;
+  //TODO: this provider is now in utils.sevice, so pull from there instead
   let webglRenderTargetProvider = {
     provide: THREE.WebGLRenderTarget,
     useFactory: () => { 
