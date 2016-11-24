@@ -9,14 +9,14 @@ export class Asteroid {
 
   constructor () {
     this.x = 0.0;
-    this.vx = 0.01;
+    this.vx = 0.03;
 
     this.init();
   };
 
   init() {
     this.geom = new THREE.PlaneBufferGeometry(2, 2);
-    this.mat = new THREE.MeshBasicMaterial({ color: 0x70FF74 });
+    this.mat = new THREE.MeshBasicMaterial({ color: 0x70FF74, side: THREE.DoubleSide });
 
     this.mesh = new THREE.Mesh(this.geom, this.mat);
     this.mesh.position.z = 1.0;

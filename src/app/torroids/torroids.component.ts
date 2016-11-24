@@ -192,7 +192,7 @@ export class TorroidsComponent implements OnInit {
 
     // start hack
     // add the asteroid directly to the outer scene
-    this.sspScene.vrSceneService.scene.add((<any>this.innerGame).asteroids[0].mesh);
+    // this.sspScene.vrSceneService.scene.add((<any>this.innerGame).asteroids[0].mesh);
     // end hack
 
     this.sspRuntime.mainLoop();

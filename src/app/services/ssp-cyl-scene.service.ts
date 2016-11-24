@@ -18,11 +18,11 @@ export class SspCylSceneService implements SspScene {
   }
 
   init() {
-    let cylGeom   = new THREE.CylinderBufferGeometry(25, 25, 50);
+    let cylGeom   = new THREE.CylinderBufferGeometry(25, 25, 50, 50);
     let cylMaterial = new THREE.MeshBasicMaterial({ color: 0xff0080 });
 
     this.cylMesh = new THREE.Mesh(cylGeom, cylMaterial);
-    this.cylMesh.name = "abc";
+    this.cylMesh.name = "abe";
     // this.cylMesh.rotateX(Base.ONE_DEG * 90.0);
     // this._vrSceneService.scene.add(this.cylMesh);
     this.vrSceneService.scene.add(this.cylMesh);

@@ -20,7 +20,7 @@ export class SspPlaneSceneService implements SspScene {
 
   init() {
     let planeGeom   = new THREE.PlaneGeometry(50, 50);
-    let planeMaterial = new THREE.MeshBasicMaterial({ color: 0xff0080 });
+    let planeMaterial = new THREE.MeshBasicMaterial({ color: 0xff0080, side: THREE.DoubleSide });
 
     this.planeMesh = new THREE.Mesh(planeGeom, planeMaterial);
     this.planeMesh.name = "abc";

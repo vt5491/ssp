@@ -15,6 +15,7 @@ export class SspRuntimeService {
   webGLRenderer : THREE.WebGLRenderer;
   gl_webGLRenderer: any;
   offscreenImageBuf : THREE.DataTexture;
+  innerSceneCamera: THREE.PerspectiveCamera;
   // constructor() { }
   constructor(
     // public outerVrScene: VRSceneService, 
@@ -27,21 +28,25 @@ export class SspRuntimeService {
       this.webGLRenderer = this.outerVrScene.webGLRenderer;
       // this.webGLRenderer.setClearColor(0xf31313, 1.0);
       this.webGLRenderer.setClearColor(0x1313f3, 1.0);
-      this.webGLRenderer.domElement.id = 'webGLRenderer_outerScene';
+      // this.webGLRenderer.domElement.id = 'webGLRenderer_outerScene';
+      this.webGLRenderer.domElement.id = 'webGLRenderer';
       document.body.appendChild( this.webGLRenderer.domElement );
 
       this.gl_webGLRenderer = this.webGLRenderer.getContext();
 
       //TODO: I have to wrap in an if block only because I can't figure out
       // how to mock an HTMLELEMENT attached to the document.
-      if (document.getElementById('webGLRenderer_outerScene')) {
-        let webglEl = document.getElementById('webGLRenderer_outerScene');
+      // if (document.getElementById('webGLRenderer_outerScene')) {
+        // let webglEl = document.getElementById('webGLRenderer_outerScene');
+        let webglEl = document.getElementById('webGLRenderer');
         console.log(`SspRuntimeService.ctor: offsetWidth= ${webglEl.offsetWidth}, offsetHeight=${webglEl.offsetHeight}`);
         this.offscreenImageBuf = this.generateDataTexture(webglEl.offsetWidth, webglEl.offsetHeight, new THREE.Color(0x000000));
-      }
+      // }
 
       // this.offscreenImageBuf = this.generateDataTexture(tmp.offsetWidth, tmp.offsetHeight, new THREE.Color(0x000000));
       // this.offscreenImageBuf.needsUpdate = true;
+      this.innerSceneCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight);
+      this.innerSceneCamera.position.z = -5.0;
 
   }
 
@@ -68,7 +73,8 @@ export class SspRuntimeService {
       // render the inner game into to offscreen buffer.
       this.webGLRenderer.render(
         this.innerGame.scene,
-        this.outerVrScene.camera,
+        // this.outerVrScene.camera,
+        this.innerSceneCamera,
         this.offscreenBuffer
        );
 
