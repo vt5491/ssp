@@ -40,12 +40,17 @@ export class SspRuntimeService {
         // let webglEl = document.getElementById('webGLRenderer_outerScene');
         let webglEl = document.getElementById('webGLRenderer');
         console.log(`SspRuntimeService.ctor: offsetWidth= ${webglEl.offsetWidth}, offsetHeight=${webglEl.offsetHeight}`);
-        this.offscreenImageBuf = this.generateDataTexture(webglEl.offsetWidth, webglEl.offsetHeight, new THREE.Color(0x000000));
+        // this.offscreenImageBuf = this.generateDataTexture(webglEl.offsetWidth, webglEl.offsetHeight, new THREE.Color(0x000000));
+        let innerGameWidth = webglEl.offsetWidth * 1.0;
+        let innerGameHeight = webglEl.offsetHeight * 1.0;
+        // this.offscreenImageBuf = this.generateDataTexture(webglEl.offsetWidth * 0.5, webglEl.offsetHeight * 0.5, new THREE.Color(0x000000));
+        this.offscreenImageBuf = this.generateDataTexture(innerGameWidth, innerGameHeight, new THREE.Color(0x000000));
       // }
 
       // this.offscreenImageBuf = this.generateDataTexture(tmp.offsetWidth, tmp.offsetHeight, new THREE.Color(0x000000));
       // this.offscreenImageBuf.needsUpdate = true;
-      this.innerSceneCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight);
+      // this.innerSceneCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight);
+      this.innerSceneCamera = new THREE.PerspectiveCamera(75, innerGameWidth / innerGameHeight);
       this.innerSceneCamera.position.z = -5.0;
 
   }

@@ -1,12 +1,12 @@
 /// <reference path="../../../typings/index.d.ts" />
-import { Injectable } from '@angular/core';
+import { Injectable, Component } from '@angular/core';
 import { VRSceneService, VRSceneServiceProvider } from './vr-scene.service';
 
 //TODO: should this be simply an interface and not an abstract class?
 // @Injectable()
-// @Component({
-//   providers : [ VRSceneServiceProvider],
-// })
+@Component({
+  providers : [ VRSceneServiceProvider],
+})
 export class SspSceneService {
 //export interface SspSceneService {
 
@@ -28,4 +28,15 @@ export class SspSceneService {
   set vrSceneService(val) {
     this._vrSceneService = val;
   };
+}
+
+// let SspSceneFactory = () => {
+//   return new SspSceneService(new VRSceneService()) 
+// }
+
+export let SspSceneServiceProvider = {
+  provide: SspSceneService,
+  // deps: [VRSceneServiceProvider],
+  deps: [VRSceneServiceProvider],
+  useFactory: (vrSceneService : VRSceneService) => { return new SspSceneService(vrSceneService)}
 }

@@ -13,10 +13,14 @@ import { SspTorusRuntimeService } from '../services/ssp-torus-runtime.service';
 import { SspCylRuntimeService } from '../services/ssp-cyl-runtime.service';
 import { SspRuntimeService } from '../services/ssp-runtime.service';
 import { KbdHandlerRouterService} from '../services/kbd-handler-router.service';
+import { CameraKbdHandlerService} from '../services/camera-kbd-handler.service';
 import { AsteroidsMainService} from '../inner-games/asteroids/asteroids-main.service';
 import { AsteroidsGame, AsteroidsGameProvider } from '../inner-games/asteroids/asteroids-game';
+import { AsteroidsKbdHandler } from '../inner-games/asteroids/asteroids-kbd-handler';
 import { InnerGame } from '../inner-game';
 import { WebGLRenderTargetProvider } from '../services/utils.service';
+import { ThreeJsSceneProvider } from '../services/utils.service';
+import { Ship } from '../inner-games/asteroids/ship';
 
 @Component({
   selector: 'app-torroids',
@@ -27,7 +31,7 @@ import { WebGLRenderTargetProvider } from '../services/utils.service';
     SspCylSceneProvider, SspPlaneSceneProvider, AsteroidsMainService, 
     AsteroidsGameProvider, 
     //THREE.WebGLRenderTarget
-    WebGLRenderTargetProvider
+    WebGLRenderTargetProvider, ThreeJsSceneProvider, Ship
   // BaseService 
   ]
 })
@@ -105,6 +109,7 @@ export class TorroidsComponent implements OnInit {
     // webglDiv.setAttribute("id", 'webgl-renderer');
 
     this.webGLRenderer.setSize(window.innerWidth, window.innerHeight);
+    // this.webGLRenderer.setSize(window.innerWidth * 2.0, window.innerHeight * 2.0);
 
     let webglRendererCanvas : HTMLElement = this.el.nativeElement.querySelector('#webgl-renderer-canvas');
     // note: this is needed to give the element keyboard focus
@@ -199,10 +204,30 @@ export class TorroidsComponent implements OnInit {
   }
 
   kbdEventHandler($event) {
-    console.log(`TorroidComponent.kbdEventHandler: $event.type=${$event.type}, $event=${$event}`);
+    if ($event.keyCode === 32) {
+      console.log(`TorroidsComponent.kbdEventHandler: toggling kbdHandler`);
+      console.log(`keyHandler.name=${this.kbdHandlerRouterService.kbdHandler._name}`)
+
+      //TODO: delegate all the getting of services to the kbd router.  this
+      // should not be exposed to the client
+      if (this.kbdHandlerRouterService.kbdHandler._name === 'cameraKbdHandler') {
+        this.kbdHandlerRouterService.kbdHandler = new AsteroidsKbdHandler();
+      }
+      else if (this.kbdHandlerRouterService.kbdHandler._name === 'asteroidsKbdHandler') {
+        this.kbdHandlerRouterService.kbdHandler = new CameraKbdHandlerService(this.baseService);
+      }
+    }
+    console.log(`TorroidComponent.kbdEventHandler:  $event.type=${$event.type}, $event=${$event}`);
     // this.kbdHandlerRouterService.keyHandler ($event, this.vrScene.dolly);
     // this.kbdHandlerRouterService.keyHandler ($event, this.sspTorusSceneService.vrSceneService.dolly);
-    this.kbdHandlerRouterService.keyHandler ($event, this.sspScene.vrSceneService.dolly);
+    switch (this.kbdHandlerRouterService.kbdHandler._name) {
+      case('cameraKbdHandler') :
+        this.kbdHandlerRouterService.keyHandler ($event, this.sspScene.vrSceneService.dolly);
+      break;
+      case('asteroidsKbdHandler') :
+        this.kbdHandlerRouterService.keyHandler ($event, (<AsteroidsGame>this.innerGame).ship);
+      break;
+    }
   };
 
   // Getters and Setters

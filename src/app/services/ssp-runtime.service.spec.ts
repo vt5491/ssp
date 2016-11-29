@@ -24,9 +24,9 @@ describe('Service: SspRuntime', () => {
     provide: SspSceneService,
     useFactory: (vrSceneService) => {
       console.log(`now in SspSceneServiceProvider`);
-      let o = new SspSceneService();
-      o.vrSceneService = new VRSceneService(window.innerWidth, window.innerHeight,
-        new THREE.WebGLRenderer());
+      let o = new SspSceneService( 
+        new VRSceneService(window.innerWidth, window.innerHeight,
+          new THREE.WebGLRenderer()));
       return o;
     },
     deps: [VRSceneService]

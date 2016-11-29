@@ -5,20 +5,31 @@
 // service without being part of the client app itself.
 import { Injectable } from '@angular/core';
 import { CameraKbdHandlerService } from './camera-kbd-handler.service';
+import { KbdHandler } from '../interfaces/kbd-handler';
 
 @Injectable()
 export class KbdHandlerRouterService {
 
-  constructor(private _cameraKbdHandlerService: CameraKbdHandlerService) {
+  private _kbdHandler : KbdHandler;
 
+  constructor(private _cameraKbdHandlerService: CameraKbdHandlerService) {
+    this.kbdHandler = _cameraKbdHandlerService;
    }
 
   keyHandler(event: KeyboardEvent, clientArtifact?: any) {
-    this.cameraKbdHandlerService.keyHandler(event, clientArtifact);
+    // this.cameraKbdHandlerService.keyHandler(event, clientArtifact);
+    this.kbdHandler.keyHandler(event, clientArtifact);
   }
 
   // Getters and Setters
   get cameraKbdHandlerService(): CameraKbdHandlerService {
     return this._cameraKbdHandlerService;
   };
+
+  get kbdHandler() {
+    return this._kbdHandler;
+  }
+  set kbdHandler( kbdh: KbdHandler) {
+    this._kbdHandler = kbdh;
+  }
 }

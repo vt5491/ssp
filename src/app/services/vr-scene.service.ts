@@ -83,7 +83,6 @@ export class VRSceneService {
 let VRSceneFactory = () => {
   var width = window.innerWidth
   var height = window.innerHeight
-
   // glRenderer.init(width, height)
   var webGLRenderer = new THREE.WebGLRenderer({antialias: true});
 

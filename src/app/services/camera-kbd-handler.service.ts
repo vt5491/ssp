@@ -1,13 +1,16 @@
 ///<reference path="../../../typings/index.d.ts" />
 import { Injectable } from '@angular/core';
 import { BaseService } from '../services/base.service';
+import { KbdHandler } from '../interfaces/kbd-handler';
 
 @Injectable()
-export class CameraKbdHandlerService {
+export class CameraKbdHandlerService implements KbdHandler {
   // static CAMERA_MOVE_DELTA = 1.2;
   // static CAMERA_ROT_DELTA = 5;
   CAMERA_MOVE_DELTA : number = 1.2;
   CAMERA_ROT_DELTA : number = 5;
+
+  _name : string = 'cameraKbdHandler';
 
   constructor(public base : BaseService ) {}
 

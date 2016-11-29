@@ -1,7 +1,10 @@
-import { Injectable } from '@angular/core';
-import { AsteroidsGame } from './asteroids-game';
+import { Injectable, Component } from '@angular/core';
+import { AsteroidsGame, AsteroidsGameProvider } from './asteroids-game';
 
 @Injectable()
+// @Component({
+//   providers : [AsteroidsGameProvider]
+// })
 export class AsteroidsMainService {
 
   // asteroidsGame : AsteroidsGame;
