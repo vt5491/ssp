@@ -14,5 +14,6 @@ describe('Service: CameraKbdHandler', () => {
   it('should ...', inject([CameraKbdHandlerService, BaseService], 
     (service: CameraKbdHandlerService) => {
     expect(service).toBeTruthy();
+    expect(service.dolly).toBeTruthy();
   }));
 });

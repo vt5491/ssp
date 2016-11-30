@@ -4,7 +4,7 @@ import { TestBed, async, inject } from '@angular/core/testing';
 import { AsteroidsKbdHandler } from './asteroids-kbd-handler';
 import { Ship } from './ship'
 
-fdescribe('Class: AsteroidsKbdHandler', () => {
+describe('Class: AsteroidsKbdHandler', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [AsteroidsKbdHandler]
@@ -13,6 +13,8 @@ fdescribe('Class: AsteroidsKbdHandler', () => {
 
   it('should ...', inject([AsteroidsKbdHandler], (service: AsteroidsKbdHandler) => {
     expect(service).toBeTruthy();
+    expect(service.keyEventHandler).toBeTruthy();
+    expect(service.ship).toBeTruthy();
   }));
 
   it('keyHandler should work', inject([AsteroidsKbdHandler], (service: AsteroidsKbdHandler) => {
@@ -33,9 +35,10 @@ fdescribe('Class: AsteroidsKbdHandler', () => {
     let startPos = ship.mesh.position.x;
     let startVx = ship.vx;
     // service.keyHandler(event, <THREE.Object3D>ship.mesh);
-    service.keyHandler(event, ship);
+    // service.keyEventHandler(event, ship);
+    service.keyEventHandler(event);
 
     // expect(ship.mesh.position.x).toEqual(startPos + ship.vx);
-    expect(ship.vx).toEqual(startVx - ship.deltaVx);
+    expect(ship.vx).toEqual(startVx + ship.deltaVx);
   }));
 });
