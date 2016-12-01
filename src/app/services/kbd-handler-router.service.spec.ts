@@ -6,43 +6,59 @@ import { KbdHandlerRouterService } from './kbd-handler-router.service';
 import { CameraKbdHandlerService } from './camera-kbd-handler.service';
 import { AsteroidsKbdHandler } from '../inner-games/asteroids/asteroids-kbd-handler';
 import { BaseService } from './base.service';
+import { Ship } from '../inner-games/asteroids/ship';
 
-fdescribe('Service: KbdHandlerRouter', () => {
+describe('Service: KbdHandlerRouter', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [KbdHandlerRouterService, CameraKbdHandlerService, BaseService]
+      providers: [
+        KbdHandlerRouterService, 
+        CameraKbdHandlerService, 
+        AsteroidsKbdHandler,
+        BaseService,
+        Ship,
+         ]
     });
   });
 
   it('should instantiate properly', inject(
-    [KbdHandlerRouterService, CameraKbdHandlerService, BaseService], 
+    [KbdHandlerRouterService, CameraKbdHandlerService, 
+      AsteroidsKbdHandler, BaseService], 
       (service: KbdHandlerRouterService, 
        cameraKbdHandlerService: CameraKbdHandlerService) => {
     expect(service).toBeTruthy();
-    expect(service.cameraKbdHandlerService).toBeTruthy();
+    expect(service.cameraKbdHandler).toBeTruthy();
     expect(service.keyEventHandler).toBeTruthy();
     expect(service.toggleKey).toEqual('T'.charCodeAt(0));
   }));
 
-  fit('should toggle properly', inject(
-    [KbdHandlerRouterService, CameraKbdHandlerService, BaseService], 
+  it('should toggle properly', inject(
+    [KbdHandlerRouterService, CameraKbdHandlerService, AsteroidsKbdHandler, BaseService], 
       (service: KbdHandlerRouterService ) => {
 
-         let origKbdHandler = service.activeKbdHandler._name;
-         console.log(`origKbdHandler=${origKbdHandler}`);
+        let origKbdHandler = service.activeKbdHandler._name;
+        console.log(`origKbdHandler=${origKbdHandler}`);
 
-         // now send a 'T' key event to toggle
+        // now send a 'T' key event to toggle
         //  service.keyEventHandler(Object.defineProperty(event, 'keyCode', {'value': 'T'.charCodeAt(0)}));
-         let evt = <any>{};
-         evt.keyCode = {};
+        let evt = <any>{};
+        //  evt.keyCode = {};
         //  evt.keyCode = {'value' : 'T'.charCodeAt(0)};
         evt.keyCode = 'T'.charCodeAt(0);
         //  service.keyEventHandler({'keyCode', {'value': 'T'.charCodeAt(0)} });
-         service.keyEventHandler(evt);
+        service.keyEventHandler(evt);
 
-         let newKbdHandler = service.activeKbdHandler.name;
-         console.log(`newKbdHandler=${newKbdHandler}`);
+        let newKbdHandler = service.activeKbdHandler._name;
+        console.log(`newKbdHandler=${newKbdHandler}`);
 
-         expect(newKbdHandler).not.toEqual(origKbdHandler);
+        expect(newKbdHandler).not.toEqual(origKbdHandler);
+
+        // and toggle it back again
+        service.keyEventHandler(evt);
+
+        newKbdHandler = service.activeKbdHandler._name;
+        console.log(`newKbdHandler=${newKbdHandler}`);
+
+        expect(newKbdHandler).toEqual(origKbdHandler);
   }));
 });

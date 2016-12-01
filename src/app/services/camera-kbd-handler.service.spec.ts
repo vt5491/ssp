@@ -13,7 +13,10 @@ describe('Service: CameraKbdHandler', () => {
 
   it('should ...', inject([CameraKbdHandlerService, BaseService], 
     (service: CameraKbdHandlerService) => {
-    expect(service).toBeTruthy();
-    expect(service.dolly).toBeTruthy();
+    // (service: new CameraKbdHandlerService()) => {
+      //we have to set dolly manually
+      service.dolly = new THREE.Object3D();
+      expect(service).toBeTruthy();
+      expect(service.dolly).toBeTruthy();
   }));
 });

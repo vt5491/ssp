@@ -14,8 +14,10 @@ import { SspTorusRuntimeService } from './services/ssp-torus-runtime.service';
 import { BaseService } from './services/base.service';
 import { KbdHandlerRouterService } from './services/kbd-handler-router.service';
 import { CameraKbdHandlerService } from './services/camera-kbd-handler.service';
+import { AsteroidsKbdHandler } from './inner-games/asteroids/asteroids-kbd-handler';
 import { ToroutComponent } from './torout/torout.component';
 import { HomeComponent } from './home/home.component';
+import { Ship } from './inner-games/asteroids/ship';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,9 @@ import { HomeComponent } from './home/home.component';
     // SspTorusRuntimeService
     BaseService,
     KbdHandlerRouterService,
-    CameraKbdHandlerService
+    CameraKbdHandlerService,
+    AsteroidsKbdHandler,
+    Ship
   ],
   bootstrap: [AppComponent]
 })

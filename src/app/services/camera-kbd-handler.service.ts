@@ -11,6 +11,8 @@ export class CameraKbdHandlerService implements KbdHandler {
   CAMERA_ROT_DELTA : number = 5;
 
   _name : string = 'cameraKbdHandler';
+  // Note: we can't rely on DI to get this for us, as, in the most general
+  // case, it's really only the runtime client that can say what is the best value
   _dolly : THREE.Object3D;
 
   constructor(public base : BaseService ) {
@@ -78,7 +80,16 @@ export class CameraKbdHandlerService implements KbdHandler {
   // get sspTorusSceneService(): SspTorusSceneService {
   //   return this._sspTorusSceneService;
   // };
+  get name() {
+    return this._name;
+  }
+  set name(newName : string) {
+    this._name = newName;
+  }
   get dolly() {
     return this._dolly;
+  }
+  set dolly(newDolly : THREE.Object3D) {
+    this._dolly = newDolly;
   }
 }

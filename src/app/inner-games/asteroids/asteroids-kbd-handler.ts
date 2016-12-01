@@ -6,9 +6,9 @@ import { KbdHandler } from '../../interfaces/kbd-handler';
 export class AsteroidsKbdHandler implements KbdHandler {
 
   _name : string = 'asteroidsKbdHandler';
-  _ship : Ship;
+  // _ship : Ship;
 
-  constructor() {
+  constructor( private _ship : Ship) {
     this.name = 'asteroidsKbdHandler';
    }
 
@@ -23,6 +23,7 @@ export class AsteroidsKbdHandler implements KbdHandler {
       // ship.mesh.translateX(ship.vx);
       this.ship.vx += this.ship.deltaVx;
       console.log(`AsteroidsKbdHandler.keyHandler: new vx=${this.ship.vx}`);
+      this.ship.mesh.translateX(this.ship.vx);
       //console.log('this.dolly.postion.x=' + this.dolly.position.x);
       break;
 
@@ -32,6 +33,7 @@ export class AsteroidsKbdHandler implements KbdHandler {
       // dolly.translateX(moveFactor * -this.CAMERA_MOVE_DELTA);
       // ship.mesh.translateX(-ship.vx);
       this.ship.vx -= this.ship.deltaVx;
+      this.ship.mesh.translateX(this.ship.vx);
       console.log(`AsteroidsKbdHandler.keyHandler: new vx=${this.ship.vx}`);
 
       break;
@@ -47,5 +49,8 @@ export class AsteroidsKbdHandler implements KbdHandler {
   }
   get ship() {
     return this._ship;
+  }
+  set ship(newShip : Ship) {
+    this._ship = newShip;
   }
 }

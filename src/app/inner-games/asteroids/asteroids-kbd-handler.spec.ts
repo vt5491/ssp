@@ -7,20 +7,21 @@ import { Ship } from './ship'
 describe('Class: AsteroidsKbdHandler', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [AsteroidsKbdHandler]
+      providers: [AsteroidsKbdHandler, Ship]
     });
   });
 
-  it('should ...', inject([AsteroidsKbdHandler], (service: AsteroidsKbdHandler) => {
+  it('should ...', inject([AsteroidsKbdHandler, Ship], (service: AsteroidsKbdHandler) => {
     expect(service).toBeTruthy();
     expect(service.keyEventHandler).toBeTruthy();
-    expect(service.ship).toBeTruthy();
+    // expect(service.ship).toBeTruthy();
   }));
 
   it('keyHandler should work', inject([AsteroidsKbdHandler], (service: AsteroidsKbdHandler) => {
     console.log(`ut:asteroids-kbd-handler: hello`);
     let event : KeyboardEvent =  <KeyboardEvent>{};
-    let ship :  Ship = new Ship();
+    // let ship :  Ship = new Ship();
+    let ship = service.ship;
 
     ship.vx = 0.5;
     console.log(`ut:asteroids-kbd-handler: ship.mesh=${ship.mesh}`);

@@ -9,18 +9,25 @@ import { AsteroidsKbdHandler } from '../inner-games/asteroids/asteroids-kbd-hand
 import { KbdHandler } from '../interfaces/kbd-handler';
 
 @Injectable()
+// @Component({
+//   providers: [AsteroidsKbdHandler]
+// })
 export class KbdHandlerRouterService {
 
   // private _kbdHandler : KbdHandler;
   private _activeKbdHandler : KbdHandler;
   private _toggleKey : number;
-  private _cameraKbdHandler : CameraKbdHandlerService;
-  private _asteroidsKbdHandler : AsteroidsKbdHandler;
+  // private _cameraKbdHandler : CameraKbdHandlerService;
+  // private _asteroidsKbdHandler : AsteroidsKbdHandler;
 
-  constructor(private _cameraKbdHandlerService: CameraKbdHandlerService) {
+  constructor(
+    private _cameraKbdHandler: CameraKbdHandlerService,
+    private _asteroidsKbdHandler: AsteroidsKbdHandler
+    // private injector: Injector 
+    ){
     // default to standard camera controls
-    this.activeKbdHandler = _cameraKbdHandlerService;
-    console.log(`KbdHandlerRouterService.ctor: activeKbdHandler.name=${this.activeKbdHandler.name}`);
+    this.activeKbdHandler = _cameraKbdHandler;
+    console.log(`KbdHandlerRouterService.ctor: activeKbdHandler.name=${this.activeKbdHandler._name}`);
     this.toggleKey = 'T'.charCodeAt(0);
    }
 
@@ -34,34 +41,40 @@ export class KbdHandlerRouterService {
   keyEventHandler(event: KeyboardEvent) {
     // debugger;
     console.log(`event.keyCode=${event.keyCode}`);
-    if(event.keyCode = this.toggleKey) {
-      console.log(`keyEventHandler: activeKbdHandler=${this.activeKbdHandler}`);
-      console.log(`keyEventHandler: activeKbdHandler.name=${this.activeKbdHandler.name}`);
+    if(event.keyCode === this.toggleKey) {
+      console.log(`keyEventHandler.toggle: activeKbdHandler=${this.activeKbdHandler}`);
+      console.log(`keyEventHandler.toggle: activeKbdHandler.name=${this.activeKbdHandler._name}`);
       switch (this.activeKbdHandler._name) {
         case('cameraKbdHandler') :
           // this._asteroidsKbdHandler = 
           //   (typeof this._asteroidsKbdHandler !== undefined) ? this._asteroidsKbdHandler : new AsteroidsKbdHandler();
-          console.log(`typeof this._asteroidsKbdHandler=${this._asteroidsKbdHandler}`);
-          if (typeof this._asteroidsKbdHandler === 'undefined') {
-            console.log('hi');
-            this._asteroidsKbdHandler = new AsteroidsKbdHandler();
-          }
-          console.log(`keyEventHandler: asteroidsKbdHandler=${this._asteroidsKbdHandler}`);
+          // console.log(`typeof this._asteroidsKbdHandler=${this._asteroidsKbdHandler}`);
+          // if (typeof this._asteroidsKbdHandler === 'undefined') {
+          //   // console.log('hi');
+          //   this._asteroidsKbdHandler = new AsteroidsKbdHandler();
+          // }
+          // console.log(`keyEventHandler: asteroidsKbdHandler=${this._asteroidsKbdHandler}`);
           this.activeKbdHandler = this._asteroidsKbdHandler;
         break;
         case('asteroidsKbdHandler') :
-          this._cameraKbdHandler ? true : new CameraKbdHandlerService();
+          // if (typeof this._cameraKbdHandler === 'undefined') {
+          //   this._cameraKbdHandler = this.injector.get(CameraKbdHandlerService);
+          // }
           this.activeKbdHandler = this._cameraKbdHandler;
         break;
       }
     }
 
-    // this.activeKbdHandler.keyEventHandler(event);
+    this.activeKbdHandler.keyEventHandler(event);
   }
 
   // Getters and Setters
-  get cameraKbdHandlerService(): CameraKbdHandlerService {
-    return this._cameraKbdHandlerService;
+  get cameraKbdHandler(): CameraKbdHandlerService {
+    return this._cameraKbdHandler;
+  };
+
+  get asteroidsKbdHandler(): AsteroidsKbdHandler {
+    return this._asteroidsKbdHandler;
   };
 
   get activeKbdHandler() {
