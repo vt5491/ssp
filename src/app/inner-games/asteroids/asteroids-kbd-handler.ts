@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Ship } from './ship';
 import { KbdHandler } from '../../interfaces/kbd-handler';
+import { BaseService } from '../../services/base.service';
 
 @Injectable()
 export class AsteroidsKbdHandler implements KbdHandler {
@@ -8,7 +9,10 @@ export class AsteroidsKbdHandler implements KbdHandler {
   _name : string = 'asteroidsKbdHandler';
   // _ship : Ship;
 
-  constructor( private _ship : Ship) {
+  constructor( 
+    private _ship : Ship,
+    private base : BaseService, 
+  ) {
     this.name = 'asteroidsKbdHandler';
    }
 
@@ -35,6 +39,33 @@ export class AsteroidsKbdHandler implements KbdHandler {
       this.ship.vx -= this.ship.deltaVx;
       this.ship.mesh.translateX(this.ship.vx);
       console.log(`AsteroidsKbdHandler.keyHandler: new vx=${this.ship.vx}`);
+
+      break;
+
+      case 'W'.charCodeAt(0):
+      console.log('you pressed w');
+      // this.ship.vy += this.ship.deltaVy;
+      this.ship.vel += this.ship.deltaVel;
+
+      break;
+
+      case 'S'.charCodeAt(0):
+      console.log('you pressed s');
+      // this.ship.vy -= this.ship.deltaVy;
+      this.ship.vel -= this.ship.deltaVel;
+
+      break;
+
+      // rotate
+      case 'Q'.charCodeAt(0):
+      console.log('you pressed q');
+      this.ship.theta += this.ship.deltaTheta;
+
+      break;
+
+      case 'E'.charCodeAt(0):
+      console.log('you pressed e');
+      this.ship.theta -= this.ship.deltaTheta;
 
       break;
 

@@ -48,6 +48,7 @@ export class AsteroidsGame implements InnerGame {
   };
 
   updateScene() {
+    // update asteroids
     let asteroid = this.asteroids[0];
     asteroid.mesh.position.x += asteroid.vx;
 
@@ -55,11 +56,26 @@ export class AsteroidsGame implements InnerGame {
       asteroid.mesh.position.x = -20.0;
     }
 
-    this.ship.lineMesh.position.x += this.ship.vx / 4.0;
+    // update ship
+
+    // translate ship
+    // this.ship.lineMesh.position.x += this.ship.vx / 4.0;
+    this.ship.lineMesh.position.x += this.ship.vel * Math.cos(this.ship.theta);
 
     if (this.ship.lineMesh.position.x > 4) {
       this.ship.lineMesh.position.x = -4.0;
     }
+
+    // this.ship.lineMesh.position.y += this.ship.vy / 4.0;
+    this.ship.lineMesh.position.y += this.ship.vel * Math.sin(this.ship.theta);
+
+    if (this.ship.lineMesh.position.y > 4) {
+      this.ship.lineMesh.position.y = -4.0;
+    }
+
+    // rotate ship
+    // this.ship.rotate(this.ship.deltaTheta);
+    this.ship.rotate();
   };
 
   //getters and setters

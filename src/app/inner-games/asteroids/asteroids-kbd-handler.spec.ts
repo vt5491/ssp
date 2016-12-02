@@ -3,11 +3,12 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { AsteroidsKbdHandler } from './asteroids-kbd-handler';
 import { Ship } from './ship'
+import { BaseService } from '../../services/base.service';
 
 describe('Class: AsteroidsKbdHandler', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [AsteroidsKbdHandler, Ship]
+      providers: [AsteroidsKbdHandler, Ship, BaseService]
     });
   });
 
@@ -17,20 +18,12 @@ describe('Class: AsteroidsKbdHandler', () => {
     // expect(service.ship).toBeTruthy();
   }));
 
-  it('keyHandler should work', inject([AsteroidsKbdHandler], (service: AsteroidsKbdHandler) => {
-    console.log(`ut:asteroids-kbd-handler: hello`);
+  it('keyHandler A and D should work', inject([AsteroidsKbdHandler], (service: AsteroidsKbdHandler) => {
     let event : KeyboardEvent =  <KeyboardEvent>{};
     // let ship :  Ship = new Ship();
     let ship = service.ship;
 
     ship.vx = 0.5;
-    console.log(`ut:asteroids-kbd-handler: ship.mesh=${ship.mesh}`);
-    // ship.mesh = {};
-    // ship.mesh.position = {};
-    // ship.mesh.postion.x = 0;
-
-    // event.keyCode = 'D'.charCodeAt(0);
-    // event.keyCode = 68;
     Object.defineProperty(event, 'keyCode', {'value': 68});
 
     let startPos = ship.mesh.position.x;
@@ -41,5 +34,32 @@ describe('Class: AsteroidsKbdHandler', () => {
 
     // expect(ship.mesh.position.x).toEqual(startPos + ship.vx);
     expect(ship.vx).toEqual(startVx + ship.deltaVx);
+  }));
+
+  it('keyHandler W and S should move up and down', inject([AsteroidsKbdHandler], (service: AsteroidsKbdHandler) => {
+    let event : KeyboardEvent =  <KeyboardEvent>{};
+    let ship = service.ship;
+
+    ship.vy = 0.5;
+    Object.defineProperty(event, 'keyCode', {'value': 'W'.charCodeAt(0)});
+
+    // let startPos = ship.mesh.position.x;
+    let startVy = ship.vy;
+    service.keyEventHandler(event);
+
+    expect(ship.vy).toEqual(startVy + ship.deltaVy);
+  }));
+
+  it('keyHandler Q and E should rotate the ship', inject([AsteroidsKbdHandler], (service: AsteroidsKbdHandler) => {
+    let event : KeyboardEvent =  <KeyboardEvent>{};
+    let ship = service.ship;
+
+    ship.theta = 0.0;
+    Object.defineProperty(event, 'keyCode', {'value': 'Q'.charCodeAt(0)});
+
+    let startTheta = ship.theta;
+    service.keyEventHandler(event);
+
+    expect(ship.theta).toEqual(startTheta + ship.deltaTheta);
   }));
 });

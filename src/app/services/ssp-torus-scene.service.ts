@@ -27,7 +27,7 @@ export class SspTorusSceneService implements SspScene {
   init() {
     // let torusGeom   = new THREE.TorusGeometry( 25, 8, 50, 50);
     let torusGeom   = new THREE.TorusBufferGeometry(50, 18, 50, 50);
-    let torusMaterial = new THREE.MeshBasicMaterial({ color: 0xff0080 });
+    let torusMaterial = new THREE.MeshBasicMaterial({ color: 0xff0080, wireframe: false  });
 
     this.torusMesh = new THREE.Mesh(torusGeom, torusMaterial);
     this.torusMesh.name = "abc";

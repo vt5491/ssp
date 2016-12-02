@@ -3,11 +3,12 @@
 
 import { TestBed, async, inject } from '@angular/core/testing';
 import { Ship } from './ship';
+import { BaseService } from '../../services/base.service';
 
 describe('Service: Ship', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [Ship]
+      providers: [Ship, BaseService]
     });
   });
 
@@ -16,5 +17,6 @@ describe('Service: Ship', () => {
     expect(ship.vx).toBeDefined();
     expect(ship.geom).toBeDefined();
     expect(ship.mat).toBeDefined();
+    expect(ship.theta).toBeDefined();
   }));
 });

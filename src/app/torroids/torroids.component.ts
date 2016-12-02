@@ -75,34 +75,16 @@ export class TorroidsComponent implements OnInit {
     // this.model = {
     //   outerScene: "torus"
     // }; 
-    this.model.outerScene = 'torus';
-    // this.model.outerScene = 'plane';
+    // this.model.outerScene = 'torus';
+    this.model.outerScene = 'plane';
     console.log('TorroidComponent: ctor: _kbdHandlerRouterService=' + this._kbdHandlerRouter);
     console.log('TorroidComponent: ctor: baseService=' + this.baseService);
-    // this.sspTorusRuntimeService = new SspTorusRuntimeService(this._sspTorusSceneService.vrSceneService);
-    // this.sspTorusRuntimeService = new SspTorusRuntimeService(this.sspScene.vrSceneService);
-    // console.log('TorroidComponent: ctor: outerScene=' + this.model.outerScene);
-    // this.innerGame = new AsteroidsGame();
     this.innerGame = this.injector.get(AsteroidsGame);
 
   }
 
   ngOnInit() {
     console.log('TorroidsComponent.ngOnInit: entered');
-    // console.log('TorroidComponent: ngOnInit: sspTorusSceneService=' + this.sspTorusSceneService);
-    // console.log('TorroidComponent: ngOnInit: sspTorusSceneService.vrSceneService.webGLRenderer=' + this.sspTorusSceneService.vrSceneService.webGLRenderer);
-
-    // this.vrScene = new VRSceneService(window.innerWidth, window.innerHeight, this.webGLCanvas.webGLRenderer)
-    // this.vrScene = new VRSceneService(window.innerWidth, window.innerHeight, this.webGLRenderer)
-
-    // console.log(`canvas.width = ${this.el.nativeElement.querySelector('#scene-view').width}`);
-    // console.log(`canvas.height=${canvas.height}`);
-    // console.log(`TorroidComponent.ngOnInit: this.ssTorusSceneService.vrSceneService=${this.sspTorusSceneService}`);
-    // console.log(`TorroidComponent.ngOnInit: this.ssTorusSceneService.vrSceneService=${this.sspTorusSceneService}`);
-
-    // this.webGLRenderer = this.sspTorusSceneService.webGLRenderer;
-
-    // this.initOuterScene();
   }
 
   initOuterScene() {
@@ -123,24 +105,6 @@ export class TorroidsComponent implements OnInit {
       // console.log('Element clicked');
     });
     webglRendererCanvas.focus();
-    // console.log(`TorroidsComponent.initOuterScene: webGLCanvasComponent.width=
-    //   ${this.webGLCanvas.webGLRenderer.getSize().width}`);
-    // let canvas = this.el.nativeElement.querySelector('#scene-view');
-    // // canvas.width = window.innerWidth;
-    // // canvas.height = window.innerHeight;
-    // this.webGLRenderer = new THREE.WebGLRenderer({antialias: true, });
-    // this.webGLRenderer.setClearColor(0xf31313, 1.0);
-    // this.webGLRenderer.domElement.id = 'webGLRenderer';
-    // this.gl_webGLRenderer = this.webGLRenderer.getContext();
-
-    // // this.webGLRenderer.setSize(window.innerWidth, window.innerHeight);
-
-    // // console.log(`TorroidsComponent.initOuterScene: document=${document}`);
-    // // document.getElementById('scene-view').appendChild( this.webGLRenderer.domElement );
-    // canvas.appendChild(this.webGLRenderer.domElement);
-
-    // this.canvasWidth = window.innerWidth;
-    //  this.canvasHeight = window.innerHeight;
   }
 
   debugButtonClick(input, $event) {

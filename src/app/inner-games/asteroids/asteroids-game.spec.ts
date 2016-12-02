@@ -5,6 +5,7 @@ import { TestBed, async, inject } from '@angular/core/testing';
 import { AsteroidsGame, AsteroidsGameProvider } from './asteroids-game';
 import { Ship } from './ship';
 import { ThreeJsSceneProvider } from '../../services/utils.service';
+import { BaseService } from '../../services/base.service';
 // import { SspTorusRuntimeService } from './ssp-torus-runtime.service';
 // import { VRSceneService, VRSceneServiceProvider } from './vr-scene.service';
 
@@ -40,7 +41,7 @@ describe('Class: AsteroidsGame', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       // providers: [SspTorusRuntimeService, VRSceneServiceProvider]
-      providers: [AsteroidsGameProvider, ThreeJsSceneProvider, Ship]
+      providers: [AsteroidsGameProvider, ThreeJsSceneProvider, Ship, BaseService]
     });
   });
 
