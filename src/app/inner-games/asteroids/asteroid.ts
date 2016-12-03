@@ -9,17 +9,19 @@ export class Asteroid {
 
   constructor () {
     this.x = 0.0;
-    this.vx = 0.03;
+    this.vx = 0.003;
 
     this.init();
   };
 
   init() {
-    this.geom = new THREE.PlaneBufferGeometry(2, 2);
-    this.mat = new THREE.MeshBasicMaterial({ color: 0x70FF74, side: THREE.DoubleSide });
+    this.geom = new THREE.PlaneBufferGeometry(0.2, 0.4);
+    this.mat = new THREE.MeshBasicMaterial({ color: 0x70FF20, side: THREE.DoubleSide });
 
     this.mesh = new THREE.Mesh(this.geom, this.mat);
-    this.mesh.position.z = 1.0;
+    // this.mesh.position.z = 1.0;
+    this.mesh.position.x = -3.0;
+    this.mesh.position.z = -10.0;
   };
 
   //getters and setters

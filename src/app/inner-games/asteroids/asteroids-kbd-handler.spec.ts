@@ -44,10 +44,11 @@ describe('Class: AsteroidsKbdHandler', () => {
     Object.defineProperty(event, 'keyCode', {'value': 'W'.charCodeAt(0)});
 
     // let startPos = ship.mesh.position.x;
-    let startVy = ship.vy;
+    let startVel = ship.vel;
     service.keyEventHandler(event);
 
-    expect(ship.vy).toEqual(startVy + ship.deltaVy);
+    // expect(ship.vy).toEqual(startVy + ship.deltaVy);
+    expect(ship.vel).toEqual(startVel + ship.deltaVel);
   }));
 
   it('keyHandler Q and E should rotate the ship', inject([AsteroidsKbdHandler], (service: AsteroidsKbdHandler) => {

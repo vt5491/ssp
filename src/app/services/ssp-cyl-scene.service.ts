@@ -18,7 +18,7 @@ export class SspCylSceneService implements SspScene {
   }
 
   init() {
-    let cylGeom   = new THREE.CylinderBufferGeometry(25, 25, 50, 50);
+    let cylGeom   = new THREE.CylinderBufferGeometry(25, 25, 80, 50);
     let cylMaterial = new THREE.MeshBasicMaterial({ color: 0xff0080 });
 
     this.cylMesh = new THREE.Mesh(cylGeom, cylMaterial);

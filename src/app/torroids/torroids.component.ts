@@ -8,6 +8,9 @@ import { SspRuntime } from '../ssp-runtime';
 import { SspTorusSceneService, SspTorusSceneProvider } from '../services/ssp-torus-scene.service';
 import { SspCylSceneService, SspCylSceneProvider } from '../services/ssp-cyl-scene.service';
 import { SspPlaneSceneService, SspPlaneSceneProvider } from '../services/ssp-plane-scene.service';
+import { SspCubeScene, SspCubeSceneProvider } from '../services/ssp-cube-scene.service';
+import { SspPyramidScene, SspPyramidSceneProvider } from '../services/ssp-pyramid-scene.service';
+import { SspSphereScene, SspSphereSceneProvider } from '../services/ssp-sphere-scene.service';
 import { BaseService } from '../services/base.service';
 import { SspTorusRuntimeService } from '../services/ssp-torus-runtime.service';
 import { SspCylRuntimeService } from '../services/ssp-cyl-runtime.service';
@@ -28,8 +31,9 @@ import { Ship } from '../inner-games/asteroids/ship';
   styleUrls: ['./torroids.component.css'],
   // providers: [ElementRef],
   providers: [VRSceneServiceProvider, WebGLCanvasComponent, SspTorusSceneProvider,
-    SspCylSceneProvider, SspPlaneSceneProvider, AsteroidsMainService, 
-    AsteroidsGameProvider, 
+    SspCylSceneProvider, SspPlaneSceneProvider, SspCubeSceneProvider, 
+    SspPyramidSceneProvider, SspSphereSceneProvider,
+    AsteroidsMainService, AsteroidsGameProvider, 
     //THREE.WebGLRenderTarget
     WebGLRenderTargetProvider, ThreeJsSceneProvider, Ship,
     KbdHandlerRouterService,
@@ -127,25 +131,29 @@ export class TorroidsComponent implements OnInit {
     switch (this.model.outerScene) {
       case 'torus':
         this.sspScene = this.injector.get(SspTorusSceneService);
-        // this.webGLRenderer = this.sspScene.vrSceneService.webGLRenderer;
-
-        // this.initOuterScene();
-
-        // this.sspTorusRuntimeService = new SspTorusRuntimeService(this.sspScene.vrSceneService);
-        // this.sspRuntime = new SspTorusRuntimeService(this.sspScene.vrSceneService);
-        // console.log('TorroidComponent: ctor: outerScene=' + this.model.outerScene);
         break;
+
       case 'cyl':
         this.sspScene = this.injector.get(SspCylSceneService);
 
-        // this.webGLRenderer = this.sspScene.vrSceneService.webGLRenderer;
-
-        // this.initOuterScene();
-
-        // this.sspRuntime = new SspCylRuntimeService(this.sspScene.vrSceneService);
         break;
       case 'plane':
         this.sspScene = this.injector.get(SspPlaneSceneService);
+
+        break;
+
+      case 'cube':
+        this.sspScene = this.injector.get(SspCubeScene);
+
+        break;
+
+      case 'pyramid':
+        this.sspScene = this.injector.get(SspPyramidScene);
+
+        break;
+
+      case 'sphere':
+        this.sspScene = this.injector.get(SspSphereScene);
 
         break;
       default:
@@ -166,61 +174,17 @@ export class TorroidsComponent implements OnInit {
     // this.sspRuntime = new SspRuntimeService(this.sspScene.vrSceneService, 
     this.sspRuntime = new SspRuntimeService(this.sspScene, 
       this.injector.get(THREE.WebGLRenderTarget),
-      // new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight, { minFilter: THREE.LinearFilter, magFilter: THREE.NearestFilter }), 
       this.innerGame);
     this.initOuterScene();
-
-
-    // start hack
-    // add the asteroid directly to the outer scene
-    // this.sspScene.vrSceneService.scene.add((<any>this.innerGame).asteroids[0].mesh);
-    // end hack
 
     this.sspRuntime.mainLoop();
   }
 
   kbdEventHandler($event) {
     this.kbdHandlerRouter.keyEventHandler($event);
-    // if ($event.keyCode === 32) {
-    //   console.log(`TorroidsComponent.kbdEventHandler: toggling kbdHandler`);
-    //   console.log(`keyHandler.name=${this.kbdHandlerRouterService.kbdHandler._name}`)
-
-    //   //TODO: delegate all the getting of services to the kbd router.  this
-    //   // should not be exposed to the client
-    //   if (this.kbdHandlerRouterService.kbdHandler._name === 'cameraKbdHandler') {
-    //     this.kbdHandlerRouterService.kbdHandler = new AsteroidsKbdHandler();
-    //   }
-    //   else if (this.kbdHandlerRouterService.kbdHandler._name === 'asteroidsKbdHandler') {
-    //     this.kbdHandlerRouterService.kbdHandler = new CameraKbdHandlerService(this.baseService);
-    //   }
-    // }
-    // console.log(`TorroidComponent.kbdEventHandler:  $event.type=${$event.type}, $event=${$event}`);
-    // // this.kbdHandlerRouterService.keyHandler ($event, this.vrScene.dolly);
-    // // this.kbdHandlerRouterService.keyHandler ($event, this.sspTorusSceneService.vrSceneService.dolly);
-    // switch (this.kbdHandlerRouterService.kbdHandler._name) {
-    //   case('cameraKbdHandler') :
-    //     this.kbdHandlerRouterService.keyHandler ($event, this.sspScene.vrSceneService.dolly);
-    //   break;
-    //   case('asteroidsKbdHandler') :
-    //     this.kbdHandlerRouterService.keyHandler ($event, (<AsteroidsGame>this.innerGame).ship);
-    //   break;
-    // }
   };
 
   // Getters and Setters
-  // get sspTorusSceneService(): SspTorusSceneService {
-  //   return this._sspTorusSceneService;
-  // };
-  // set sspTorusSceneService(thesspTorusSceneService: SspTorusSceneService) {
-  //   this._sspTorusSceneService = thesspTorusSceneService;
-  // }
-  // get sspScene(): SspScene {
-  //   return this.sspScene;
-  // };
-  // set sspTorusSceneService(thesspTorusSceneService: SspTorusSceneService) {
-  //   this._sspTorusSceneService = thesspTorusSceneService;
-  // }
-
   get kbdHandlerRouter(): KbdHandlerRouterService {
     return this._kbdHandlerRouter;
   };
