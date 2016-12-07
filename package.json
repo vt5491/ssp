@@ -21,12 +21,13 @@
     "@angular/platform-browser-dynamic": "~2.1.0",
     "@angular/router": "~3.1.0",
     "@types/node": "^6.0.46",
-    "angular-cli": "^1.0.0-beta.19-3",
+    "angular-cli": "1.0.0-beta.19-3",
     "core-js": "^2.4.1",
     "rxjs": "5.0.0-beta.12",
     "three": "^0.82.1",
     "ts-helpers": "^1.1.1",
-    "zone.js": "^0.6.23"
+    "zone.js": "^0.6.23",
+    "webvr-boilerplate": "^0.4.9"
   },
   "devDependencies": {
     "@types/jasmine": "^2.2.30",
