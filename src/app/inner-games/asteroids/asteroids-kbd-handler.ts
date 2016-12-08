@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Ship } from './ship';
+import { Bullet } from './bullet';
 import { KbdHandler } from '../../interfaces/kbd-handler';
 import { BaseService } from '../../services/base.service';
 
@@ -11,7 +12,8 @@ export class AsteroidsKbdHandler implements KbdHandler {
 
   constructor( 
     private _ship : Ship,
-    private base : BaseService, 
+    // private _bullet : Bullet,
+    private base : BaseService 
   ) {
     this.name = 'asteroidsKbdHandler';
    }
@@ -84,4 +86,10 @@ export class AsteroidsKbdHandler implements KbdHandler {
   set ship(newShip : Ship) {
     this._ship = newShip;
   }
+  // get bullet() {
+  //   return this.bullet;
+  // }
+  // set bullet(newBullet : Bullet) {
+  //   this._bullet = newBullet;
+  // }
 }

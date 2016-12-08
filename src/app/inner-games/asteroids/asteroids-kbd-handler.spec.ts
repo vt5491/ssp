@@ -15,7 +15,8 @@ describe('Class: AsteroidsKbdHandler', () => {
   it('should ...', inject([AsteroidsKbdHandler, Ship], (service: AsteroidsKbdHandler) => {
     expect(service).toBeTruthy();
     expect(service.keyEventHandler).toBeTruthy();
-    // expect(service.ship).toBeTruthy();
+    expect(service.ship).toBeTruthy();
+    // expect(service.bullet).toBeTruthy();
   }));
 
   it('keyHandler A and D should work', inject([AsteroidsKbdHandler], (service: AsteroidsKbdHandler) => {
