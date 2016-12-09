@@ -3,19 +3,34 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { AsteroidsKbdHandler } from './asteroids-kbd-handler';
 import { Ship } from './ship'
+import { AsteroidsGame, AsteroidsGameProvider } from './asteroids-game'
+import { ThreeJsSceneProvider } from '../../services/utils.service';
 import { BaseService } from '../../services/base.service';
 
 describe('Class: AsteroidsKbdHandler', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [AsteroidsKbdHandler, Ship, BaseService]
+      providers: [
+        AsteroidsKbdHandler, 
+        Ship, 
+        AsteroidsGameProvider, 
+        ThreeJsSceneProvider, 
+        BaseService
+        ]
     });
   });
 
-  it('should ...', inject([AsteroidsKbdHandler, Ship], (service: AsteroidsKbdHandler) => {
+  it('should ..', inject([
+    AsteroidsKbdHandler, 
+    // AsteroidsGameProvider, 
+    // ThreeJsSceneProvider, 
+    // Ship, 
+    // BaseService
+    ], (service: AsteroidsKbdHandler) => {
     expect(service).toBeTruthy();
     expect(service.keyEventHandler).toBeTruthy();
     expect(service.ship).toBeTruthy();
+    expect(service.asteroidsGame).toBeTruthy();
     // expect(service.bullet).toBeTruthy();
   }));
 
@@ -63,5 +78,23 @@ describe('Class: AsteroidsKbdHandler', () => {
     service.keyEventHandler(event);
 
     expect(ship.theta).toEqual(startTheta + ship.deltaTheta);
+  }));
+
+  it('keyHandler space should fire a bullet', inject([AsteroidsKbdHandler], (service: AsteroidsKbdHandler) => {
+    let event : KeyboardEvent =  <KeyboardEvent>{};
+    let bulletsOrigLength = service.asteroidsGame.bullets.length;
+    let sceneOrigLength = service.asteroidsGame.scene.children.length;
+
+    Object.defineProperty(event, 'keyCode', {'value': ' '.charCodeAt(0)});
+
+    // let startTheta = ship.theta;
+    service.keyEventHandler(event);
+
+    // let bulletsNew = service.asteroidsGame.bullets;
+    expect(service.asteroidsGame.bullets.length).toEqual(bulletsOrigLength + 1);
+    // it should also add it to the scene
+    // console.log(`ut: bulletsOrigLength=${bulletsOrigLength}`);
+    // console.log(`ut: scene=${service.asteroidsGame.scene}`);
+    expect(service.asteroidsGame.scene.children.length).toEqual(sceneOrigLength + 1);
   }));
 });

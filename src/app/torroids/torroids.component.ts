@@ -33,7 +33,9 @@ import { Ship } from '../inner-games/asteroids/ship';
   providers: [VRSceneServiceProvider, WebGLCanvasComponent, SspTorusSceneProvider,
     SspCylSceneProvider, SspPlaneSceneProvider, SspCubeSceneProvider, 
     SspPyramidSceneProvider, SspSphereSceneProvider,
-    AsteroidsMainService, AsteroidsGameProvider, 
+    AsteroidsMainService, 
+    // note: we get a global singleton AsteroidsGame in app.module
+    // AsteroidsGameProvider, 
     //THREE.WebGLRenderTarget
     WebGLRenderTargetProvider, ThreeJsSceneProvider, Ship,
     KbdHandlerRouterService,
@@ -166,7 +168,8 @@ export class TorroidsComponent implements OnInit {
     this.kbdHandlerRouter.cameraKbdHandler.dolly = this.sspScene.vrSceneService.dolly; 
 
     //set the ship of the asteroidsKdbHandler
-    this.kbdHandlerRouter.asteroidsKbdHandler.ship = (<AsteroidsGame>this.innerGame).ship;
+    // this.kbdHandlerRouter.asteroidsKbdHandler.ship = (<AsteroidsGame>this.innerGame).ship;
+    // this.kbdHandlerRouter.asteroidsKbdHandler.asteroidsGame.ship = (<AsteroidsGame>this.innerGame).ship;
 
     console.log(`TorroidsComponent.startGame: this.innerGame.asteroidsGame.asteroids[0].vx= ${(<any>this.innerGame).asteroids[0].vx}`);
     this.webGLRenderer = this.sspScene.vrSceneService.webGLRenderer;

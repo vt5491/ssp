@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Injectable } from '@angular/core';
 import { Asteroid } from './asteroid';
+import { Bullet } from './bullet';
 import { Ship } from './ship';
 import { InnerGame } from '../../inner-game';
 import { ThreeJsSceneProvider } from '../../services/utils.service';
@@ -7,14 +8,17 @@ import { ThreeJsSceneProvider } from '../../services/utils.service';
 @Component({
   providers: [ThreeJsSceneProvider, Ship]
 })
+@Injectable()
 export class AsteroidsGame implements InnerGame {
 
   private _asteroids : Asteroid [] = [];
+  private _bullets : Bullet [] = [];
   // private ship : THREE.Line;
   // private _ship : Ship;
   // private _scene: THREE.Scene;
   private asteroidsDuration : number = 60000;
   private startTime : number = Date.now();
+  id : number = Date.now();
 
 
   constructor(
@@ -34,21 +38,6 @@ export class AsteroidsGame implements InnerGame {
     this.asteroids[1].vx = 0.004;
     this.asteroids[1].x = 1;
     this.scene.add(this.asteroids[1].mesh);
-    // this.ship = new 
-    // // create the ship
-    // var shipGeometry = new THREE.Geometry()
-    // var shipMaterial = new THREE.LineBasicMaterial({ linewidth: 3 })
-    // shipMaterial.color = new THREE.Color(80, 255, 20);
-
-    // this.ship = new THREE.Line(shipGeometry, shipMaterial);
-    // // this.ship.position.x = 2.0
-    // this.ship.position.x = -3
-    // this.ship.position.z = -10
-
-    // shipGeometry.vertices.push(new  THREE.Vector3(0, 1))
-    // shipGeometry.vertices.push(new THREE.Vector3(.1, -1))
-    // shipGeometry.vertices.push(new THREE.Vector3(-.1, -1))
-    // shipGeometry.vertices.push(new THREE.Vector3(0, 1))
 
     this.scene.add(this.ship.lineMesh);
   };
@@ -78,6 +67,27 @@ export class AsteroidsGame implements InnerGame {
       //   asteroid.mesh.position.x = boundVal;
       // }
     }
+    // update bullets
+    console.log(`AsteroidsGame.updateScene: bullets.length=${this.bullets.length}, asteroidsGame.id=${this.id}`);
+    for (let i = 0; i < this.bullets.length; i++) {
+      this.bullets[i].mesh.position.x += 0.01;
+      this.bullets[i].mesh.position.y += 0.001;
+      if (this.bullets[i].mesh.position.x > boundVal) {
+        this.bullets[i].mesh.position.x = -boundVal;
+      }
+
+      if (this.bullets[i].mesh.position.x < -boundVal) {
+        this.bullets[i].mesh.position.x = boundVal;
+      }
+
+      if (this.bullets[i].mesh.position.y > boundVal) {
+        this.bullets[i].mesh.position.y = -boundVal;
+      }
+
+      if (this.bullets[i].mesh.position.y < -boundVal) {
+        this.bullets[i].mesh.position.y = boundVal;
+      }
+    };
     // update ship
 
     // translate ship
@@ -117,6 +127,9 @@ export class AsteroidsGame implements InnerGame {
   }
   get ship(): Ship {
     return this._ship;
+  }
+  get bullets(): Bullet [] {
+    return this._bullets;
   }
 }
 

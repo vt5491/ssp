@@ -18,6 +18,8 @@ import { AsteroidsKbdHandler } from './inner-games/asteroids/asteroids-kbd-handl
 import { ToroutComponent } from './torout/torout.component';
 import { HomeComponent } from './home/home.component';
 import { Ship } from './inner-games/asteroids/ship';
+import { AsteroidsGame, AsteroidsGameProvider } from './inner-games/asteroids/asteroids-game';
+import { ThreeJsSceneProvider } from './services/utils.service';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,9 @@ import { Ship } from './inner-games/asteroids/ship';
     KbdHandlerRouterService,
     CameraKbdHandlerService,
     AsteroidsKbdHandler,
-    Ship
+    Ship,
+    AsteroidsGameProvider,
+    ThreeJsSceneProvider
   ],
   bootstrap: [AppComponent]
 })

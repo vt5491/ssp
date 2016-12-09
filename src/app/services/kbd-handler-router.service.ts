@@ -7,6 +7,7 @@ import { Injectable } from '@angular/core';
 import { CameraKbdHandlerService } from './camera-kbd-handler.service';
 import { AsteroidsKbdHandler } from '../inner-games/asteroids/asteroids-kbd-handler';
 import { KbdHandler } from '../interfaces/kbd-handler';
+import { AsteroidsGame, AsteroidsGameProvider } from '../inner-games/asteroids/asteroids-game';
 
 @Injectable()
 // @Component({

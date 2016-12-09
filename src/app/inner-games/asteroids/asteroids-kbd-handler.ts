@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Ship } from './ship';
+import { AsteroidsGame, AsteroidsGameProvider } from './asteroids-game';
 import { Bullet } from './bullet';
 import { KbdHandler } from '../../interfaces/kbd-handler';
 import { BaseService } from '../../services/base.service';
@@ -11,7 +12,8 @@ export class AsteroidsKbdHandler implements KbdHandler {
   // _ship : Ship;
 
   constructor( 
-    private _ship : Ship,
+    // private _ship : Ship,
+    private _asteroidsGame : AsteroidsGame,
     // private _bullet : Bullet,
     private base : BaseService 
   ) {
@@ -71,6 +73,20 @@ export class AsteroidsKbdHandler implements KbdHandler {
 
       break;
 
+      // bullet fire
+      // case ' '.charCodeAt(0):
+      case 32:
+      console.log('you pressed <space>');
+      let bullet = new Bullet();
+      this.asteroidsGame.bullets.push(bullet);
+      // this.ship.theta -= this.ship.deltaTheta;
+      console.log(`AsteroidsKbdHandler.keyEventHandler: scene.length pre=${this.asteroidsGame.scene.children.length}`);
+      console.log(`AsteroidsKbdHandler.keyEventHandler: asteroidsGame.id=${this.asteroidsGame.id}`);
+      this.asteroidsGame.scene.add(bullet.mesh);
+      console.log(`AsteroidsKbdHandler.keyEventHandler: scene.length post=${this.asteroidsGame.scene.children.length}`);
+
+      break;
+
     }
   }
 
@@ -81,11 +97,17 @@ export class AsteroidsKbdHandler implements KbdHandler {
     this._name = newName;
   }
   get ship() {
-    return this._ship;
+    return this.asteroidsGame.ship;
   }
-  set ship(newShip : Ship) {
-    this._ship = newShip;
+  // set ship(newShip : Ship) {
+  //   this._asteroidsGame.ship = newShip;
+  // }
+  get asteroidsGame() {
+    return this._asteroidsGame;
   }
+  // set ship(newShip : Ship) {
+  //   this._ship = newShip;
+  // }
   // get bullet() {
   //   return this.bullet;
   // }

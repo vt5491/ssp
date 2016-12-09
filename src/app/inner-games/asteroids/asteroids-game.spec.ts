@@ -54,6 +54,7 @@ describe('Class: AsteroidsGame', () => {
       console.log(`ut:asteroids-game: asteroidGame=${asteroidsGame}`);
     expect(asteroidsGame).toBeTruthy();
     expect(asteroidsGame.scene).toBeTruthy();
+    expect(asteroidsGame.bullets).toBeTruthy();
   }));
 
   // it('initScene workds', inject([AsteroidsGame], (asteroidsGameProvider))

@@ -14,5 +14,8 @@ describe('Service: Asteroid Bullet', () => {
   it('ctor works', inject([Bullet], (bullet: Bullet) => {
     expect(bullet).toBeTruthy();
     expect(bullet.vx).toBeTruthy();
+    expect(bullet.geom).toBeTruthy();
+    expect(bullet.material).toBeTruthy();
+    expect(bullet.mesh).toBeTruthy();
   }));
 });
