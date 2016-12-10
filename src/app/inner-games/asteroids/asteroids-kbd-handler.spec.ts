@@ -3,21 +3,27 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { AsteroidsKbdHandler } from './asteroids-kbd-handler';
 import { Ship } from './ship'
-import { AsteroidsGame, AsteroidsGameProvider } from './asteroids-game'
+// import { AsteroidsGame, AsteroidsGameProvider } from './asteroids-game'
+import { AsteroidsGame } from './asteroids-game'
 import { ThreeJsSceneProvider } from '../../services/utils.service';
 import { BaseService } from '../../services/base.service';
 
 describe('Class: AsteroidsKbdHandler', () => {
+  
+  // let base : BaseService;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         AsteroidsKbdHandler, 
         Ship, 
-        AsteroidsGameProvider, 
+        // AsteroidsGameProvider, 
+        AsteroidsGame, 
         ThreeJsSceneProvider, 
         BaseService
         ]
     });
+    this.base = new BaseService();
   });
 
   it('should ..', inject([
@@ -40,6 +46,8 @@ describe('Class: AsteroidsKbdHandler', () => {
     let ship = service.ship;
 
     ship.vx = 0.5;
+    // ship.vTheta = this.base.ONE_DEG * 10.0;
+    // ship.vScalar = 1.0;
     Object.defineProperty(event, 'keyCode', {'value': 68});
 
     let startPos = ship.mesh.position.x;
@@ -49,7 +57,8 @@ describe('Class: AsteroidsKbdHandler', () => {
     service.keyEventHandler(event);
 
     // expect(ship.mesh.position.x).toEqual(startPos + ship.vx);
-    expect(ship.vx).toEqual(startVx + ship.deltaVx);
+    // expect(ship.vx).toEqual(startVx + ship.deltaVx);
+    expect(ship.vx).toBeCloseTo(startVx + ship.deltaVx);
   }));
 
   it('keyHandler W and S should move up and down', inject([AsteroidsKbdHandler], (service: AsteroidsKbdHandler) => {
@@ -71,13 +80,13 @@ describe('Class: AsteroidsKbdHandler', () => {
     let event : KeyboardEvent =  <KeyboardEvent>{};
     let ship = service.ship;
 
-    ship.theta = 0.0;
+    ship.vTheta = 0.0;
     Object.defineProperty(event, 'keyCode', {'value': 'Q'.charCodeAt(0)});
 
-    let startTheta = ship.theta;
+    let startTheta = ship.vTheta;
     service.keyEventHandler(event);
 
-    expect(ship.theta).toEqual(startTheta + ship.deltaTheta);
+    expect(ship.vTheta).toEqual(startTheta + ship.deltaTheta);
   }));
 
   it('keyHandler space should fire a bullet', inject([AsteroidsKbdHandler], (service: AsteroidsKbdHandler) => {

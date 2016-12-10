@@ -18,4 +18,8 @@ describe('Service: Base', () => {
   it('should have a const ONE_DEG set at the class level', () => {
     expect(BaseService.ONE_DEG).toEqual(Math.PI / 180.0);
   });
+
+  it('should have an instance level value projectionBoundary', inject([BaseService], (service: BaseService) => {
+    expect(service.projectionBoundary).toBeTruthy();
+  }));
 });

@@ -1,12 +1,13 @@
-import { Component, Injectable } from '@angular/core';
+import { Component, Injectable, Injector } from '@angular/core';
 import { Asteroid } from './asteroid';
 import { Bullet } from './bullet';
 import { Ship } from './ship';
 import { InnerGame } from '../../inner-game';
 import { ThreeJsSceneProvider } from '../../services/utils.service';
+import { BaseService } from '../../services/base.service';
 
 @Component({
-  providers: [ThreeJsSceneProvider, Ship]
+  // providers: [ThreeJsSceneProvider, Ship]
 })
 @Injectable()
 export class AsteroidsGame implements InnerGame {
@@ -15,16 +16,26 @@ export class AsteroidsGame implements InnerGame {
   private _bullets : Bullet [] = [];
   // private ship : THREE.Line;
   // private _ship : Ship;
-  // private _scene: THREE.Scene;
+  private _scene: THREE.Scene;
   private asteroidsDuration : number = 60000;
   private startTime : number = Date.now();
   id : number = Date.now();
 
 
   constructor(
-    private _scene : THREE.Scene,
-    private _ship : Ship
+    // private _scene : THREE.Scene,
+    // inject(_scene): ThreeJsSceneProvider,
+    // private _scene = @inject.get(ThreeJsSceneProvider),
+    // @Inject(CourseService) courseService: CourseService
+    // @Inject(ThreeJsSceneProvider) _scene: THREE.Scene,
+    // @Inject(THREE.Scene) _scene: THREE.Scene,
+    private _ship : Ship,
+    private _base : BaseService,
+    private injector : Injector
   ) {
+    // I seem to have to manually inject THREE.Scene because it's a third-party Component
+    // and I can't wrap it in @Ijnectable?
+    this._scene = this.injector.get(THREE.Scene);
     // this.asteroids.push( new Asteroid());
     // this._scene = new THREE.Scene();
     this.initScene();
@@ -56,43 +67,34 @@ export class AsteroidsGame implements InnerGame {
 
       asteroid.mesh.position.x = 
         ((this.asteroids[i].x + posX + boundVal) % 2.0 * boundVal) - boundVal; 
-      // asteroid.mesh.position.x += asteroid.vx;
-
-      // if (asteroid.mesh.position.x > boundVal) {
-      //   asteroid.mesh.position.x = -boundVal;
-      // }
-
-      // // if (Number(asteroid.mesh.position.x.toFixed(2)) < -boundVal) {
-      // if (asteroid.mesh.position.x < -boundVal) {
-      //   asteroid.mesh.position.x = boundVal;
-      // }
     }
     // update bullets
     console.log(`AsteroidsGame.updateScene: bullets.length=${this.bullets.length}, asteroidsGame.id=${this.id}`);
     for (let i = 0; i < this.bullets.length; i++) {
-      this.bullets[i].mesh.position.x += 0.01;
-      this.bullets[i].mesh.position.y += 0.001;
-      if (this.bullets[i].mesh.position.x > boundVal) {
-        this.bullets[i].mesh.position.x = -boundVal;
-      }
+      this.bullets[i].update();
+      // this.bullets[i].mesh.position.x += 0.01;
+      // this.bullets[i].mesh.position.y += 0.001;
+      // if (this.bullets[i].mesh.position.x > boundVal) {
+      //   this.bullets[i].mesh.position.x = -boundVal;
+      // }
 
-      if (this.bullets[i].mesh.position.x < -boundVal) {
-        this.bullets[i].mesh.position.x = boundVal;
-      }
+      // if (this.bullets[i].mesh.position.x < -boundVal) {
+      //   this.bullets[i].mesh.position.x = boundVal;
+      // }
 
-      if (this.bullets[i].mesh.position.y > boundVal) {
-        this.bullets[i].mesh.position.y = -boundVal;
-      }
+      // if (this.bullets[i].mesh.position.y > boundVal) {
+      //   this.bullets[i].mesh.position.y = -boundVal;
+      // }
 
-      if (this.bullets[i].mesh.position.y < -boundVal) {
-        this.bullets[i].mesh.position.y = boundVal;
-      }
+      // if (this.bullets[i].mesh.position.y < -boundVal) {
+      //   this.bullets[i].mesh.position.y = boundVal;
+      // }
     };
     // update ship
 
     // translate ship
     // this.ship.lineMesh.position.x += this.ship.vx / 4.0;
-    this.ship.lineMesh.position.x += this.ship.vel * Math.cos(this.ship.theta);
+    this.ship.lineMesh.position.x += this.ship.vScalar * Math.cos(this.ship.vTheta);
 
     if (this.ship.lineMesh.position.x > boundVal) {
       this.ship.lineMesh.position.x = -boundVal;
@@ -103,7 +105,7 @@ export class AsteroidsGame implements InnerGame {
     }
 
     // this.ship.lineMesh.position.y += this.ship.vy / 4.0;
-    this.ship.lineMesh.position.y += this.ship.vel * Math.sin(this.ship.theta);
+    this.ship.lineMesh.position.y += this.ship.vScalar * Math.sin(this.ship.vTheta);
 
     if (this.ship.lineMesh.position.y > boundVal) {
       this.ship.lineMesh.position.y = -boundVal;
@@ -116,6 +118,31 @@ export class AsteroidsGame implements InnerGame {
     // rotate ship
     // this.ship.rotate(this.ship.deltaTheta);
     this.ship.rotate();
+  };
+
+  updateBullets() {
+
+  }
+
+  // this is the main application level bullet handler.  We are called from asteroids-kbd-handler'
+  shipFiredBullet() {
+    // create a bullet with same direction as the ship is pointing to
+    // note: we do not use injected Bullets because we don't want singletons
+    let bullet = new Bullet(this.base);
+    // bullet.vTheta = Math.atan(this.ship.vy / this.ship.vx);
+    bullet.vTheta = Math.atan2(this.ship.vy , this.ship.vx);
+    console.log(`AsteroidsGame.shipFiredBullet: ship.vy=${this.ship.vy},ship.vx=${this.ship.vx}`);
+    console.log(`AsteroidsGame.shipFiredBullet: bullet.vTheta=${bullet.vTheta}`);
+
+    // initial pos is the same as the ship
+    bullet.mesh.position.x = this.ship.mesh.position.x;
+    bullet.mesh.position.y = this.ship.mesh.position.y;
+
+    // add the mesh to the scene
+    this.scene.add(bullet.mesh);
+
+    // and add to the bullets array
+    this.bullets.push(bullet);
   };
 
   //getters and setters
@@ -131,20 +158,18 @@ export class AsteroidsGame implements InnerGame {
   get bullets(): Bullet [] {
     return this._bullets;
   }
+  get base(): BaseService {
+    return this._base;
+  }
 }
 
-// let AsteroidsGameFactory = (scene : THREE.Scene) => {
-let AsteroidsGameFactory = (scene : THREE.Scene, ship : Ship) => {
-  // return new AsteroidsGame(scene);
-  console.log(`AsteroidsGameFactory: entered`);
-  // return new AsteroidsGame(new THREE.Scene());
-  return new AsteroidsGame(scene, ship);
-};
+// let AsteroidsGameFactory = (scene : THREE.Scene, ship : Ship) => {
+//   console.log(`AsteroidsGameFactory: entered`);
+//   return new AsteroidsGame(scene, ship);
+// };
 
-export let AsteroidsGameProvider = {
-  provide: AsteroidsGame,
-  // deps: [ThreeJsSceneProvider, Ship],
-  deps: [THREE.Scene, Ship],
-  // deps: [ThreeJsSceneProvider],
-  useFactory: AsteroidsGameFactory,
-}
+// export let AsteroidsGameProvider = {
+//   provide: AsteroidsGame,
+//   deps: [THREE.Scene, Ship],
+//   useFactory: AsteroidsGameFactory,
+// }

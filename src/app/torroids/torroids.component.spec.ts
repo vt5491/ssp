@@ -11,7 +11,8 @@ import { BaseService } from '../services/base.service';
 import { KbdHandlerRouterService } from '../services/kbd-handler-router.service';
 import { CameraKbdHandlerService } from '../services/camera-kbd-handler.service';
 import { AsteroidsKbdHandler } from '../inner-games/asteroids/asteroids-kbd-handler';
-import { AsteroidsGame, AsteroidsGameProvider } from '../inner-games/asteroids/asteroids-game';
+// import { AsteroidsGame, AsteroidsGameProvider } from '../inner-games/asteroids/asteroids-game';
+import { AsteroidsGame } from '../inner-games/asteroids/asteroids-game';
 import { Ship } from '../inner-games/asteroids/ship';
 import { WebGLRenderTargetProvider } from '../services/utils.service';
 
@@ -85,7 +86,7 @@ describe('Component: Torroids', () => {
           MockElementRefProvider,
           TorroidsComponent,
           Renderer,
-          AsteroidsGameProvider
+          AsteroidsGame
           // THREE.WebGLRenderer
           ]
     });
@@ -127,7 +128,7 @@ describe('Component: Torroids', () => {
     CameraKbdHandlerService, 
     Injector, MockElementRef,
     WebGLRenderTargetProvider,
-    AsteroidsGameProvider
+    AsteroidsGame
     // TorroidsComponent 
     ], 
     (

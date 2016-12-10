@@ -7,7 +7,8 @@ import { Injectable } from '@angular/core';
 import { CameraKbdHandlerService } from './camera-kbd-handler.service';
 import { AsteroidsKbdHandler } from '../inner-games/asteroids/asteroids-kbd-handler';
 import { KbdHandler } from '../interfaces/kbd-handler';
-import { AsteroidsGame, AsteroidsGameProvider } from '../inner-games/asteroids/asteroids-game';
+// import { AsteroidsGame, AsteroidsGameProvider } from '../inner-games/asteroids/asteroids-game';
+import { AsteroidsGame } from '../inner-games/asteroids/asteroids-game';
 
 @Injectable()
 // @Component({
@@ -41,7 +42,7 @@ export class KbdHandlerRouterService {
   // keyEventHandler(event: KeyboardEvent, clientArtifact?: any) {
   keyEventHandler(event: KeyboardEvent) {
     // debugger;
-    console.log(`event.keyCode=${event.keyCode}`);
+    // console.log(`event.keyCode=${event.keyCode}`);
     if(event.keyCode === this.toggleKey) {
       console.log(`keyEventHandler.toggle: activeKbdHandler=${this.activeKbdHandler}`);
       console.log(`keyEventHandler.toggle: activeKbdHandler.name=${this.activeKbdHandler._name}`);

@@ -18,7 +18,8 @@ import { SspRuntimeService } from '../services/ssp-runtime.service';
 import { KbdHandlerRouterService} from '../services/kbd-handler-router.service';
 import { CameraKbdHandlerService} from '../services/camera-kbd-handler.service';
 import { AsteroidsMainService} from '../inner-games/asteroids/asteroids-main.service';
-import { AsteroidsGame, AsteroidsGameProvider } from '../inner-games/asteroids/asteroids-game';
+// import { AsteroidsGame, AsteroidsGameProvider } from '../inner-games/asteroids/asteroids-game';
+import { AsteroidsGame } from '../inner-games/asteroids/asteroids-game';
 import { AsteroidsKbdHandler } from '../inner-games/asteroids/asteroids-kbd-handler';
 import { InnerGame } from '../inner-game';
 import { WebGLRenderTargetProvider } from '../services/utils.service';
@@ -37,7 +38,8 @@ import { Ship } from '../inner-games/asteroids/ship';
     // note: we get a global singleton AsteroidsGame in app.module
     // AsteroidsGameProvider, 
     //THREE.WebGLRenderTarget
-    WebGLRenderTargetProvider, ThreeJsSceneProvider, Ship,
+    WebGLRenderTargetProvider, ThreeJsSceneProvider, 
+    // Ship,
     KbdHandlerRouterService,
   // BaseService 
   ]
@@ -72,7 +74,7 @@ export class TorroidsComponent implements OnInit {
     public baseService: BaseService,
     private renderer : Renderer,
     private _kbdHandlerRouter : KbdHandlerRouterService,
-    private injector: Injector,
+    private injector: Injector
     // private _sspScene: SspSceneService,
     // public sspTorusRuntimeService: SspTorusRuntimeService
     ) 
@@ -106,7 +108,7 @@ export class TorroidsComponent implements OnInit {
     // note: this is needed to give the element keyboard focus
     webglRendererCanvas.setAttribute('tabindex', "1");
     let listenFunc = this.renderer.listen(webglRendererCanvas, 'keydown', (event) => {
-      console.log(`listenFunc: event=${event}`);
+      // console.log(`listenFunc: event=${event}`);
       this.kbdEventHandler(event);
       // console.log('Element clicked');
     });

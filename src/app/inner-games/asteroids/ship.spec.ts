@@ -14,9 +14,9 @@ describe('Service: Ship', () => {
 
   it('ctor works', inject([Ship], (ship: Ship) => {
     expect(ship).toBeTruthy();
-    expect(ship.vx).toBeDefined();
+    // expect(ship.vx).toBeDefined();
     expect(ship.geom).toBeDefined();
     expect(ship.mat).toBeDefined();
-    expect(ship.theta).toBeDefined();
+    // expect(ship.theta).toBeDefined();
   }));
 });

@@ -5,7 +5,8 @@ import { TestBed, async, inject } from '@angular/core/testing';
 import { KbdHandlerRouterService } from './kbd-handler-router.service';
 import { CameraKbdHandlerService } from './camera-kbd-handler.service';
 import { AsteroidsKbdHandler } from '../inner-games/asteroids/asteroids-kbd-handler';
-import { AsteroidsGame, AsteroidsGameProvider } from '../inner-games/asteroids/asteroids-game';
+// import { AsteroidsGame, AsteroidsGameProvider } from '../inner-games/asteroids/asteroids-game';
+import { AsteroidsGame } from '../inner-games/asteroids/asteroids-game';
 import { BaseService } from './base.service';
 import { Ship } from '../inner-games/asteroids/ship';
 
@@ -21,7 +22,7 @@ xdescribe('Service: KbdHandlerRouter', () => {
         AsteroidsKbdHandler,
         BaseService,
         // Ship,
-        AsteroidsGameProvider
+        AsteroidsGame
          ]
     });
   });

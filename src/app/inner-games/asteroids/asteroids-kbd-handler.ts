@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Ship } from './ship';
-import { AsteroidsGame, AsteroidsGameProvider } from './asteroids-game';
+// import { AsteroidsGame, AsteroidsGameProvider } from './asteroids-game';
+import { AsteroidsGame } from './asteroids-game';
 import { Bullet } from './bullet';
 import { KbdHandler } from '../../interfaces/kbd-handler';
 import { BaseService } from '../../services/base.service';
@@ -25,7 +26,7 @@ export class AsteroidsKbdHandler implements KbdHandler {
 
     switch( event.keyCode) {
       case 'D'.charCodeAt(0):
-      console.log('you pressed d');
+      // console.log('you pressed d');
       //this.dolly.position.x += this.CAMERA_MOVE_DELTA;
       // dolly.translateX(moveFactor * this.CAMERA_MOVE_DELTA);
       // ship.mesh.translateX(ship.vx);
@@ -36,7 +37,7 @@ export class AsteroidsKbdHandler implements KbdHandler {
       break;
 
       case 'A'.charCodeAt(0):
-      console.log('you pressed a');
+      // console.log('you pressed a');
       //this.dolly.position.x -= this.CAMERA_MOVE_DELTA;
       // dolly.translateX(moveFactor * -this.CAMERA_MOVE_DELTA);
       // ship.mesh.translateX(-ship.vx);
@@ -47,14 +48,14 @@ export class AsteroidsKbdHandler implements KbdHandler {
       break;
 
       case 'W'.charCodeAt(0):
-      console.log('you pressed w');
+      // console.log('you pressed w');
       // this.ship.vy += this.ship.deltaVy;
       this.ship.vel += this.ship.deltaVel;
 
       break;
 
       case 'S'.charCodeAt(0):
-      console.log('you pressed s');
+      // console.log('you pressed s');
       // this.ship.vy -= this.ship.deltaVy;
       this.ship.vel -= this.ship.deltaVel;
 
@@ -62,28 +63,29 @@ export class AsteroidsKbdHandler implements KbdHandler {
 
       // rotate
       case 'Q'.charCodeAt(0):
-      console.log('you pressed q');
-      this.ship.theta += this.ship.deltaTheta;
+      // console.log('you pressed q');
+      this.ship.vTheta += this.ship.deltaTheta;
 
       break;
 
       case 'E'.charCodeAt(0):
-      console.log('you pressed e');
-      this.ship.theta -= this.ship.deltaTheta;
+      // console.log('you pressed e');
+      this.ship.vTheta -= this.ship.deltaTheta;
 
       break;
 
       // bullet fire
       // case ' '.charCodeAt(0):
       case 32:
-      console.log('you pressed <space>');
-      let bullet = new Bullet();
-      this.asteroidsGame.bullets.push(bullet);
-      // this.ship.theta -= this.ship.deltaTheta;
-      console.log(`AsteroidsKbdHandler.keyEventHandler: scene.length pre=${this.asteroidsGame.scene.children.length}`);
-      console.log(`AsteroidsKbdHandler.keyEventHandler: asteroidsGame.id=${this.asteroidsGame.id}`);
-      this.asteroidsGame.scene.add(bullet.mesh);
-      console.log(`AsteroidsKbdHandler.keyEventHandler: scene.length post=${this.asteroidsGame.scene.children.length}`);
+        // console.log('you pressed <space>');
+        this.asteroidsGame.shipFiredBullet();
+      // let bullet = new Bullet();
+      // this.asteroidsGame.bullets.push(bullet);
+      // // this.ship.theta -= this.ship.deltaTheta;
+      // console.log(`AsteroidsKbdHandler.keyEventHandler: scene.length pre=${this.asteroidsGame.scene.children.length}`);
+      // console.log(`AsteroidsKbdHandler.keyEventHandler: asteroidsGame.id=${this.asteroidsGame.id}`);
+      // this.asteroidsGame.scene.add(bullet.mesh);
+      // console.log(`AsteroidsKbdHandler.keyEventHandler: scene.length post=${this.asteroidsGame.scene.children.length}`);
 
       break;
 

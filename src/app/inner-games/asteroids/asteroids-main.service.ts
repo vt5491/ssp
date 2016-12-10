@@ -1,5 +1,6 @@
 import { Injectable, Component } from '@angular/core';
-import { AsteroidsGame, AsteroidsGameProvider } from './asteroids-game';
+// import { AsteroidsGame, AsteroidsGameProvider } from './asteroids-game';
+import { AsteroidsGame } from './asteroids-game';
 
 @Injectable()
 // @Component({

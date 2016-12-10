@@ -4,8 +4,15 @@ import { Injectable } from '@angular/core';
 export class BaseService {
 
   static ONE_DEG = Math.PI / 180.0;
+  projectionBoundary : number;
 
-  constructor() { }
+  constructor() { 
+    this.init();
+  }
+
+  init() {
+    this.projectionBoundary = 3.79;
+  };
 
   //getters and setters
   get ONE_DEG(): number {
