@@ -11,6 +11,8 @@ export class Bullet {
   geom : THREE.CircleBufferGeometry;
   material : THREE.MeshBasicMaterial;
   mesh : THREE.Mesh;
+  // this is the ratio of the (longest) screen dimension a bullet can cover before dieing 
+  gamePlaneLifeRatio : number;
 
   constructor( private base : BaseService) { 
     this.init();
@@ -27,6 +29,9 @@ export class Bullet {
     this.mesh = new THREE.Mesh(this.geom, this.material);
     this.mesh.position.x = -3.0;
     this.mesh.position.z = -11.0;
+
+    // a bullet can cover half the longest canvas dimension before terminating
+    this.gamePlaneLifeRatio = 0.5;
   }
 
   // update the bullet's position, and keep track of life cycle events

@@ -20,6 +20,7 @@ export class SspPlaneSceneService implements SspScene {
 
   init() {
     let planeGeom   = new THREE.PlaneGeometry(50, 50);
+    // let planeGeom   = new THREE.PlaneGeometry(100, 100);
     let planeMaterial = new THREE.MeshBasicMaterial({ color: 0xff0080, side: THREE.DoubleSide });
 
     this.planeMesh = new THREE.Mesh(planeGeom, planeMaterial);
@@ -32,6 +33,10 @@ export class SspPlaneSceneService implements SspScene {
     this.sspSurface = this.planeMesh;
     this.sspMaterial = planeMaterial;
 
+    // // add a GridHelper
+    // let gridHelper = new THREE.GridHelper(10, 10);
+    // gridHelper.rotateX(Math.PI / 180.0 * 90.0);
+    // this.vrSceneService.scene.add(gridHelper);
   };
 
     // Getters and Setters

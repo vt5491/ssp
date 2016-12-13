@@ -15,9 +15,10 @@ export class Ship {
   deltaVel : number;
   deltaTheta : number;
   geom: THREE.Geometry;
-  mat : THREE.LineBasicMaterial;
-  // mesh: THREE.Mesh;
-  mesh: THREE.Line;
+  // mat : THREE.LineBasicMaterial;
+  mat : THREE.MeshBasicMaterial;
+  mesh: THREE.Mesh;
+  // mesh: THREE.Line;
   lineMesh: THREE.Line;
   theta : number;
   vTheta : number;
@@ -54,17 +55,33 @@ export class Ship {
     this.geom.vertices.push(new THREE.Vector3(0 * scaleX, 1 * scaleY))
     this.geom.vertices.push(new THREE.Vector3(.5 * scaleX, -1 * scaleY))
     this.geom.vertices.push(new THREE.Vector3(-.5 * scaleX, -1 * scaleY))
-    this.geom.vertices.push(new THREE.Vector3(0 * scaleX, 1 * scaleY))
+    // this.geom.vertices.push(new THREE.Vector3(0 * scaleX, 1 * scaleY))
 
-    this.mat = new THREE.LineBasicMaterial({ linewidth: 3 })
-    this.mat.color = new THREE.Color(80, 255, 20);
+    // this.mat = new THREE.LineBasicMaterial({ linewidth: 3 })
+    // this.mat.color = new THREE.Color(80, 255, 20);
 
-    this.lineMesh = new THREE.Line(this.geom, this.mat);
+    // this.lineMesh = new THREE.Line(this.geom, this.mat);
     // this.ship.position.x = 2.0
-    this.lineMesh.position.x = -3
-    this.lineMesh.position.z = -10
+    // this.lineMesh.position.x = -3
+    // this.lineMesh.position.z = -10
 
-    this.mesh = this.lineMesh;
+    // this.mesh = this.lineMesh;
+
+    // geom.faces.push(new THREE.Face3(0, 1, 2));
+    // geom.computeFaceNormals();
+
+    // var mesh = new THREE.Mesh(geom, new THREE.MeshNormalMaterial());
+    // use a triangle intead of a line group
+    this.geom.faces.push(new THREE.Face3(0, 2, 1));
+    this.geom.computeFaceNormals();
+    this.mat = new THREE.MeshBasicMaterial();
+    this.mat.color = new THREE.Color(255, 80, 20);
+    // this.mesh = new THREE.Mesh(this.geom, new THREE.MeshBasicMaterial({color: 0xffffff}));
+    this.mesh = new THREE.Mesh(this.geom, this.mat);
+
+    // this.mesh.position.x = -3;
+    this.mesh.position.z = -10;
+    console.log(`Ship: mesh=${this.mesh}`);
   }
 
   // rotate(rotTheta : number) {

@@ -8,6 +8,7 @@ module.exports = function (config) {
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
+      require('karma-firefox-launcher'),
       require('karma-remap-istanbul'),
       require('angular-cli/plugins/karma')
     ],
@@ -19,6 +20,7 @@ module.exports = function (config) {
       './node_modules/three/examples/js/controls/VRControls.js',
       './node_modules/three/examples/js/effects/VREffect.js',
       './node_modules/webvr-boilerplate/build/webvr-manager.js'
+//      './node_modules/dat-gui/vendor/dat.gui.js'
     ],
     preprocessors: {
       './src/test.ts': ['angular-cli']
@@ -38,7 +40,8 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
+    //browsers: ['Chrome'],
+    browsers: ['Firefox'],
     singleRun: false
   });
 };

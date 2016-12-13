@@ -50,7 +50,13 @@ export class AsteroidsGame implements InnerGame {
     this.asteroids[1].x = 1;
     this.scene.add(this.asteroids[1].mesh);
 
-    this.scene.add(this.ship.lineMesh);
+    // this.scene.add(this.ship.lineMesh);
+    this.scene.add(this.ship.mesh);
+
+    // // add a GridHelper
+    // let gridHelper = new THREE.GridHelper(90, 9);
+    // gridHelper.rotateX(this.base.ONE_DEG * 45.0);
+    // this.scene.add(gridHelper);
   };
 
   updateScene() {
@@ -69,7 +75,7 @@ export class AsteroidsGame implements InnerGame {
         ((this.asteroids[i].x + posX + boundVal) % 2.0 * boundVal) - boundVal; 
     }
     // update bullets
-    console.log(`AsteroidsGame.updateScene: bullets.length=${this.bullets.length}, asteroidsGame.id=${this.id}`);
+    // console.log(`AsteroidsGame.updateScene: bullets.length=${this.bullets.length}, asteroidsGame.id=${this.id}`);
     for (let i = 0; i < this.bullets.length; i++) {
       this.bullets[i].update();
       // this.bullets[i].mesh.position.x += 0.01;
@@ -94,25 +100,25 @@ export class AsteroidsGame implements InnerGame {
 
     // translate ship
     // this.ship.lineMesh.position.x += this.ship.vx / 4.0;
-    this.ship.lineMesh.position.x += this.ship.vScalar * Math.cos(this.ship.vTheta);
+    this.ship.mesh.position.x += this.ship.vScalar * Math.cos(this.ship.vTheta);
 
-    if (this.ship.lineMesh.position.x > boundVal) {
-      this.ship.lineMesh.position.x = -boundVal;
+    if (this.ship.mesh.position.x > boundVal) {
+      this.ship.mesh.position.x = -boundVal;
     }
 
-    if (this.ship.lineMesh.position.x < -boundVal) {
-      this.ship.lineMesh.position.x = boundVal;
+    if (this.ship.mesh.position.x < -boundVal) {
+      this.ship.mesh.position.x = boundVal;
     }
 
-    // this.ship.lineMesh.position.y += this.ship.vy / 4.0;
-    this.ship.lineMesh.position.y += this.ship.vScalar * Math.sin(this.ship.vTheta);
+    // this.ship.mesh.position.y += this.ship.vy / 4.0;
+    this.ship.mesh.position.y += this.ship.vScalar * Math.sin(this.ship.vTheta);
 
-    if (this.ship.lineMesh.position.y > boundVal) {
-      this.ship.lineMesh.position.y = -boundVal;
+    if (this.ship.mesh.position.y > boundVal) {
+      this.ship.mesh.position.y = -boundVal;
     }
 
-    if (this.ship.lineMesh.position.y < -boundVal) {
-      this.ship.lineMesh.position.y = boundVal;
+    if (this.ship.mesh.position.y < -boundVal) {
+      this.ship.mesh.position.y = boundVal;
     }
 
     // rotate ship
@@ -137,6 +143,9 @@ export class AsteroidsGame implements InnerGame {
     // initial pos is the same as the ship
     bullet.mesh.position.x = this.ship.mesh.position.x;
     bullet.mesh.position.y = this.ship.mesh.position.y;
+    // this.ship.geom.vertices[0].x
+    // bullet.mesh.position.x = this.ship.geom.vertices[0].x + this.ship.mesh.position.x;
+    // bullet.mesh.position.y = this.ship.geom.vertices[0].y + this.ship.mesh.position.y;
 
     // add the mesh to the scene
     this.scene.add(bullet.mesh);

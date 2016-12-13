@@ -22,7 +22,7 @@ import { AsteroidsMainService} from '../inner-games/asteroids/asteroids-main.ser
 import { AsteroidsGame } from '../inner-games/asteroids/asteroids-game';
 import { AsteroidsKbdHandler } from '../inner-games/asteroids/asteroids-kbd-handler';
 import { InnerGame } from '../inner-game';
-import { WebGLRenderTargetProvider } from '../services/utils.service';
+import { WebGLRenderTargetProvider, UtilsService } from '../services/utils.service';
 import { ThreeJsSceneProvider } from '../services/utils.service';
 import { Ship } from '../inner-games/asteroids/ship';
 
@@ -71,12 +71,14 @@ export class TorroidsComponent implements OnInit {
   constructor(
     private el: ElementRef, 
     // private _sspTorusSceneService: SspTorusSceneService,
-    public baseService: BaseService,
+    // public baseService: BaseService,
+    public base: BaseService,
     private renderer : Renderer,
     private _kbdHandlerRouter : KbdHandlerRouterService,
-    private injector: Injector
+    private injector: Injector,
     // private _sspScene: SspSceneService,
     // public sspTorusRuntimeService: SspTorusRuntimeService
+    private utils: UtilsService
     ) 
   { 
     console.log(`TorroidComponent.ctor: entered`);
@@ -86,9 +88,12 @@ export class TorroidsComponent implements OnInit {
     // this.model.outerScene = 'torus';
     this.model.outerScene = 'plane';
     console.log('TorroidComponent: ctor: _kbdHandlerRouterService=' + this._kbdHandlerRouter);
-    console.log('TorroidComponent: ctor: baseService=' + this.baseService);
+    // console.log('TorroidComponent: ctor: baseService=' + this.baseService);
     this.innerGame = this.injector.get(AsteroidsGame);
+    // let control = new function() { this.canvasWidth = 500; 
+    //   this.innerGame.ship.mesh.position.x  };
 
+    // this.utils.addControls(control);
   }
 
   ngOnInit() {
@@ -112,6 +117,21 @@ export class TorroidsComponent implements OnInit {
       this.kbdEventHandler(event);
       // console.log('Element clicked');
     });
+
+    // // add a GridHelper
+    // let gridHelper = new THREE.GridHelper( 9, 9 );
+    // gridHelper.rotateX(this.baseService.ONE_DEG * 90.0);
+    // this.sspScene.vrSceneService.scene.add(gridHelper);
+    // add a GridHelper
+    // let gridHelper = new THREE.GridHelper(100, 10);
+    // let gridHelper = new THREE.GridHelper(50, 10);
+    let gridHelper = new THREE.GridHelper(100, 20);
+    gridHelper.rotateX(this.base.ONE_DEG * 90.0);
+    this.sspScene.vrSceneService.scene.add(gridHelper);
+
+    let axisHelper = new THREE.AxisHelper( 10 );
+    this.sspScene.vrSceneService.scene.add( axisHelper );
+
     webglRendererCanvas.focus();
   }
 
@@ -174,6 +194,7 @@ export class TorroidsComponent implements OnInit {
     // this.kbdHandlerRouter.asteroidsKbdHandler.asteroidsGame.ship = (<AsteroidsGame>this.innerGame).ship;
 
     console.log(`TorroidsComponent.startGame: this.innerGame.asteroidsGame.asteroids[0].vx= ${(<any>this.innerGame).asteroids[0].vx}`);
+    console.log(`TorroidsComponent.startGame: this.innerGame.asteroidsGame.asteroids[0].vx= ${(<any>this.innerGame).asteroids[0].vx}`);
     this.webGLRenderer = this.sspScene.vrSceneService.webGLRenderer;
     // this.sspRuntime = new SspRuntimeService(this.sspScene.vrSceneService, this.innerGame);
     // this.sspRuntime = new SspRuntimeService(this.sspScene.vrSceneService, 
@@ -181,6 +202,13 @@ export class TorroidsComponent implements OnInit {
       this.injector.get(THREE.WebGLRenderTarget),
       this.innerGame);
     this.initOuterScene();
+
+    let control = new function() { 
+      this.canvasWidth = 500; 
+      // this.sspScene.sspSurface.position.x = 100;
+      this.innerGame.asteroidsGame.asteroids[0].vx=0.1;
+    };
+    this.utils.addControls(control);
 
     this.sspRuntime.mainLoop();
   }

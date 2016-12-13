@@ -20,7 +20,7 @@ import { HomeComponent } from './home/home.component';
 import { Ship } from './inner-games/asteroids/ship';
 // import { AsteroidsGame, AsteroidsGameProvider } from './inner-games/asteroids/asteroids-game';
 import { AsteroidsGame } from './inner-games/asteroids/asteroids-game';
-import { ThreeJsSceneProvider } from './services/utils.service';
+import { ThreeJsSceneProvider, UtilsService, DatGUIProvider} from './services/utils.service';
 
 @NgModule({
   declarations: [
@@ -54,7 +54,10 @@ import { ThreeJsSceneProvider } from './services/utils.service';
     AsteroidsKbdHandler,
     Ship,
     AsteroidsGame,
-    ThreeJsSceneProvider
+    ThreeJsSceneProvider,
+    UtilsService,
+    // {provide: dat.GUI, useClass: dat.GUI}
+    DatGUIProvider
   ],
   bootstrap: [AppComponent]
 })

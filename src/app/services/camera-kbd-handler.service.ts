@@ -21,8 +21,8 @@ export class CameraKbdHandlerService implements KbdHandler {
 
   // keyEventHandler (event: KeyboardEvent, dolly: THREE.Object3D) {
   keyEventHandler (event: KeyboardEvent) {
-    console.log(`CameraKbdHandlerService.keyHandler: entered`);
-    console.log(`CameraKbdHandlerService.keyHandler: event=${event}, dolly=${this.dolly}`);
+    // console.log(`CameraKbdHandlerService.keyHandler: entered`);
+    // console.log(`CameraKbdHandlerService.keyHandler: event=${event}, dolly=${this.dolly}`);
 
     let moveFactor = 1.0;
     switch( event.keyCode) {

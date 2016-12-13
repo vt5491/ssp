@@ -11,6 +11,7 @@ export class BaseService {
   }
 
   init() {
+    //TODO: magic number dependency.  It's actualy proportional to physical screen size?
     this.projectionBoundary = 3.79;
   };
 

@@ -19,7 +19,7 @@ describe('Service: Asteroid Bullet', () => {
     expect(bullet.geom).toBeTruthy();
     expect(bullet.material).toBeTruthy();
     expect(bullet.mesh).toBeTruthy();
-    expect(bullet.mesh).toBeTruthy();
+    expect(bullet.gamePlaneLifeRatio).toBeTruthy();
   }));
 
   it('update works', inject([Bullet], (bullet: Bullet) => {

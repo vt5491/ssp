@@ -61,6 +61,11 @@ export class VRSceneService {
     }
     this.camera.quaternion.copy(this.BaseRotation);
 
+    // // add a GridHelper
+    // let gridHelper = new THREE.GridHelper(100, 10);
+    // gridHelper.rotateX(Math.PI / 180.0 * 90.0);
+    // this.scene.add(gridHelper);
+
     // glRenderer.canvas.focus();
     this._webGLRenderer.domElement.focus();
   };

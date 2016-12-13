@@ -28,6 +28,10 @@ export class SspCubeScene implements SspScene {
     this.sspSurface = this.cubeMesh;
     this.sspMaterial = cubeMaterial;
 
+    // add a GridHelper
+    // let gridHelper = new THREE.GridHelper(10, 10);
+    // gridHelper.rotateX(Math.PI / 180.0 * 90.0);
+    // this.vrSceneService.scene.add(gridHelper);
   };
 
     // Getters and Setters
