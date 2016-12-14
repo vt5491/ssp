@@ -4,6 +4,8 @@ import { BaseService } from '../../services/base.service';
 @Injectable()
 export class Bullet {
 
+  static TTL_MAX : number = 100;
+
   _vx : number;
   _vy : number;
   vScalar : number;
@@ -13,6 +15,7 @@ export class Bullet {
   mesh : THREE.Mesh;
   // this is the ratio of the (longest) screen dimension a bullet can cover before dieing 
   gamePlaneLifeRatio : number;
+  ttl : number;
 
   constructor( private base : BaseService) { 
     this.init();
@@ -32,6 +35,8 @@ export class Bullet {
 
     // a bullet can cover half the longest canvas dimension before terminating
     this.gamePlaneLifeRatio = 0.5;
+
+    this.ttl = Bullet.TTL_MAX;
   }
 
   // update the bullet's position, and keep track of life cycle events
@@ -57,6 +62,12 @@ export class Bullet {
     if (this.mesh.position.y < -boundVal) {
       this.mesh.position.y = boundVal;
     }
+
+    // lifecycle management
+    --this.ttl;
+    // if (--this.ttl === 0) {
+
+    // }
   }
   //getters and setters
   get vx(): number {

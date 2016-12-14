@@ -5,6 +5,7 @@ import { TestBed, async, inject } from '@angular/core/testing';
 // import { AsteroidsGame, AsteroidsGameProvider } from './asteroids-game';
 import { AsteroidsGame } from './asteroids-game';
 import { Ship } from './ship';
+import { Bullet } from './bullet';
 import { ThreeJsSceneProvider } from '../../services/utils.service';
 import { BaseService } from '../../services/base.service';
 // import { SspTorusRuntimeService } from './ssp-torus-runtime.service';
@@ -15,7 +16,8 @@ describe('Class: AsteroidsGame', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       // providers: [SspTorusRuntimeService, VRSceneServiceProvider]
-      providers: [AsteroidsGame, ThreeJsSceneProvider, Ship, BaseService]
+      providers: [AsteroidsGame, ThreeJsSceneProvider, 
+        Ship, Bullet, BaseService]
       // providers: [ThreeJsSceneProvider, Ship, BaseService]
     });
   });
@@ -72,4 +74,23 @@ describe('Class: AsteroidsGame', () => {
   //     // bullet should be heading in same dir as the ship
   //     expect(bullet.vx / bullet.vy).toBeCloseTo( ag.ship.vx / ag.ship.vy); 
   // }));
+  it('updateScene properly removes bullets that are end of life', 
+    inject([AsteroidsGame, BaseService], 
+    (ag: AsteroidsGame, base : BaseService) => {
+
+      let b1 = new Bullet(base);
+      b1.ttl = 1;
+      ag.bullets[0] = b1;
+      
+      let b2 = new Bullet(base);
+      b2.ttl = 10;
+      ag.bullets[1] = b2;
+
+      expect(ag.bullets.length).toEqual(2);
+
+      ag.updateScene();
+
+      expect(ag.bullets.length).toEqual(1);
+      expect(ag.bullets[0].ttl).toEqual(9);
+  }));
 });

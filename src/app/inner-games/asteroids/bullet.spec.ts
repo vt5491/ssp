@@ -20,6 +20,8 @@ describe('Service: Asteroid Bullet', () => {
     expect(bullet.material).toBeTruthy();
     expect(bullet.mesh).toBeTruthy();
     expect(bullet.gamePlaneLifeRatio).toBeTruthy();
+    expect(Bullet.TTL_MAX).toBeTruthy();
+    expect(bullet.ttl).toEqual(Bullet.TTL_MAX);
   }));
 
   it('update works', inject([Bullet], (bullet: Bullet) => {
@@ -56,5 +58,17 @@ describe('Service: Asteroid Bullet', () => {
 
     expect(updatedBulletMeshX).toEqual(-base.projectionBoundary);
     expect(updatedBulletMeshY).toEqual(origBulletMeshY + bullet.vy);
+
+    // verify bullet ttl has been reduced
+    expect(bullet.ttl).toEqual(Bullet.TTL_MAX - 1);
   }));
+
+  // it('update handles bullet end of life properly', 
+  //   inject([Bullet], (bullet: Bullet) => {
+
+  //   bullet.ttl = 1;
+
+  //   bullet.update();
+
+  // }));
 });

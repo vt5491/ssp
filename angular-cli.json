@@ -22,7 +22,7 @@
         "../node_modules/three/examples/js/controls/VRControls.js",
         "../node_modules/three/examples/js/effects/VREffect.js",
         "../node_modules/webvr-boilerplate/build/webvr-manager.js",
-        "../node_modules/dat-gui/index.js"
+        "../node_modules/dat-gui/vendor/dat.gui.js"
         ],
       "environments": {
         "source": "environments/environment.ts",
@@ -32,7 +32,8 @@
     }
   ],
   "addons": [],
-  "packages": [],
+  "packages": [
+    ],
   "e2e": {
     "protractor": {
       "config": "./protractor.conf.js"

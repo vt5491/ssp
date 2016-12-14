@@ -90,10 +90,12 @@ export class TorroidsComponent implements OnInit {
     console.log('TorroidComponent: ctor: _kbdHandlerRouterService=' + this._kbdHandlerRouter);
     // console.log('TorroidComponent: ctor: baseService=' + this.baseService);
     this.innerGame = this.injector.get(AsteroidsGame);
-    // let control = new function() { this.canvasWidth = 500; 
-    //   this.innerGame.ship.mesh.position.x  };
+    let control = new function() { 
+      this.canvasWidth = 500; 
+      // this.innerGame.ship.mesh.position.x 
+     };
 
-    // this.utils.addControls(control);
+    this.utils.addControls(control);
   }
 
   ngOnInit() {
@@ -203,12 +205,12 @@ export class TorroidsComponent implements OnInit {
       this.innerGame);
     this.initOuterScene();
 
-    let control = new function() { 
-      this.canvasWidth = 500; 
-      // this.sspScene.sspSurface.position.x = 100;
-      this.innerGame.asteroidsGame.asteroids[0].vx=0.1;
-    };
-    this.utils.addControls(control);
+    // let control = new function() { 
+    //   this.canvasWidth = 500; 
+    //   // this.sspScene.sspSurface.position.x = 100;
+    //   // this.innerGame.asteroidsGame.asteroids[0].vx=0.1;
+    // };
+    // this.utils.addControls(control);
 
     this.sspRuntime.mainLoop();
   }

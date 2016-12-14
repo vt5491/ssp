@@ -76,27 +76,10 @@ export class AsteroidsGame implements InnerGame {
     }
     // update bullets
     // console.log(`AsteroidsGame.updateScene: bullets.length=${this.bullets.length}, asteroidsGame.id=${this.id}`);
-    for (let i = 0; i < this.bullets.length; i++) {
-      this.bullets[i].update();
-      // this.bullets[i].mesh.position.x += 0.01;
-      // this.bullets[i].mesh.position.y += 0.001;
-      // if (this.bullets[i].mesh.position.x > boundVal) {
-      //   this.bullets[i].mesh.position.x = -boundVal;
-      // }
-
-      // if (this.bullets[i].mesh.position.x < -boundVal) {
-      //   this.bullets[i].mesh.position.x = boundVal;
-      // }
-
-      // if (this.bullets[i].mesh.position.y > boundVal) {
-      //   this.bullets[i].mesh.position.y = -boundVal;
-      // }
-
-      // if (this.bullets[i].mesh.position.y < -boundVal) {
-      //   this.bullets[i].mesh.position.y = boundVal;
-      // }
-    };
+    // for (let i = 0; i < this.bullets.length; i++) {
+    this.updateBullets();
     // update ship
+
 
     // translate ship
     // this.ship.lineMesh.position.x += this.ship.vx / 4.0;
@@ -127,7 +110,21 @@ export class AsteroidsGame implements InnerGame {
   };
 
   updateBullets() {
+    // we have to work our way through the bullets array in reverse order because
+    // the splicing can affect 'downstream' array maniuplation
+    for (let i = this.bullets.length -1 ; i >=0; i--) {
+      let bullet = this.bullets[i];
 
+      bullet.update();
+
+      console.log(`AsteroidsGame.updateScene: i=${i}, bullet.ttl=${bullet.ttl}`)
+      if (bullet.ttl <= 0) {
+        // console.log(`AsteroidsGame.updateScene: now splicing bullet ${i}`);
+        this.bullets.splice(i, 1);
+
+        this.scene.remove(bullet.mesh);
+      }
+    };
   }
 
   // this is the main application level bullet handler.  We are called from asteroids-kbd-handler'

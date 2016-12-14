@@ -1,18 +1,18 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async, inject } from '@angular/core/testing';
-import { UtilsService, DatGUIProvider  } from './utils.service';
+import { UtilsService  } from './utils.service';
 
-xdescribe('Service: Utils', () => {
+describe('Service: Utils', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [UtilsService, DatGUIProvider]
+      providers: [UtilsService]
     });
   });
 
-  it('should ...', inject([UtilsService, DatGUIProvider], (service: UtilsService) => {
+  it('should ...', inject([UtilsService], (service: UtilsService) => {
     expect(service).toBeTruthy();
     expect(service.addControls).toBeTruthy();
-    // expect(service.datGui).toBeTruthy();
+    expect(service.datGUI).toBeTruthy();
   }));
 });

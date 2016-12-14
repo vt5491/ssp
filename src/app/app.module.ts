@@ -20,7 +20,10 @@ import { HomeComponent } from './home/home.component';
 import { Ship } from './inner-games/asteroids/ship';
 // import { AsteroidsGame, AsteroidsGameProvider } from './inner-games/asteroids/asteroids-game';
 import { AsteroidsGame } from './inner-games/asteroids/asteroids-game';
-import { ThreeJsSceneProvider, UtilsService, DatGUIProvider} from './services/utils.service';
+//import 'dat-gui';
+import { ThreeJsSceneProvider, UtilsService, 
+  // DatGUIProvider
+} from './services/utils.service';
 
 @NgModule({
   declarations: [
@@ -57,7 +60,7 @@ import { ThreeJsSceneProvider, UtilsService, DatGUIProvider} from './services/ut
     ThreeJsSceneProvider,
     UtilsService,
     // {provide: dat.GUI, useClass: dat.GUI}
-    DatGUIProvider
+    // DatGUIProvider
   ],
   bootstrap: [AppComponent]
 })
