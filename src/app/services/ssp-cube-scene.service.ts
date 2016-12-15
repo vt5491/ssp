@@ -10,7 +10,7 @@ export class SspCubeScene implements SspScene {
   sspMaterial : THREE.MeshBasicMaterial;
 
 
-  constructor(width, height, public vrSceneService) {
+  constructor(width, height, public vrScene : VRSceneService) {
     console.log(`SspCubeSceneService.ctor: entered`);
     this.init();
   }
@@ -21,7 +21,7 @@ export class SspCubeScene implements SspScene {
 
     this.cubeMesh = new THREE.Mesh(cubeGeom, cubeMaterial);
     // this.planeMesh.rotateX(Base.ONE_DEG * 90.0);
-    this.vrSceneService.scene.add(this.cubeMesh);
+    this.vrScene.scene.add(this.cubeMesh);
 
     // assign to the api level var 'sspSurface', so other components using this
     // component know what to draw on.

@@ -9,7 +9,7 @@ export class SspPyramidScene implements SspScene {
   sspSurface : THREE.Mesh;
   sspMaterial : THREE.MeshBasicMaterial;
 
-  constructor(width, height, public vrSceneService) {
+  constructor(width, height, public vrScene : VRSceneService) {
     console.log(`SspPyramidSceneService.ctor: entered`);
     this.init();
   }
@@ -22,7 +22,7 @@ export class SspPyramidScene implements SspScene {
 
     this.pyramidMesh = new THREE.Mesh(pyramidGeom, pyramidMaterial);
     // this.planeMesh.rotateX(Base.ONE_DEG * 90.0);
-    this.vrSceneService.scene.add(this.pyramidMesh);
+    this.vrScene.scene.add(this.pyramidMesh);
 
     // assign to the api level var 'sspSurface', so other components using this
     // component know what to draw on.

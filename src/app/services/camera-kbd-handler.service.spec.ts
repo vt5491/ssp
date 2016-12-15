@@ -18,5 +18,8 @@ describe('Service: CameraKbdHandler', () => {
       service.dolly = new THREE.Object3D();
       expect(service).toBeTruthy();
       expect(service.dolly).toBeTruthy();
+      expect(service.deltaX).toBeDefined();
+      expect(service.deltaY).toBeDefined();
+      expect(service.deltaZ).toBeDefined();
   }));
 });

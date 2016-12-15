@@ -12,7 +12,7 @@ export class SspPlaneSceneService implements SspScene {
 
 
   // constructor(width, height, private _vrSceneService: VRSceneService) {
-  constructor(width, height, public vrSceneService) {
+  constructor(width, height, public vrScene : VRSceneService) {
     // super();
     console.log(`SspplaneSceneService.ctor: entered`);
     this.init();
@@ -26,7 +26,7 @@ export class SspPlaneSceneService implements SspScene {
     this.planeMesh = new THREE.Mesh(planeGeom, planeMaterial);
     this.planeMesh.name = "abc";
     // this.planeMesh.rotateX(Base.ONE_DEG * 90.0);
-    this.vrSceneService.scene.add(this.planeMesh);
+    this.vrScene.scene.add(this.planeMesh);
 
     // assign to the api level var 'sspSurface', so other components using this
     // component know what to draw on.

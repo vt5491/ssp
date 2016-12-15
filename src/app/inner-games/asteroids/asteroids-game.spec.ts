@@ -28,6 +28,7 @@ describe('Class: AsteroidsGame', () => {
     expect(asteroidsGame.scene).toBeTruthy();
     expect(asteroidsGame.bullets).toBeTruthy();
     expect(asteroidsGame.base).toBeTruthy();
+    expect(asteroidsGame.getMainCharacterInfo).toBeTruthy();
   }));
 
   // it('initScene workds', inject([AsteroidsGame], (asteroidsGameProvider))
@@ -92,5 +93,12 @@ describe('Class: AsteroidsGame', () => {
 
       expect(ag.bullets.length).toEqual(1);
       expect(ag.bullets[0].ttl).toEqual(9);
+  }));
+
+  it('getMainCharacterInfo works as expected', inject([AsteroidsGame], 
+    (ag: AsteroidsGame) => {
+      let result = ag.getMainCharacterInfo();
+
+      expect(result.pos).toBeTruthy();
   }));
 });

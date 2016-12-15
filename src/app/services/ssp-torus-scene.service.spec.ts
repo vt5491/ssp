@@ -30,6 +30,6 @@ describe('Service: SspTorusScene', () => {
   // it('should ...', inject([SspTorusSceneProvider], (service: SspTorusSceneService) => {
     // console.log(`ssp-torus-scene.service.spec.ts: service=${service}`);
     expect(service.torusMesh).toBeTruthy();
-    expect(service.vrSceneService).toBeTruthy();
+    expect(service.vrScene).toBeTruthy();
   }));
 });

@@ -129,10 +129,10 @@ export class TorroidsComponent implements OnInit {
     // let gridHelper = new THREE.GridHelper(50, 10);
     let gridHelper = new THREE.GridHelper(100, 20);
     gridHelper.rotateX(this.base.ONE_DEG * 90.0);
-    this.sspScene.vrSceneService.scene.add(gridHelper);
+    this.sspScene.vrScene.scene.add(gridHelper);
 
     let axisHelper = new THREE.AxisHelper( 10 );
-    this.sspScene.vrSceneService.scene.add( axisHelper );
+    this.sspScene.vrScene.scene.add( axisHelper );
 
     webglRendererCanvas.focus();
   }
@@ -189,20 +189,20 @@ export class TorroidsComponent implements OnInit {
     //TODO: these next lines means the client has to know low-levels of
     // kbdHandlerRouter.  Is there a way to eliminate this?
     //set the dolly of the cameraKbdHandler
-    this.kbdHandlerRouter.cameraKbdHandler.dolly = this.sspScene.vrSceneService.dolly; 
+    this.kbdHandlerRouter.cameraKbdHandler.dolly = this.sspScene.vrScene.dolly; 
 
     //set the ship of the asteroidsKdbHandler
-    // this.kbdHandlerRouter.asteroidsKbdHandler.ship = (<AsteroidsGame>this.innerGame).ship;
+    //  this.kbdHandlerRouter.asteroidsKbdHandler.ship = (<AsteroidsGame>this.innerGame).ship;
     // this.kbdHandlerRouter.asteroidsKbdHandler.asteroidsGame.ship = (<AsteroidsGame>this.innerGame).ship;
 
     console.log(`TorroidsComponent.startGame: this.innerGame.asteroidsGame.asteroids[0].vx= ${(<any>this.innerGame).asteroids[0].vx}`);
     console.log(`TorroidsComponent.startGame: this.innerGame.asteroidsGame.asteroids[0].vx= ${(<any>this.innerGame).asteroids[0].vx}`);
-    this.webGLRenderer = this.sspScene.vrSceneService.webGLRenderer;
+    this.webGLRenderer = this.sspScene.vrScene.webGLRenderer;
     // this.sspRuntime = new SspRuntimeService(this.sspScene.vrSceneService, this.innerGame);
     // this.sspRuntime = new SspRuntimeService(this.sspScene.vrSceneService, 
     this.sspRuntime = new SspRuntimeService(this.sspScene, 
       this.injector.get(THREE.WebGLRenderTarget),
-      this.innerGame);
+      this.innerGame, this.injector.get(CameraKbdHandlerService));
     this.initOuterScene();
 
     // let control = new function() { 

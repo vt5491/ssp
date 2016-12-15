@@ -18,7 +18,7 @@ export class SspTorusSceneService implements SspScene {
   sspMaterial : THREE.MeshBasicMaterial;
   // constructor(width, height, webGLRenderer: THREE.WebGLRenderer) {
   // constructor(width, height, private _vrSceneService: VRSceneService) {
-  constructor(width, height, public vrSceneService: VRSceneService) {
+  constructor(width, height, public vrScene: VRSceneService) {
     // super();
     console.log(`SspTorusSceneService.ctor: entered`);
     this.init();
@@ -32,7 +32,7 @@ export class SspTorusSceneService implements SspScene {
     this.torusMesh = new THREE.Mesh(torusGeom, torusMaterial);
     this.torusMesh.name = "abc";
     // this.torusMesh.rotateX(Base.ONE_DEG * 90.0);
-    this.vrSceneService.scene.add(this.torusMesh);
+    this.vrScene.scene.add(this.torusMesh);
 
     // assign to the api level var 'sspSurface', so other components using this
     // component know what to draw on.
@@ -62,7 +62,7 @@ export class SspTorusSceneService implements SspScene {
 
 // let SspTorusSceneFactory = (webGLRenderer: THREE.WebGLRenderer) => {
 // let SspTorusSceneFactory = () => {
-let SspTorusSceneFactory = (vrSceneService: VRSceneService) => {
+let SspTorusSceneFactory = (vrScene: VRSceneService) => {
   // console.log(`SspTorusSceneFactor.ctor: entered`);
   var width = window.innerWidth
   var height = window.innerHeight
@@ -72,7 +72,7 @@ let SspTorusSceneFactory = (vrSceneService: VRSceneService) => {
 
   // return new SspTorusSceneService(window.innerWidth, window.innerHeight, webGLRenderer);
   // return new SspTorusSceneService(window.innerWidth, window.innerHeight, vrSceneService);
-  return new SspTorusSceneService(window.innerWidth, window.innerHeight, vrSceneService);
+  return new SspTorusSceneService(window.innerWidth, window.innerHeight, vrScene);
 };
 
 export let SspTorusSceneProvider = {

@@ -11,7 +11,7 @@ export class SspCylSceneService implements SspScene {
   sspMaterial : THREE.MeshBasicMaterial;
 
   // constructor(width, height, private _vrSceneService: VRSceneService) {
-  constructor(width, height, public vrSceneService: VRSceneService) {
+  constructor(width, height, public vrScene: VRSceneService) {
     // super();
     console.log(`SspCylSceneService.ctor: entered`);
     this.init();
@@ -25,7 +25,7 @@ export class SspCylSceneService implements SspScene {
     this.cylMesh.name = "abe";
     // this.cylMesh.rotateX(Base.ONE_DEG * 90.0);
     // this._vrSceneService.scene.add(this.cylMesh);
-    this.vrSceneService.scene.add(this.cylMesh);
+    this.vrScene.scene.add(this.cylMesh);
 
     // assign to the api level var 'sspSurface', so other components using this
     // component know what to draw on.

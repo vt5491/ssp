@@ -6,6 +6,8 @@ import { VRSceneService, VRSceneServiceProvider } from './vr-scene.service';
 import { SspSceneService } from './ssp-scene.service';
 import { InnerGame } from '../inner-game';
 import { AsteroidsGame } from '../inner-games/asteroids/asteroids-game';
+import { CameraKbdHandlerService } from './camera-kbd-handler.service';
+import { BaseService } from './base.service';
 
 describe('Service: SspRuntime', () => {
   // let dummyInnerGame : InnerGame = {}; 
@@ -36,7 +38,7 @@ describe('Service: SspRuntime', () => {
     TestBed.configureTestingModule({
       // providers: [SspRuntimeService, VRSceneServiceProvider, AsteroidsGame]
       providers: [ VRSceneServiceProvider, webglRenderTargetProvider,
-        SspSceneServiceProvider]
+        SspSceneServiceProvider, CameraKbdHandlerService, BaseService]
     });
     // this.innerGame = new InnerGame();
     this.innerGame = {};
@@ -68,10 +70,15 @@ describe('Service: SspRuntime', () => {
 // Error: Can't resolve all parameters for SspRuntimeService: (VRSceneService, ?).
   // it('should ...', inject([SspRuntimeService], (service: SspRuntimeService) => {
   // it('should ...', inject([SspRuntimeService, VRSceneService], 
-  it('should ctor works', inject([SspSceneService, THREE.WebGLRenderTarget], 
-    (sspSceneService : SspSceneService, webglRenderTarget: THREE.WebGLRenderTarget, 
+  it('should ctor works', inject([SspSceneService, THREE.WebGLRenderTarget, CameraKbdHandlerService], 
+    (sspSceneService : SspSceneService, webglRenderTarget: THREE.WebGLRenderTarget, cameraKbdHandler : CameraKbdHandlerService,
     //  service = new SspRuntimeService(vrSceneService, asteroidsGame)) => {
-     service = new SspRuntimeService(sspSceneService, webglRenderTarget, this.innerGame)) => {
+     service = new SspRuntimeService(
+       sspSceneService, 
+       webglRenderTarget, 
+       this.innerGame,
+        cameraKbdHandler 
+       )) => {
       expect(service).toBeTruthy();
       expect(service.offscreenBuffer).toBeTruthy();
   }));

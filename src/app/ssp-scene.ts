@@ -3,7 +3,7 @@ import { VRSceneService } from './services/vr-scene.service'
 
 export interface SspScene {
   // webGlRenderer : THREE.WebGLRenderer;
-  vrSceneService : VRSceneService;
+  vrScene: VRSceneService;
   sspSurface : THREE.Mesh;
   sspMaterial : THREE.MeshBasicMaterial;
 }

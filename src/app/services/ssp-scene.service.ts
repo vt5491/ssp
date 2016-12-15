@@ -16,17 +16,17 @@ export class SspSceneService {
   sspMaterial : THREE.MeshBasicMaterial;
   // private _vrSceneService: VRSceneService;
 
-  constructor(private _vrSceneService: VRSceneService ) 
+  constructor(private _vrScene: VRSceneService ) 
   {
 
   };
 
   // Getters and Setters
-  get vrSceneService(): VRSceneService {
-    return this._vrSceneService;
+  get vrScene(): VRSceneService {
+    return this._vrScene;
   };
-  set vrSceneService(val) {
-    this._vrSceneService = val;
+  set vrScene(val) {
+    this._vrScene= val;
   };
 }
 

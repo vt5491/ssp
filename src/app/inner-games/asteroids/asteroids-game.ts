@@ -5,6 +5,7 @@ import { Ship } from './ship';
 import { InnerGame } from '../../inner-game';
 import { ThreeJsSceneProvider } from '../../services/utils.service';
 import { BaseService } from '../../services/base.service';
+import { IMainCharacterInfo } from '../../interfaces/main-character-info';
 
 @Component({
   // providers: [ThreeJsSceneProvider, Ship]
@@ -104,6 +105,8 @@ export class AsteroidsGame implements InnerGame {
       this.ship.mesh.position.y = boundVal;
     }
 
+    // console.log(`AsteroidsGame.updateScene: ship.x=${this.ship.mesh.position.x}, ship.y=${this.ship.mesh.position.y}`);
+
     // rotate ship
     // this.ship.rotate(this.ship.deltaTheta);
     this.ship.rotate();
@@ -117,7 +120,7 @@ export class AsteroidsGame implements InnerGame {
 
       bullet.update();
 
-      console.log(`AsteroidsGame.updateScene: i=${i}, bullet.ttl=${bullet.ttl}`)
+      // console.log(`AsteroidsGame.updateScene: i=${i}, bullet.ttl=${bullet.ttl}`)
       if (bullet.ttl <= 0) {
         // console.log(`AsteroidsGame.updateScene: now splicing bullet ${i}`);
         this.bullets.splice(i, 1);
@@ -134,8 +137,8 @@ export class AsteroidsGame implements InnerGame {
     let bullet = new Bullet(this.base);
     // bullet.vTheta = Math.atan(this.ship.vy / this.ship.vx);
     bullet.vTheta = Math.atan2(this.ship.vy , this.ship.vx);
-    console.log(`AsteroidsGame.shipFiredBullet: ship.vy=${this.ship.vy},ship.vx=${this.ship.vx}`);
-    console.log(`AsteroidsGame.shipFiredBullet: bullet.vTheta=${bullet.vTheta}`);
+    // console.log(`AsteroidsGame.shipFiredBullet: ship.vy=${this.ship.vy},ship.vx=${this.ship.vx}`);
+    // console.log(`AsteroidsGame.shipFiredBullet: bullet.vTheta=${bullet.vTheta}`);
 
     // initial pos is the same as the ship
     bullet.mesh.position.x = this.ship.mesh.position.x;
@@ -150,6 +153,23 @@ export class AsteroidsGame implements InnerGame {
     // and add to the bullets array
     this.bullets.push(bullet);
   };
+
+  // getMainCharacterInfo() : <MainCharacterInfo> {} {
+  // getMainCharacterInfo() : Object {
+  // this returns info about the main user controlled screen avatar.  It can
+  // can be used by the outer scene to change the position of the outer camera
+  // to track the main inner object, for example.
+  getMainCharacterInfo() : IMainCharacterInfo {
+    let info = new Object();
+    // let info = new MainCharacterInfo();
+
+    info['pos'] = {};
+    info['pos'].x = this.ship.mesh.position.x;
+    info['pos'].y = this.ship.mesh.position.y;
+
+    return <IMainCharacterInfo>info;
+    // return info;
+  }
 
   //getters and setters
   get asteroids(): Asteroid [] {

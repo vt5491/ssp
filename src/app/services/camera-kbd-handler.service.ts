@@ -14,6 +14,9 @@ export class CameraKbdHandlerService implements KbdHandler {
   // Note: we can't rely on DI to get this for us, as, in the most general
   // case, it's really only the runtime client that can say what is the best value
   _dolly : THREE.Object3D;
+  deltaX : number = 0.0;
+  deltaY : number = 0.0;
+  deltaZ : number = 0.0;
 
   constructor(public base : BaseService ) {
     this.name = 'cameraKbdHandler';
@@ -45,11 +48,13 @@ export class CameraKbdHandlerService implements KbdHandler {
         //this.dolly.position.x += this.CAMERA_MOVE_DELTA;
         this.dolly.translateX(moveFactor * this.CAMERA_MOVE_DELTA);
         //console.log('this.dolly.postion.x=' + this.dolly.position.x);
+        this.deltaX += moveFactor * this.CAMERA_MOVE_DELTA;
       break;
 
       case 'A'.charCodeAt(0):
         //this.dolly.position.x -= this.CAMERA_MOVE_DELTA;
         this.dolly.translateX(moveFactor * -this.CAMERA_MOVE_DELTA);
+        this.deltaX -= moveFactor * this.CAMERA_MOVE_DELTA;
       break;
 
       case 'P'.charCodeAt(0):
@@ -57,11 +62,13 @@ export class CameraKbdHandlerService implements KbdHandler {
         //this.dolly.position.y += this.CAMERA_MOVE_DELTA;
         //console.log('this.dolly.postion.x=' + this.dolly.position.x);
         this.dolly.translateY(moveFactor * this.CAMERA_MOVE_DELTA);
+        this.deltaY += moveFactor * this.CAMERA_MOVE_DELTA;
       break;
 
       case 'N'.charCodeAt(0):
         //this.dolly.position.y -= this.CAMERA_MOVE_DELTA;
         this.dolly.translateY(moveFactor * -this.CAMERA_MOVE_DELTA);
+        this.deltaY -= moveFactor * this.CAMERA_MOVE_DELTA;
       break;
 
       case 'Q'.charCodeAt(0):

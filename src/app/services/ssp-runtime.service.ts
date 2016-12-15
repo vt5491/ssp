@@ -3,6 +3,8 @@ import { VRSceneService, VRSceneServiceProvider } from '../services/vr-scene.ser
 import { SspSceneService } from '../services/ssp-scene.service';
 import { InnerGame } from '../inner-game';
 import { WebGLRenderTargetProvider } from './utils.service';
+import { IMainCharacterInfo } from '../interfaces/main-character-info';
+import { CameraKbdHandlerService } from './camera-kbd-handler.service';
 
 @Injectable()
 @Component({
@@ -21,9 +23,10 @@ export class SspRuntimeService {
     // public outerVrScene: VRSceneService, 
     public outerSspScene: SspSceneService, 
     private _offscreenBuffer : THREE.WebGLRenderTarget,
-    public innerGame?: InnerGame
+    public innerGame: InnerGame,
+    public cameraKbdHandler : CameraKbdHandlerService,
     ) { 
-      this.outerVrScene = this.outerSspScene.vrSceneService;
+      this.outerVrScene = this.outerSspScene.vrScene;
 
       this.webGLRenderer = this.outerVrScene.webGLRenderer;
       // this.webGLRenderer.setClearColor(0xf31313, 1.0);
@@ -71,6 +74,14 @@ export class SspRuntimeService {
 
     // update the innerGame
     (<any>this.innerGame).updateScene();
+
+    // let info = <IMainCharacterInfo> this.innerGame.getMainCharacterInfo();
+    let info : IMainCharacterInfo = this.innerGame.getMainCharacterInfo();
+    // console.log(`SspRuntime.mainLoop: ship.x=${(<any>info.pos).x}, ship.y=${(<any>info.pos).y}`);
+    // map the outer camera coordinates to that of the main inner game avatar
+    // so we "track" the inner game's main game object
+    this.outerVrScene.dolly.position.x = (<any>info.pos).x * 6.0 + this.cameraKbdHandler.deltaX;
+    this.outerVrScene.dolly.position.y = (<any>info.pos).y * 6.0 + this.cameraKbdHandler.deltaY;
 
     // render the inner game into to offscreen buffer.
     this.webGLRenderer.render(
