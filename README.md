@@ -8,4 +8,4 @@ This project was generated with [angular-cli](https://github.com/angular/angular
 
 ## Code Abstractions
 UML diagram with some of the main objects in the source code.
-[torroids_overview.png](https://github.com/vt5491/ssp/blob/master/doc/uml/torroids_overview.png)
+![torroids_overview.png](https://github.com/vt5491/ssp/blob/master/doc/uml/torroids_overview.png?raw=true)
