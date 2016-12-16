@@ -1,7 +1,7 @@
 ///<reference path="../../../typings/index.d.ts" />
 import { Injectable, Component } from '@angular/core';
 import { VRSceneService, VRSceneServiceProvider } from './vr-scene.service';
-import { SspScene} from '../ssp-scene';
+import { ISspScene} from '../interfaces/ssp-scene';
 // import { SspSceneService} from './ssp-scene.service';
 
 // @Component({
@@ -10,7 +10,7 @@ import { SspScene} from '../ssp-scene';
 // })
 
 @Injectable()
-export class SspTorusSceneService implements SspScene {
+export class SspTorusSceneService implements ISspScene {
 // export class SspTorusSceneService extends SspSceneService {
 
   torusMesh : THREE.Mesh;

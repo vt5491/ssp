@@ -3,7 +3,9 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { SspRuntimeService } from './ssp-runtime.service';
 import { VRSceneService, VRSceneServiceProvider } from './vr-scene.service';
-import { SspSceneService } from './ssp-scene.service';
+// import { SspSceneService } from './ssp-scene.service';
+import { SspPlaneSceneService } from './ssp-plane-scene.service';
+import { ISspScene} from '../interfaces/ssp-scene';
 import { InnerGame } from '../inner-game';
 import { AsteroidsGame } from '../inner-games/asteroids/asteroids-game';
 import { CameraKbdHandlerService } from './camera-kbd-handler.service';
@@ -23,12 +25,19 @@ describe('Service: SspRuntime', () => {
   }
 
   let SspSceneServiceProvider = {
-    provide: SspSceneService,
+    // provide: SspSceneService,
+    // provide: ISspScene,
     useFactory: (vrSceneService) => {
       console.log(`now in SspSceneServiceProvider`);
-      let o = new SspSceneService( 
-        new VRSceneService(window.innerWidth, window.innerHeight,
-          new THREE.WebGLRenderer()));
+      // let o = new SspSceneService( 
+      // let o = new SspPlaneSceneService( 
+      //   new VRSceneService(window.innerWidth, window.innerHeight,
+      //     // new THREE.WebGLRenderer()
+      //     vrSceneService
+      //     ));
+
+        let o = new SspPlaneSceneService(window.innerWidth, window.innerHeight,
+          vrSceneService )
       return o;
     },
     deps: [VRSceneService]
@@ -70,8 +79,13 @@ describe('Service: SspRuntime', () => {
 // Error: Can't resolve all parameters for SspRuntimeService: (VRSceneService, ?).
   // it('should ...', inject([SspRuntimeService], (service: SspRuntimeService) => {
   // it('should ...', inject([SspRuntimeService, VRSceneService], 
-  it('should ctor works', inject([SspSceneService, THREE.WebGLRenderTarget, CameraKbdHandlerService], 
-    (sspSceneService : SspSceneService, webglRenderTarget: THREE.WebGLRenderTarget, cameraKbdHandler : CameraKbdHandlerService,
+  // it('should ctor works', inject([SspSceneService, THREE.WebGLRenderTarget, CameraKbdHandlerService], 
+  //   (sspSceneService : SspSceneService, webglRenderTarget: THREE.WebGLRenderTarget, cameraKbdHandler : CameraKbdHandlerService,
+  xit('should ctor works', inject([SspSceneServiceProvider, 
+    THREE.WebGLRenderTarget, CameraKbdHandlerService], 
+    (sspSceneService : ISspScene, 
+     webglRenderTarget: THREE.WebGLRenderTarget, 
+     cameraKbdHandler : CameraKbdHandlerService,
     //  service = new SspRuntimeService(vrSceneService, asteroidsGame)) => {
      service = new SspRuntimeService(
        sspSceneService, 

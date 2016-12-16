@@ -1,6 +1,7 @@
 import { Injectable, Component } from '@angular/core';
 import { VRSceneService, VRSceneServiceProvider } from '../services/vr-scene.service';
-import { SspSceneService } from '../services/ssp-scene.service';
+// import { SspSceneService } from '../services/ssp-scene.service';
+import { ISspScene} from '../interfaces/ssp-scene';
 import { InnerGame } from '../inner-game';
 import { WebGLRenderTargetProvider } from './utils.service';
 import { IMainCharacterInfo } from '../interfaces/main-character-info';
@@ -21,7 +22,8 @@ export class SspRuntimeService {
   // constructor() { }
   constructor(
     // public outerVrScene: VRSceneService, 
-    public outerSspScene: SspSceneService, 
+    // public outerSspScene: SspSceneService, 
+    public outerSspScene: ISspScene, 
     private _offscreenBuffer : THREE.WebGLRenderTarget,
     public innerGame: InnerGame,
     public cameraKbdHandler : CameraKbdHandlerService,

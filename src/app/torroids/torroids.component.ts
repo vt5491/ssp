@@ -3,7 +3,8 @@ import { Component, OnInit, ElementRef, Inject, ViewChild, Injectable, Renderer,
 import { WebGLCanvasComponent } from '../directives/webgl-canvas/webgl-canvas.component';
 import { VRSceneService, VRSceneServiceProvider } from '../services/vr-scene.service';
 // import { SspScene } from '../ssp-scene';
-import { SspSceneService } from '../services/ssp-scene.service';
+// import { SspSceneService } from '../services/ssp-scene.service';
+import { ISspScene } from '../interfaces/ssp-scene';
 import { SspRuntime } from '../ssp-runtime';
 import { SspTorusSceneService, SspTorusSceneProvider } from '../services/ssp-torus-scene.service';
 import { SspCylSceneService, SspCylSceneProvider } from '../services/ssp-cyl-scene.service';
@@ -58,9 +59,10 @@ export class TorroidsComponent implements OnInit {
   // private el: ElementRef;
   // vrScene : VRSceneService;
   // sspScene : SspScene;
-  private _sspScene : SspSceneService;
+  // private _sspScene : SspSceneService;
+  private _sspScene : ISspScene;
   sspRuntime: SspRuntime;
-  sspTorusRuntimeService : SspTorusRuntimeService;
+  // sspTorusRuntimeService : SspTorusRuntimeService;
   // model : { [outerScene : string] : string} = {};
   model : any = {};
   outerScene : String;
@@ -223,10 +225,16 @@ export class TorroidsComponent implements OnInit {
   get kbdHandlerRouter(): KbdHandlerRouterService {
     return this._kbdHandlerRouter;
   };
-  get sspScene(): SspSceneService {
+  // get sspScene(): SspSceneService {
+  //   return this._sspScene;
+  // };
+  // set sspScene(newSspScene : SspSceneService) {
+  //   this._sspScene = newSspScene;
+  // };
+  get sspScene(): ISspScene {
     return this._sspScene;
   };
-  set sspScene(newSspScene : SspSceneService) {
+  set sspScene(newSspScene : ISspScene) {
     this._sspScene = newSspScene;
   };
 }

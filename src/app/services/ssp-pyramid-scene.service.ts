@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { VRSceneService, VRSceneServiceProvider } from './vr-scene.service';
-import { SspScene} from '../ssp-scene';
-import { SspSceneService} from './ssp-scene.service';
+import { ISspScene} from '../interfaces/ssp-scene';
+// import { SspSceneService} from './ssp-scene.service';
 
 @Injectable()
-export class SspPyramidScene implements SspScene {
+export class SspPyramidScene implements ISspScene {
   pyramidMesh: THREE.Mesh;
   sspSurface : THREE.Mesh;
   sspMaterial : THREE.MeshBasicMaterial;

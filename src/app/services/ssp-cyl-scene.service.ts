@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { VRSceneService, VRSceneServiceProvider } from './vr-scene.service';
-import { SspScene} from '../ssp-scene';
+import { ISspScene} from '../interfaces/ssp-scene';
 // import { SspSceneService} from './ssp-scene.service';
 
 @Injectable()
-export class SspCylSceneService implements SspScene {
+export class SspCylSceneService implements ISspScene {
 // export class SspCylSceneService extends SspSceneService {
   cylMesh : THREE.Mesh;
   sspSurface : THREE.Mesh;

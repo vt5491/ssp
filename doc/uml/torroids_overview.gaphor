@@ -1,0 +1,1272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<gaphor xmlns="http://gaphor.sourceforge.net/model" version="3.0" gaphor-version="0.17.2">
+<Package id="212b1f40-c321-11e6-b99d-000c29cbd686">
+<name>
+<val>torroids_overview</val>
+</name>
+<ownedClassifier>
+<reflist>
+<ref refid="e1436a58-c321-11e6-b99d-000c29cbd686"/>
+<ref refid="d48de93a-c34b-11e6-b99d-000c29cbd686"/>
+<ref refid="d5dfa2b0-c34b-11e6-b99d-000c29cbd686"/>
+<ref refid="fbd79ffe-c34b-11e6-b99d-000c29cbd686"/>
+<ref refid="ed85b55c-c351-11e6-b99d-000c29cbd686"/>
+<ref refid="0643ea8e-c355-11e6-b99d-000c29cbd686"/>
+<ref refid="5e4fb1fe-c364-11e6-b99d-000c29cbd686"/>
+<ref refid="bf65276c-c364-11e6-b99d-000c29cbd686"/>
+<ref refid="9ce65b1a-c365-11e6-b99d-000c29cbd686"/>
+<ref refid="1143c182-c366-11e6-b99d-000c29cbd686"/>
+<ref refid="59f54e00-c366-11e6-b99d-000c29cbd686"/>
+<ref refid="6b65764c-c366-11e6-b99d-000c29cbd686"/>
+</reflist>
+</ownedClassifier>
+<ownedDiagram>
+<reflist>
+<ref refid="212c33bc-c321-11e6-b99d-000c29cbd686"/>
+</reflist>
+</ownedDiagram>
+</Package>
+<Diagram id="212c33bc-c321-11e6-b99d-000c29cbd686">
+<name>
+<val>main</val>
+</name>
+<package>
+<ref refid="212b1f40-c321-11e6-b99d-000c29cbd686"/>
+</package>
+<canvas>
+<item type="ClassItem" id="e1459206-c321-11e6-b99d-000c29cbd686">
+<show-attributes>
+<val>1</val>
+</show-attributes>
+<show-operations>
+<val>1</val>
+</show-operations>
+<drawing-style>
+<val>1</val>
+</drawing-style>
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 182.25385802469125, 100.51080246913654)</val>
+</matrix>
+<width>
+<val>195.0</val>
+</width>
+<height>
+<val>133.0</val>
+</height>
+<subject>
+<ref refid="e1436a58-c321-11e6-b99d-000c29cbd686"/>
+</subject>
+<show_stereotypes_attrs>
+<val>0</val>
+</show_stereotypes_attrs>
+</item>
+<item type="ClassItem" id="d48e0cb2-c34b-11e6-b99d-000c29cbd686">
+<show-attributes>
+<val>1</val>
+</show-attributes>
+<show-operations>
+<val>1</val>
+</show-operations>
+<drawing-style>
+<val>1</val>
+</drawing-style>
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 36.503086419753096, 505.8680555555564)</val>
+</matrix>
+<width>
+<val>174.0</val>
+</width>
+<height>
+<val>190.0</val>
+</height>
+<subject>
+<ref refid="d48de93a-c34b-11e6-b99d-000c29cbd686"/>
+</subject>
+<show_stereotypes_attrs>
+<val>0</val>
+</show_stereotypes_attrs>
+</item>
+<item type="ClassItem" id="d5dfbf02-c34b-11e6-b99d-000c29cbd686">
+<show-attributes>
+<val>1</val>
+</show-attributes>
+<show-operations>
+<val>1</val>
+</show-operations>
+<drawing-style>
+<val>1</val>
+</drawing-style>
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 252.70061728395092, 505.86805555555634)</val>
+</matrix>
+<width>
+<val>192.0</val>
+</width>
+<height>
+<val>190.0</val>
+</height>
+<subject>
+<ref refid="d5dfa2b0-c34b-11e6-b99d-000c29cbd686"/>
+</subject>
+<show_stereotypes_attrs>
+<val>0</val>
+</show_stereotypes_attrs>
+</item>
+<item type="InterfaceItem" id="fbd7b2dc-c34b-11e6-b99d-000c29cbd686">
+<show-attributes>
+<val>1</val>
+</show-attributes>
+<show-operations>
+<val>1</val>
+</show-operations>
+<drawing-style>
+<val>1</val>
+</drawing-style>
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 304.87885802469134, 300.4436728395055)</val>
+</matrix>
+<width>
+<val>262.0</val>
+</width>
+<height>
+<val>133.411265432</val>
+</height>
+<subject>
+<ref refid="fbd79ffe-c34b-11e6-b99d-000c29cbd686"/>
+</subject>
+<show_stereotypes_attrs>
+<val>0</val>
+</show_stereotypes_attrs>
+</item>
+<item type="ImplementationItem" id="b4bd6da0-c351-11e6-b99d-000c29cbd686">
+<show_stereotypes_attrs>
+<val>0</val>
+</show_stereotypes_attrs>
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 161.07253086419755, 503.4106535734954)</val>
+</matrix>
+<orthogonal>
+<val>0</val>
+</orthogonal>
+<horizontal>
+<val>0</val>
+</horizontal>
+<points>
+<val>[(0.0, 0.0), (137.92438271604945, -59.25556098090368)]</val>
+</points>
+</item>
+<item type="ImplementationItem" id="cf8ce2fa-c351-11e6-b99d-000c29cbd686">
+<show_stereotypes_attrs>
+<val>0</val>
+</show_stereotypes_attrs>
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 353.9737654320988, 496.238425925925)</val>
+</matrix>
+<orthogonal>
+<val>0</val>
+</orthogonal>
+<horizontal>
+<val>0</val>
+</horizontal>
+<points>
+<val>[(0.0, 0.0), (-7.233796296296305, -57.93193901909626)]</val>
+</points>
+</item>
+<item type="ClassItem" id="ed85cbb4-c351-11e6-b99d-000c29cbd686">
+<show-attributes>
+<val>1</val>
+</show-attributes>
+<show-operations>
+<val>1</val>
+</show-operations>
+<drawing-style>
+<val>1</val>
+</drawing-style>
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 833.8155864197533, 289.44830246913557)</val>
+</matrix>
+<width>
+<val>154.0</val>
+</width>
+<height>
+<val>171.0</val>
+</height>
+<subject>
+<ref refid="ed85b55c-c351-11e6-b99d-000c29cbd686"/>
+</subject>
+<show_stereotypes_attrs>
+<val>0</val>
+</show_stereotypes_attrs>
+</item>
+<item type="ClassItem" id="0643fdda-c355-11e6-b99d-000c29cbd686">
+<show-attributes>
+<val>1</val>
+</show-attributes>
+<show-operations>
+<val>1</val>
+</show-operations>
+<drawing-style>
+<val>1</val>
+</drawing-style>
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 781.8287037037046, 532.7415123456778)</val>
+</matrix>
+<width>
+<val>391.0</val>
+</width>
+<height>
+<val>228.0</val>
+</height>
+<subject>
+<ref refid="0643ea8e-c355-11e6-b99d-000c29cbd686"/>
+</subject>
+<show_stereotypes_attrs>
+<val>0</val>
+</show_stereotypes_attrs>
+</item>
+<item type="CommentItem" id="a8b5907e-c355-11e6-b99d-000c29cbd686">
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 1041.6666666666665, 317.90123456790053)</val>
+</matrix>
+<width>
+<val>100.0</val>
+</width>
+<height>
+<val>61.0</val>
+</height>
+<subject>
+<ref refid="a8b588fe-c355-11e6-b99d-000c29cbd686"/>
+</subject>
+<show_stereotypes_attrs>
+<val>0</val>
+</show_stereotypes_attrs>
+</item>
+<item type="CommentItem" id="dd4415d6-c355-11e6-b99d-000c29cbd686">
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 1229.2631172839501, 552.7584876543203)</val>
+</matrix>
+<width>
+<val>112.0</val>
+</width>
+<height>
+<val>112.0</val>
+</height>
+<subject>
+<ref refid="dd440ee2-c355-11e6-b99d-000c29cbd686"/>
+</subject>
+<show_stereotypes_attrs>
+<val>0</val>
+</show_stereotypes_attrs>
+</item>
+<item type="InterfaceItem" id="5e4fc4d2-c364-11e6-b99d-000c29cbd686">
+<show-attributes>
+<val>1</val>
+</show-attributes>
+<show-operations>
+<val>1</val>
+</show-operations>
+<drawing-style>
+<val>1</val>
+</drawing-style>
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 205.37885802469137, 753.2793209876528)</val>
+</matrix>
+<width>
+<val>220.0</val>
+</width>
+<height>
+<val>112.0</val>
+</height>
+<subject>
+<ref refid="5e4fb1fe-c364-11e6-b99d-000c29cbd686"/>
+</subject>
+<show_stereotypes_attrs>
+<val>0</val>
+</show_stereotypes_attrs>
+</item>
+<item type="ClassItem" id="bf653df6-c364-11e6-b99d-000c29cbd686">
+<show-attributes>
+<val>1</val>
+</show-attributes>
+<show-operations>
+<val>1</val>
+</show-operations>
+<drawing-style>
+<val>1</val>
+</drawing-style>
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 54.01234567901233, 941.8402777777761)</val>
+</matrix>
+<width>
+<val>220.0</val>
+</width>
+<height>
+<val>247.0</val>
+</height>
+<subject>
+<ref refid="bf65276c-c364-11e6-b99d-000c29cbd686"/>
+</subject>
+<show_stereotypes_attrs>
+<val>0</val>
+</show_stereotypes_attrs>
+</item>
+<item type="ClassItem" id="9ce66f88-c365-11e6-b99d-000c29cbd686">
+<show-attributes>
+<val>1</val>
+</show-attributes>
+<show-operations>
+<val>1</val>
+</show-operations>
+<drawing-style>
+<val>1</val>
+</drawing-style>
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 389.17824074074105, 970.7754629629611)</val>
+</matrix>
+<width>
+<val>220.0</val>
+</width>
+<height>
+<val>114.0</val>
+</height>
+<subject>
+<ref refid="9ce65b1a-c365-11e6-b99d-000c29cbd686"/>
+</subject>
+<show_stereotypes_attrs>
+<val>0</val>
+</show_stereotypes_attrs>
+</item>
+<item type="ImplementationItem" id="cb6e01ae-c365-11e6-b99d-000c29cbd686">
+<show_stereotypes_attrs>
+<val>0</val>
+</show_stereotypes_attrs>
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 205.43981481481475, 941.9979202835628)</val>
+</matrix>
+<orthogonal>
+<val>0</val>
+</orthogonal>
+<horizontal>
+<val>0</val>
+</horizontal>
+<points>
+<val>[(0.0, 0.0), (24.501543209876502, -73.30246913580243)]</val>
+</points>
+</item>
+<item type="ImplementationItem" id="dc2ecfc8-c365-11e6-b99d-000c29cbd686">
+<show_stereotypes_attrs>
+<val>0</val>
+</show_stereotypes_attrs>
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 433.0000000000007, 962.7348029996123)</val>
+</matrix>
+<orthogonal>
+<val>0</val>
+</orthogonal>
+<horizontal>
+<val>0</val>
+</horizontal>
+<points>
+<val>[(0.0, 0.0), (-47.19753086419826, -92.11033950617286)]</val>
+</points>
+</item>
+<item type="ClassItem" id="1143d488-c366-11e6-b99d-000c29cbd686">
+<show-attributes>
+<val>1</val>
+</show-attributes>
+<show-operations>
+<val>1</val>
+</show-operations>
+<drawing-style>
+<val>1</val>
+</drawing-style>
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 497.9490740740741, 100.51080246913654)</val>
+</matrix>
+<width>
+<val>100.0</val>
+</width>
+<height>
+<val>57.0</val>
+</height>
+<subject>
+<ref refid="1143c182-c366-11e6-b99d-000c29cbd686"/>
+</subject>
+<show_stereotypes_attrs>
+<val>0</val>
+</show_stereotypes_attrs>
+</item>
+<item type="CommentItem" id="295caa72-c366-11e6-b99d-000c29cbd686">
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 35.30092592592614, 126.0835250289352)</val>
+</matrix>
+<width>
+<val>100.0</val>
+</width>
+<height>
+<val>50.0</val>
+</height>
+<subject>
+<ref refid="295ca0e0-c366-11e6-b99d-000c29cbd686"/>
+</subject>
+<show_stereotypes_attrs>
+<val>0</val>
+</show_stereotypes_attrs>
+</item>
+<item type="ClassItem" id="59f55f94-c366-11e6-b99d-000c29cbd686">
+<show-attributes>
+<val>1</val>
+</show-attributes>
+<show-operations>
+<val>1</val>
+</show-operations>
+<drawing-style>
+<val>1</val>
+</drawing-style>
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 495.9490740740741, 509.1853768807871)</val>
+</matrix>
+<width>
+<val>204.0</val>
+</width>
+<height>
+<val>57.0</val>
+</height>
+<subject>
+<ref refid="59f54e00-c366-11e6-b99d-000c29cbd686"/>
+</subject>
+<show_stereotypes_attrs>
+<val>0</val>
+</show_stereotypes_attrs>
+</item>
+<item type="ClassItem" id="6b659280-c366-11e6-b99d-000c29cbd686">
+<show-attributes>
+<val>1</val>
+</show-attributes>
+<show-operations>
+<val>1</val>
+</show-operations>
+<drawing-style>
+<val>1</val>
+</drawing-style>
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 497.1064814814815, 586.1529694733798)</val>
+</matrix>
+<width>
+<val>214.0</val>
+</width>
+<height>
+<val>57.0</val>
+</height>
+<subject>
+<ref refid="6b65764c-c366-11e6-b99d-000c29cbd686"/>
+</subject>
+<show_stereotypes_attrs>
+<val>0</val>
+</show_stereotypes_attrs>
+</item>
+<item type="ClassItem" id="7f08b47a-c366-11e6-b99d-000c29cbd686">
+<show-attributes>
+<val>1</val>
+</show-attributes>
+<show-operations>
+<val>1</val>
+</show-operations>
+<drawing-style>
+<val>1</val>
+</drawing-style>
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 497.1064814814815, 662.703895399305)</val>
+</matrix>
+<width>
+<val>204.0</val>
+</width>
+<height>
+<val>57.0</val>
+</height>
+<subject>
+<ref refid="59f54e00-c366-11e6-b99d-000c29cbd686"/>
+</subject>
+<show_stereotypes_attrs>
+<val>0</val>
+</show_stereotypes_attrs>
+</item>
+<item type="CommentItem" id="94a15fa8-c366-11e6-b99d-000c29cbd686">
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 41.666666666666735, 336.7316731770835)</val>
+</matrix>
+<width>
+<val>111.0</val>
+</width>
+<height>
+<val>50.0</val>
+</height>
+<subject>
+<ref refid="94a15620-c366-11e6-b99d-000c29cbd686"/>
+</subject>
+<show_stereotypes_attrs>
+<val>0</val>
+</show_stereotypes_attrs>
+</item>
+<item type="CommentItem" id="cf947c76-c366-11e6-b99d-000c29cbd686">
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 41.66666666666674, 769.6020435474537)</val>
+</matrix>
+<width>
+<val>100.0</val>
+</width>
+<height>
+<val>61.0</val>
+</height>
+<subject>
+<ref refid="cf9470e6-c366-11e6-b99d-000c29cbd686"/>
+</subject>
+<show_stereotypes_attrs>
+<val>0</val>
+</show_stereotypes_attrs>
+</item>
+</canvas>
+</Diagram>
+<Class id="e1436a58-c321-11e6-b99d-000c29cbd686">
+<name>
+<val>Torroids</val>
+</name>
+<ownedAttribute>
+<reflist>
+<ref refid="f7dcec2a-c363-11e6-b99d-000c29cbd686"/>
+<ref refid="0a7a3cca-c364-11e6-b99d-000c29cbd686"/>
+</reflist>
+</ownedAttribute>
+<ownedOperation>
+<reflist>
+<ref refid="db286672-c363-11e6-b99d-000c29cbd686"/>
+<ref refid="e9a2a56e-c363-11e6-b99d-000c29cbd686"/>
+</reflist>
+</ownedOperation>
+<package>
+<ref refid="212b1f40-c321-11e6-b99d-000c29cbd686"/>
+</package>
+<presentation>
+<reflist>
+<ref refid="e1459206-c321-11e6-b99d-000c29cbd686"/>
+</reflist>
+</presentation>
+</Class>
+<Class id="d48de93a-c34b-11e6-b99d-000c29cbd686">
+<name>
+<val>SspCylSceneService</val>
+</name>
+<ownedAttribute>
+<reflist>
+<ref refid="fe9de242-c34c-11e6-b99d-000c29cbd686"/>
+<ref refid="04e2c3f2-c34d-11e6-b99d-000c29cbd686"/>
+<ref refid="0960b5ba-c34d-11e6-b99d-000c29cbd686"/>
+<ref refid="2368fe86-c34d-11e6-b99d-000c29cbd686"/>
+<ref refid="3288c7ca-c34d-11e6-b99d-000c29cbd686"/>
+<ref refid="365dfcee-c34d-11e6-b99d-000c29cbd686"/>
+</reflist>
+</ownedAttribute>
+<ownedOperation>
+<reflist>
+<ref refid="35469614-c356-11e6-b99d-000c29cbd686"/>
+</reflist>
+</ownedOperation>
+<package>
+<ref refid="212b1f40-c321-11e6-b99d-000c29cbd686"/>
+</package>
+<presentation>
+<reflist>
+<ref refid="d48e0cb2-c34b-11e6-b99d-000c29cbd686"/>
+</reflist>
+</presentation>
+</Class>
+<Class id="d5dfa2b0-c34b-11e6-b99d-000c29cbd686">
+<name>
+<val>SspPlaneSceneService</val>
+</name>
+<ownedAttribute>
+<reflist>
+<ref refid="b9bdf0ae-c34c-11e6-b99d-000c29cbd686"/>
+<ref refid="c4160fe6-c34c-11e6-b99d-000c29cbd686"/>
+<ref refid="c85651a6-c34c-11e6-b99d-000c29cbd686"/>
+<ref refid="7647b822-c34d-11e6-b99d-000c29cbd686"/>
+<ref refid="7b946a1e-c34d-11e6-b99d-000c29cbd686"/>
+<ref refid="7e7c6696-c34d-11e6-b99d-000c29cbd686"/>
+</reflist>
+</ownedAttribute>
+<ownedOperation>
+<reflist>
+<ref refid="3d6db4a8-c356-11e6-b99d-000c29cbd686"/>
+</reflist>
+</ownedOperation>
+<package>
+<ref refid="212b1f40-c321-11e6-b99d-000c29cbd686"/>
+</package>
+<presentation>
+<reflist>
+<ref refid="d5dfbf02-c34b-11e6-b99d-000c29cbd686"/>
+</reflist>
+</presentation>
+</Class>
+<Interface id="fbd79ffe-c34b-11e6-b99d-000c29cbd686">
+<name>
+<val>ISspScene</val>
+</name>
+<ownedAttribute>
+<reflist>
+<ref refid="44e8337a-c34c-11e6-b99d-000c29cbd686"/>
+<ref refid="52fc8074-c34c-11e6-b99d-000c29cbd686"/>
+<ref refid="5ba62bc6-c34c-11e6-b99d-000c29cbd686"/>
+</reflist>
+</ownedAttribute>
+<package>
+<ref refid="212b1f40-c321-11e6-b99d-000c29cbd686"/>
+</package>
+<presentation>
+<reflist>
+<ref refid="fbd7b2dc-c34b-11e6-b99d-000c29cbd686"/>
+</reflist>
+</presentation>
+</Interface>
+<Property id="44e8337a-c34c-11e6-b99d-000c29cbd686">
+<interface_>
+<ref refid="fbd79ffe-c34b-11e6-b99d-000c29cbd686"/>
+</interface_>
+<name>
+<val>vrScene</val>
+</name>
+</Property>
+<Property id="52fc8074-c34c-11e6-b99d-000c29cbd686">
+<interface_>
+<ref refid="fbd79ffe-c34b-11e6-b99d-000c29cbd686"/>
+</interface_>
+<name>
+<val>sspSurface : THREE.Mesh</val>
+</name>
+</Property>
+<Property id="5ba62bc6-c34c-11e6-b99d-000c29cbd686">
+<interface_>
+<ref refid="fbd79ffe-c34b-11e6-b99d-000c29cbd686"/>
+</interface_>
+<name>
+<val>sspMaterial-THREE.Material</val>
+</name>
+</Property>
+<Property id="b9bdf0ae-c34c-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="d5dfa2b0-c34b-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>planeMesh</val>
+</name>
+</Property>
+<Property id="c4160fe6-c34c-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="d5dfa2b0-c34b-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>sspSurface</val>
+</name>
+</Property>
+<Property id="c85651a6-c34c-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="d5dfa2b0-c34b-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>sspMaterial</val>
+</name>
+</Property>
+<Property id="fe9de242-c34c-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="d48de93a-c34b-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>cylMesh</val>
+</name>
+</Property>
+<Property id="04e2c3f2-c34d-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="d48de93a-c34b-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>sspSurface</val>
+</name>
+</Property>
+<Property id="0960b5ba-c34d-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="d48de93a-c34b-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>sspMaterial</val>
+</name>
+</Property>
+<Property id="2368fe86-c34d-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="d48de93a-c34b-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>vrScene</val>
+</name>
+</Property>
+<Property id="3288c7ca-c34d-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="d48de93a-c34b-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>width</val>
+</name>
+</Property>
+<Property id="365dfcee-c34d-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="d48de93a-c34b-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>height</val>
+</name>
+</Property>
+<Property id="7647b822-c34d-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="d5dfa2b0-c34b-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>vrScene</val>
+</name>
+</Property>
+<Property id="7b946a1e-c34d-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="d5dfa2b0-c34b-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>width</val>
+</name>
+</Property>
+<Property id="7e7c6696-c34d-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="d5dfa2b0-c34b-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>height</val>
+</name>
+</Property>
+<Class id="ed85b55c-c351-11e6-b99d-000c29cbd686">
+<name>
+<val>VrSceneService</val>
+</name>
+<ownedAttribute>
+<reflist>
+<ref refid="810ef814-c353-11e6-b99d-000c29cbd686"/>
+<ref refid="89f9f352-c353-11e6-b99d-000c29cbd686"/>
+<ref refid="8e8123aa-c353-11e6-b99d-000c29cbd686"/>
+<ref refid="937acf46-c353-11e6-b99d-000c29cbd686"/>
+<ref refid="9994c94a-c353-11e6-b99d-000c29cbd686"/>
+<ref refid="a9b67c7e-c353-11e6-b99d-000c29cbd686"/>
+</reflist>
+</ownedAttribute>
+<package>
+<ref refid="212b1f40-c321-11e6-b99d-000c29cbd686"/>
+</package>
+<presentation>
+<reflist>
+<ref refid="ed85cbb4-c351-11e6-b99d-000c29cbd686"/>
+</reflist>
+</presentation>
+</Class>
+<Property id="810ef814-c353-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="ed85b55c-c351-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>scene</val>
+</name>
+</Property>
+<Property id="89f9f352-c353-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="ed85b55c-c351-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>dolly</val>
+</name>
+</Property>
+<Property id="8e8123aa-c353-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="ed85b55c-c351-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>vrControls</val>
+</name>
+</Property>
+<Property id="937acf46-c353-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="ed85b55c-c351-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>vrEffect</val>
+</name>
+</Property>
+<Property id="9994c94a-c353-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="ed85b55c-c351-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>webVrManager</val>
+</name>
+</Property>
+<Property id="a9b67c7e-c353-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="ed85b55c-c351-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>webGlRenderer</val>
+</name>
+</Property>
+<Class id="0643ea8e-c355-11e6-b99d-000c29cbd686">
+<name>
+<val>SspRuntimeService</val>
+</name>
+<ownedAttribute>
+<reflist>
+<ref refid="934539ec-c355-11e6-b99d-000c29cbd686"/>
+<ref refid="9086bc20-c356-11e6-b99d-000c29cbd686"/>
+<ref refid="baf87f02-c356-11e6-b99d-000c29cbd686"/>
+<ref refid="cf7e73f0-c356-11e6-b99d-000c29cbd686"/>
+<ref refid="1145fdc6-c357-11e6-b99d-000c29cbd686"/>
+<ref refid="3886f2be-c357-11e6-b99d-000c29cbd686"/>
+<ref refid="246e50ae-c363-11e6-b99d-000c29cbd686"/>
+<ref refid="2aec186c-c363-11e6-b99d-000c29cbd686"/>
+</reflist>
+</ownedAttribute>
+<ownedOperation>
+<reflist>
+<ref refid="201b6022-c364-11e6-b99d-000c29cbd686"/>
+</reflist>
+</ownedOperation>
+<package>
+<ref refid="212b1f40-c321-11e6-b99d-000c29cbd686"/>
+</package>
+<presentation>
+<reflist>
+<ref refid="0643fdda-c355-11e6-b99d-000c29cbd686"/>
+</reflist>
+</presentation>
+</Class>
+<Property id="934539ec-c355-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="0643ea8e-c355-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>outerVrScene</val>
+</name>
+<typeValue>
+<val>VrSceneService</val>
+</typeValue>
+</Property>
+<Comment id="a8b588fe-c355-11e6-b99d-000c29cbd686">
+<body>
+<val>main vr scene abstraction</val>
+</body>
+<presentation>
+<reflist>
+<ref refid="a8b5907e-c355-11e6-b99d-000c29cbd686"/>
+</reflist>
+</presentation>
+</Comment>
+<Comment id="dd440ee2-c355-11e6-b99d-000c29cbd686">
+<body>
+<val>main app aware runtime loop. Does image on image "magic"</val>
+</body>
+<presentation>
+<reflist>
+<ref refid="dd4415d6-c355-11e6-b99d-000c29cbd686"/>
+</reflist>
+</presentation>
+</Comment>
+<Operation id="35469614-c356-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="d48de93a-c34b-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>init</val>
+</name>
+</Operation>
+<Operation id="3d6db4a8-c356-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="d5dfa2b0-c34b-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>init</val>
+</name>
+</Operation>
+<Property id="9086bc20-c356-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="0643ea8e-c355-11e6-b99d-000c29cbd686"/>
+</class_>
+<defaultValue>
+<val>outerVrScene.WebGlenderer</val>
+</defaultValue>
+<name>
+<val>webGlRender</val>
+</name>
+</Property>
+<Property id="baf87f02-c356-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="0643ea8e-c355-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>gl_webGLRenderer</val>
+</name>
+</Property>
+<Property id="cf7e73f0-c356-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="0643ea8e-c355-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>offscreenImageBuf : THREE.DataTexture</val>
+</name>
+</Property>
+<Property id="1145fdc6-c357-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="0643ea8e-c355-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>innerSceneCamera</val>
+</name>
+</Property>
+<Property id="3886f2be-c357-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="0643ea8e-c355-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>outerSspScene</val>
+</name>
+<typeValue>
+<val>ISspScene</val>
+</typeValue>
+</Property>
+<Property id="246e50ae-c363-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="0643ea8e-c355-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>innerGame</val>
+</name>
+</Property>
+<Property id="2aec186c-c363-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="0643ea8e-c355-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>cameraKbdHandler</val>
+</name>
+</Property>
+<Operation id="db286672-c363-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="e1436a58-c321-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>initOuterScene</val>
+</name>
+</Operation>
+<Operation id="e9a2a56e-c363-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="e1436a58-c321-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>startGame</val>
+</name>
+</Operation>
+<Property id="f7dcec2a-c363-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="e1436a58-c321-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>sspScene</val>
+</name>
+<typeValue>
+<val>ISspScene</val>
+</typeValue>
+</Property>
+<Property id="0a7a3cca-c364-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="e1436a58-c321-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>kbdHandlerRouter</val>
+</name>
+</Property>
+<Operation id="201b6022-c364-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="0643ea8e-c355-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>mainLoop</val>
+</name>
+</Operation>
+<Interface id="5e4fb1fe-c364-11e6-b99d-000c29cbd686">
+<name>
+<val>InnerGame</val>
+</name>
+<ownedAttribute>
+<reflist>
+<ref refid="7475d008-c364-11e6-b99d-000c29cbd686"/>
+</reflist>
+</ownedAttribute>
+<ownedOperation>
+<reflist>
+<ref refid="7e3bd146-c364-11e6-b99d-000c29cbd686"/>
+</reflist>
+</ownedOperation>
+<package>
+<ref refid="212b1f40-c321-11e6-b99d-000c29cbd686"/>
+</package>
+<presentation>
+<reflist>
+<ref refid="5e4fc4d2-c364-11e6-b99d-000c29cbd686"/>
+</reflist>
+</presentation>
+</Interface>
+<Property id="7475d008-c364-11e6-b99d-000c29cbd686">
+<interface_>
+<ref refid="5e4fb1fe-c364-11e6-b99d-000c29cbd686"/>
+</interface_>
+<name>
+<val>scene : THREE.scene</val>
+</name>
+</Property>
+<Operation id="7e3bd146-c364-11e6-b99d-000c29cbd686">
+<interface_>
+<ref refid="5e4fb1fe-c364-11e6-b99d-000c29cbd686"/>
+</interface_>
+<name>
+<val>getMainCharacterInfo</val>
+</name>
+</Operation>
+<Class id="bf65276c-c364-11e6-b99d-000c29cbd686">
+<name>
+<val>AsteroidsGame</val>
+</name>
+<ownedAttribute>
+<reflist>
+<ref refid="fb8fcff8-c364-11e6-b99d-000c29cbd686"/>
+<ref refid="01d6baf2-c365-11e6-b99d-000c29cbd686"/>
+<ref refid="083b3f30-c365-11e6-b99d-000c29cbd686"/>
+<ref refid="2e0d2c50-c365-11e6-b99d-000c29cbd686"/>
+<ref refid="37adf488-c365-11e6-b99d-000c29cbd686"/>
+</reflist>
+</ownedAttribute>
+<ownedOperation>
+<reflist>
+<ref refid="4d4af6a6-c365-11e6-b99d-000c29cbd686"/>
+<ref refid="51ff9080-c365-11e6-b99d-000c29cbd686"/>
+<ref refid="5fcd62c8-c365-11e6-b99d-000c29cbd686"/>
+<ref refid="64fcad12-c365-11e6-b99d-000c29cbd686"/>
+<ref refid="70e3acca-c365-11e6-b99d-000c29cbd686"/>
+</reflist>
+</ownedOperation>
+<package>
+<ref refid="212b1f40-c321-11e6-b99d-000c29cbd686"/>
+</package>
+<presentation>
+<reflist>
+<ref refid="bf653df6-c364-11e6-b99d-000c29cbd686"/>
+</reflist>
+</presentation>
+</Class>
+<Property id="fb8fcff8-c364-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="bf65276c-c364-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>asteroids</val>
+</name>
+</Property>
+<Property id="01d6baf2-c365-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="bf65276c-c364-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>bullets</val>
+</name>
+</Property>
+<Property id="083b3f30-c365-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="bf65276c-c364-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>ship</val>
+</name>
+</Property>
+<Property id="2e0d2c50-c365-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="bf65276c-c364-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>scene : THREE.Scene</val>
+</name>
+</Property>
+<Property id="37adf488-c365-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="bf65276c-c364-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>base</val>
+</name>
+</Property>
+<Operation id="4d4af6a6-c365-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="bf65276c-c364-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>initScene</val>
+</name>
+</Operation>
+<Operation id="51ff9080-c365-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="bf65276c-c364-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>updateScene</val>
+</name>
+</Operation>
+<Operation id="5fcd62c8-c365-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="bf65276c-c364-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>updateBullets</val>
+</name>
+</Operation>
+<Operation id="64fcad12-c365-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="bf65276c-c364-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>shipFiredBullet</val>
+</name>
+</Operation>
+<Operation id="70e3acca-c365-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="bf65276c-c364-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>getMainCharacterInfo</val>
+</name>
+</Operation>
+<Class id="9ce65b1a-c365-11e6-b99d-000c29cbd686">
+<name>
+<val>BreakoutGame</val>
+</name>
+<ownedAttribute>
+<reflist>
+<ref refid="aa01791a-c365-11e6-b99d-000c29cbd686"/>
+<ref refid="ad2d7fb2-c365-11e6-b99d-000c29cbd686"/>
+</reflist>
+</ownedAttribute>
+<ownedOperation>
+<reflist>
+<ref refid="b804b1b2-c365-11e6-b99d-000c29cbd686"/>
+</reflist>
+</ownedOperation>
+<package>
+<ref refid="212b1f40-c321-11e6-b99d-000c29cbd686"/>
+</package>
+<presentation>
+<reflist>
+<ref refid="9ce66f88-c365-11e6-b99d-000c29cbd686"/>
+</reflist>
+</presentation>
+</Class>
+<Property id="aa01791a-c365-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="9ce65b1a-c365-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>paddle</val>
+</name>
+</Property>
+<Property id="ad2d7fb2-c365-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="9ce65b1a-c365-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>ball</val>
+</name>
+</Property>
+<Operation id="b804b1b2-c365-11e6-b99d-000c29cbd686">
+<class_>
+<ref refid="9ce65b1a-c365-11e6-b99d-000c29cbd686"/>
+</class_>
+<name>
+<val>getMainCharacterInfo</val>
+</name>
+</Operation>
+<Class id="1143c182-c366-11e6-b99d-000c29cbd686">
+<name>
+<val>TorOut</val>
+</name>
+<package>
+<ref refid="212b1f40-c321-11e6-b99d-000c29cbd686"/>
+</package>
+<presentation>
+<reflist>
+<ref refid="1143d488-c366-11e6-b99d-000c29cbd686"/>
+</reflist>
+</presentation>
+</Class>
+<Comment id="295ca0e0-c366-11e6-b99d-000c29cbd686">
+<body>
+<val>apps</val>
+</body>
+<presentation>
+<reflist>
+<ref refid="295caa72-c366-11e6-b99d-000c29cbd686"/>
+</reflist>
+</presentation>
+</Comment>
+<Class id="59f54e00-c366-11e6-b99d-000c29cbd686">
+<name>
+<val>SspSphereSceneService</val>
+</name>
+<package>
+<ref refid="212b1f40-c321-11e6-b99d-000c29cbd686"/>
+</package>
+<presentation>
+<reflist>
+<ref refid="59f55f94-c366-11e6-b99d-000c29cbd686"/>
+<ref refid="7f08b47a-c366-11e6-b99d-000c29cbd686"/>
+</reflist>
+</presentation>
+</Class>
+<Class id="6b65764c-c366-11e6-b99d-000c29cbd686">
+<name>
+<val>SspPyramidSceneService</val>
+</name>
+<package>
+<ref refid="212b1f40-c321-11e6-b99d-000c29cbd686"/>
+</package>
+<presentation>
+<reflist>
+<ref refid="6b659280-c366-11e6-b99d-000c29cbd686"/>
+</reflist>
+</presentation>
+</Class>
+<Comment id="94a15620-c366-11e6-b99d-000c29cbd686">
+<body>
+<val>Outer Scenes</val>
+</body>
+<presentation>
+<reflist>
+<ref refid="94a15fa8-c366-11e6-b99d-000c29cbd686"/>
+</reflist>
+</presentation>
+</Comment>
+<Comment id="cf9470e6-c366-11e6-b99d-000c29cbd686">
+<body>
+<val>Inner Scenes (games)</val>
+</body>
+<presentation>
+<reflist>
+<ref refid="cf947c76-c366-11e6-b99d-000c29cbd686"/>
+</reflist>
+</presentation>
+</Comment>
+</gaphor>
