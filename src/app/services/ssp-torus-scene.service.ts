@@ -16,6 +16,7 @@ export class SspTorusSceneService implements ISspScene {
   torusMesh : THREE.Mesh;
   sspSurface : THREE.Mesh;
   sspMaterial : THREE.MeshBasicMaterial;
+  tag : string;
   // constructor(width, height, webGLRenderer: THREE.WebGLRenderer) {
   // constructor(width, height, private _vrSceneService: VRSceneService) {
   constructor(width, height, public vrScene: VRSceneService) {
@@ -38,6 +39,8 @@ export class SspTorusSceneService implements ISspScene {
     // component know what to draw on.
     this.sspSurface = this.torusMesh;
     this.sspMaterial = torusMaterial;
+
+    this.tag = "torus";
 
   }
 

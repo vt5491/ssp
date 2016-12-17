@@ -8,6 +8,7 @@ export class SspPyramidScene implements ISspScene {
   pyramidMesh: THREE.Mesh;
   sspSurface : THREE.Mesh;
   sspMaterial : THREE.MeshBasicMaterial;
+  tag : string;
 
   constructor(width, height, public vrScene : VRSceneService) {
     console.log(`SspPyramidSceneService.ctor: entered`);
@@ -28,6 +29,8 @@ export class SspPyramidScene implements ISspScene {
     // component know what to draw on.
     this.sspSurface = this.pyramidMesh;
     this.sspMaterial = pyramidMaterial;
+
+    this.tag = 'pyramid';
 
   };
 

@@ -8,6 +8,7 @@ export class SspSphereScene implements ISspScene {
   sphereMesh: THREE.Mesh;
   sspSurface : THREE.Mesh;
   sspMaterial : THREE.MeshBasicMaterial;
+  tag : string;
 
 
   constructor(width, height, public vrScene : VRSceneService) {
@@ -30,6 +31,8 @@ export class SspSphereScene implements ISspScene {
     // component know what to draw on.
     this.sspSurface = this.sphereMesh;
     this.sspMaterial = sphereMaterial;
+
+    this.tag = 'sphere';
 
   };
 

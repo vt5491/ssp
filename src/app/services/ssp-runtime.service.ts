@@ -2,6 +2,7 @@ import { Injectable, Component } from '@angular/core';
 import { VRSceneService, VRSceneServiceProvider } from '../services/vr-scene.service';
 // import { SspSceneService } from '../services/ssp-scene.service';
 import { ISspScene} from '../interfaces/ssp-scene';
+import { SspCylSceneService } from './ssp-cyl-scene.service';
 import { InnerGame } from '../inner-game';
 import { WebGLRenderTargetProvider } from './utils.service';
 import { IMainCharacterInfo } from '../interfaces/main-character-info';
@@ -79,11 +80,27 @@ export class SspRuntimeService {
 
     // let info = <IMainCharacterInfo> this.innerGame.getMainCharacterInfo();
     let info : IMainCharacterInfo = this.innerGame.getMainCharacterInfo();
+    let tmp = <any> info;
+    console.log(`info.x=${tmp.pos.x},info.y=${tmp.pos.y},info.z=${tmp.pos.z}`);
     // console.log(`SspRuntime.mainLoop: ship.x=${(<any>info.pos).x}, ship.y=${(<any>info.pos).y}`);
     // map the outer camera coordinates to that of the main inner game avatar
     // so we "track" the inner game's main game object
-    this.outerVrScene.dolly.position.x = (<any>info.pos).x * 6.0 + this.cameraKbdHandler.deltaX;
-    this.outerVrScene.dolly.position.y = (<any>info.pos).y * 6.0 + this.cameraKbdHandler.deltaY;
+    if (this.outerSspScene.tag === 'plane') {
+      this.outerVrScene.dolly.position.x = (<any>info.pos).x * 6.0 + this.cameraKbdHandler.deltaX;
+      this.outerVrScene.dolly.position.y = (<any>info.pos).y * 6.0 + this.cameraKbdHandler.deltaY;
+    }
+    else if (this.outerSspScene.tag === 'cyl') {
+      let innerX = info.pos['x'];
+      let trackingInfo : any = (<SspCylSceneService>this.outerSspScene)
+        .getNormalizedTrackingCoords(info.pos['x'],info.pos['y'], info.pos['z'], 4.0 );
+
+      console.log(`trackingInfo.x=${trackingInfo.x},trackingInfo.y=${trackingInfo.y},
+      trackingInfo.z=${trackingInfo.z},trackingInfo.rotQuat=${trackingInfo.rotQuat}`);  
+
+      this.outerVrScene.dolly.position.x = trackingInfo.x * 12.5 + this.cameraKbdHandler.deltaX;
+      // this.outerVrScene.dolly.position.y = trackingInfo.y * 40.0 + this.cameraKbdHandler.deltaY;
+      this.outerVrScene.dolly.position.z = trackingInfo.z * 12.5 + this.cameraKbdHandler.deltaZ + 50.0;
+    }
 
     // render the inner game into to offscreen buffer.
     this.webGLRenderer.render(

@@ -9,6 +9,7 @@ export class SspPlaneSceneService implements ISspScene {
   planeMesh: THREE.Mesh;
   sspSurface : THREE.Mesh;
   sspMaterial : THREE.MeshBasicMaterial;
+  tag : string;
 
 
   // constructor(width, height, private _vrSceneService: VRSceneService) {
@@ -33,6 +34,7 @@ export class SspPlaneSceneService implements ISspScene {
     this.sspSurface = this.planeMesh;
     this.sspMaterial = planeMaterial;
 
+    this.tag = 'plane';
     // // add a GridHelper
     // let gridHelper = new THREE.GridHelper(10, 10);
     // gridHelper.rotateX(Math.PI / 180.0 * 90.0);

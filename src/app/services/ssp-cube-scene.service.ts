@@ -8,7 +8,7 @@ export class SspCubeScene implements ISspScene {
   cubeMesh: THREE.Mesh;
   sspSurface : THREE.Mesh;
   sspMaterial : THREE.MeshBasicMaterial;
-
+  tag : string;
 
   constructor(width, height, public vrScene : VRSceneService) {
     console.log(`SspCubeSceneService.ctor: entered`);
@@ -28,6 +28,7 @@ export class SspCubeScene implements ISspScene {
     this.sspSurface = this.cubeMesh;
     this.sspMaterial = cubeMaterial;
 
+    this.tag = 'cube';
     // add a GridHelper
     // let gridHelper = new THREE.GridHelper(10, 10);
     // gridHelper.rotateX(Math.PI / 180.0 * 90.0);
