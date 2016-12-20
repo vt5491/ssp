@@ -129,9 +129,17 @@ export class TorroidsComponent implements OnInit {
     // add a GridHelper
     // let gridHelper = new THREE.GridHelper(100, 10);
     // let gridHelper = new THREE.GridHelper(50, 10);
-    let gridHelper = new THREE.GridHelper(100, 20);
-    gridHelper.rotateX(this.base.ONE_DEG * 90.0);
-    this.sspScene.vrScene.scene.add(gridHelper);
+    let gridHelper_xy = new THREE.GridHelper(100, 20);
+    gridHelper_xy.rotateX(this.base.ONE_DEG * 90.0);
+    this.sspScene.vrScene.scene.add(gridHelper_xy);
+
+    let gridHelper_xz = new THREE.GridHelper(100, 20);
+    gridHelper_xz.rotateX(this.base.ONE_DEG * 0.0);
+    this.sspScene.vrScene.scene.add(gridHelper_xz);
+
+    let gridHelper_yz = new THREE.GridHelper(100, 20);
+    gridHelper_yz.rotateZ(this.base.ONE_DEG * 90.0);
+    // this.sspScene.vrScene.scene.add(gridHelper_yz);
 
     let axisHelper = new THREE.AxisHelper( 10 );
     this.sspScene.vrScene.scene.add( axisHelper );

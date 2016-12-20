@@ -44,8 +44,8 @@ export class Ship {
     this.deltaVel = 0.0005;
     this.deltaTheta = 5.0 * this.base.ONE_DEG;
 
-    // this.vTheta = this.base.ONE_DEG * 90.0; 
-    this.vTheta = this.base.ONE_DEG * 0.0; 
+    this.vTheta = this.base.ONE_DEG * 90.0; 
+    // this.vTheta = this.base.ONE_DEG * 0.0; 
     this.thetaLast = this.vTheta; 
 
     // create the ship

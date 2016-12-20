@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { VRSceneService, VRSceneServiceProvider } from './vr-scene.service';
 import { ISspScene} from '../interfaces/ssp-scene';
 // import { SspSceneService} from './ssp-scene.service';
+import { IMainCharacterInfo } from '../interfaces/main-character-info';
+import { CameraKbdHandlerService } from './camera-kbd-handler.service';
 
 @Injectable()
 export class SspPlaneSceneService implements ISspScene {
@@ -41,6 +43,13 @@ export class SspPlaneSceneService implements ISspScene {
     // this.vrSceneService.scene.add(gridHelper);
   };
 
+  outerCameraTrack(avatarInfo: IMainCharacterInfo, 
+    outerVrScene: VRSceneService,
+    cameraKbdHandler: CameraKbdHandlerService 
+    ) {
+    outerVrScene.dolly.position.x = (<any>avatarInfo.pos).x * 6.0 + cameraKbdHandler.deltaX;
+    outerVrScene.dolly.position.y = (<any>avatarInfo.pos).y * 6.0 + cameraKbdHandler.deltaY;
+    };
     // Getters and Setters
   // get vrSceneService(): VRSceneService {
   //   return this._vrSceneService;
@@ -49,6 +58,7 @@ export class SspPlaneSceneService implements ISspScene {
   //   this._vrSceneService = theVrSceneService;
   // }
 }
+
 
 let SspPlaneSceneFactory = (vrSceneService: VRSceneService) => {
   // console.log(`SspCylSceneFactor.ctor: entered`);

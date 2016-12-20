@@ -3,6 +3,8 @@ import { Injectable, Component } from '@angular/core';
 import { VRSceneService, VRSceneServiceProvider } from './vr-scene.service';
 import { ISspScene} from '../interfaces/ssp-scene';
 // import { SspSceneService} from './ssp-scene.service';
+import { IMainCharacterInfo } from '../interfaces/main-character-info';
+import { CameraKbdHandlerService } from './camera-kbd-handler.service';
 
 // @Component({
 //   // providers: [VRSceneServiceProvider]
@@ -17,17 +19,24 @@ export class SspTorusSceneService implements ISspScene {
   sspSurface : THREE.Mesh;
   sspMaterial : THREE.MeshBasicMaterial;
   tag : string;
+  torusRadius : number;
+  tubeRadius : number
+  DEFAULT_TORUS_RADIUS = 100;
+  DEFAULT_TUBE_RADIUS = 20;
   // constructor(width, height, webGLRenderer: THREE.WebGLRenderer) {
   // constructor(width, height, private _vrSceneService: VRSceneService) {
-  constructor(width, height, public vrScene: VRSceneService) {
+  constructor(width, height, public vrScene: VRSceneService, torusRadius?, tubeRadius?) {
     // super();
     console.log(`SspTorusSceneService.ctor: entered`);
+
+    this.torusRadius = torusRadius || this.DEFAULT_TORUS_RADIUS; 
+    this.tubeRadius = torusRadius || this.DEFAULT_TUBE_RADIUS; 
     this.init();
   }
 
   init() {
     // let torusGeom   = new THREE.TorusGeometry( 25, 8, 50, 50);
-    let torusGeom   = new THREE.TorusBufferGeometry(50, 18, 50, 50);
+    let torusGeom   = new THREE.TorusBufferGeometry(100, 18, 50, 50);
     let torusMaterial = new THREE.MeshBasicMaterial({ color: 0xff0080, wireframe: false  });
 
     this.torusMesh = new THREE.Mesh(torusGeom, torusMaterial);
@@ -44,6 +53,19 @@ export class SspTorusSceneService implements ISspScene {
 
   }
 
+  outerCameraTrack(avatarInfo: IMainCharacterInfo, 
+    outerVrScene: VRSceneService,
+    cameraKbdHandler: CameraKbdHandlerService 
+    ) {};
+
+  getNormalizedTrackingCoords(innerX: number, innerY: number, innerZ: number, boundVal: number): Object {
+    let result = <any>{};
+
+    let torusTheta = (Math.PI / boundVal) * innerX; 
+    let tubeTheta = (Math.PI / boundVal) * innerY; 
+
+    return result;
+  }
   // Getters and Setters
   // get vrSceneService(): VRSceneService {
   //   return this._vrSceneService;
@@ -62,6 +84,7 @@ export class SspTorusSceneService implements ISspScene {
   //   this._vrSceneService.webGLRenderer = webGLRenderer;
   // }
 }
+
 
 // let SspTorusSceneFactory = (webGLRenderer: THREE.WebGLRenderer) => {
 // let SspTorusSceneFactory = () => {

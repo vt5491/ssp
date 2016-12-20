@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { VRSceneService, VRSceneServiceProvider } from './vr-scene.service';
 import { ISspScene} from '../interfaces/ssp-scene';
 // import { SspSceneService} from './ssp-scene.service';
+import { IMainCharacterInfo } from '../interfaces/main-character-info';
+import { CameraKbdHandlerService } from './camera-kbd-handler.service';
 
 @Injectable()
 export class SspCubeScene implements ISspScene {
@@ -35,6 +37,10 @@ export class SspCubeScene implements ISspScene {
     // this.vrSceneService.scene.add(gridHelper);
   };
 
+  outerCameraTrack(avatarInfo: IMainCharacterInfo, 
+    outerVrScene: VRSceneService,
+    cameraKbdHandler: CameraKbdHandlerService 
+    ) {};
     // Getters and Setters
   // get vrSceneService(): VRSceneService {
   //   return this._vrSceneService;

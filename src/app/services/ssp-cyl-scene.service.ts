@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { VRSceneService, VRSceneServiceProvider } from './vr-scene.service';
 import { ISspScene} from '../interfaces/ssp-scene';
+import { IMainCharacterInfo } from '../interfaces/main-character-info';
 // import { SspSceneService} from './ssp-scene.service';
+import { CameraKbdHandlerService } from './camera-kbd-handler.service';
 
 @Injectable()
 export class SspCylSceneService implements ISspScene {
@@ -11,16 +13,20 @@ export class SspCylSceneService implements ISspScene {
   sspMaterial : THREE.MeshBasicMaterial;
   //TODO: add this to ISspScene
   tag : string;
+  radius : number;
+  DEFAULT_RADIUS = 25;
 
   // constructor(width, height, private _vrSceneService: VRSceneService) {
-  constructor(width, height, public vrScene: VRSceneService) {
+  constructor(width, height, public vrScene: VRSceneService, radius? : number) {
     // super();
     console.log(`SspCylSceneService.ctor: entered`);
+    this.radius = radius || this.DEFAULT_RADIUS;
+
     this.init();
   }
 
   init() {
-    let cylGeom   = new THREE.CylinderBufferGeometry(25, 25, 80, 50);
+    let cylGeom   = new THREE.CylinderBufferGeometry(this.radius, this.radius, 80, 50);
     let cylMaterial = new THREE.MeshBasicMaterial({ color: 0xff0080, wireframe: false });
 
     this.cylMesh = new THREE.Mesh(cylGeom, cylMaterial);
@@ -41,6 +47,25 @@ export class SspCylSceneService implements ISspScene {
     // this.vrSceneService.scene.add(gridHelper);
   };
 
+  // move the outer camera such that it tracks the position of the mainCharacter
+  // of the inner game
+  // outerCameraTrack(avatarInfo: IMainCharacterInfo, outerSspScene: ISspScene) {
+  outerCameraTrack(
+    avatarInfo: IMainCharacterInfo, 
+    outerVrScene: VRSceneService,
+    cameraKbdHandler: CameraKbdHandlerService ) {
+
+    let trackingInfo: any = this.getNormalizedTrackingCoords(avatarInfo.pos['x'], avatarInfo.pos['y'], avatarInfo.pos['z'], 4.0);
+
+    let cameraRadius = this.radius * 3.0;
+
+    outerVrScene.dolly.position.x = trackingInfo.x * cameraRadius + cameraKbdHandler.deltaX;
+    outerVrScene.dolly.position.y = trackingInfo.y * 15.0 + cameraKbdHandler.deltaY;
+    outerVrScene.dolly.position.z = trackingInfo.z * cameraRadius + cameraKbdHandler.deltaZ;
+
+    // this.outerVrScene.dolly.quaternion = trackingInfo.rotQuat;
+    outerVrScene.dolly.setRotationFromQuaternion(trackingInfo.rotQuat);
+  };
   // return camera tracking coordinates given a position from the 
   // inner game.  The coords are normalized to a unit circle (or distance)
   // and then scaled up by the client.
@@ -50,6 +75,7 @@ export class SspCylSceneService implements ISspScene {
 
     // result.x = 1.0;
     let theta = (Math.PI / boundVal) * innerX; 
+    theta += Math.PI;
 
     result.x = Math.sin(theta);
     result.z = Math.cos(theta);

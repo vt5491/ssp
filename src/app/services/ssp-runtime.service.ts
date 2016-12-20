@@ -79,28 +79,39 @@ export class SspRuntimeService {
     (<any>this.innerGame).updateScene();
 
     // let info = <IMainCharacterInfo> this.innerGame.getMainCharacterInfo();
-    let info : IMainCharacterInfo = this.innerGame.getMainCharacterInfo();
-    let tmp = <any> info;
-    console.log(`info.x=${tmp.pos.x},info.y=${tmp.pos.y},info.z=${tmp.pos.z}`);
+    let avatarInfo : IMainCharacterInfo = this.innerGame.getMainCharacterInfo();
+    // let tmp = <any> info;
+    // console.log(`info.x=${tmp.pos.x},info.y=${tmp.pos.y},info.z=${tmp.pos.z}`);
     // console.log(`SspRuntime.mainLoop: ship.x=${(<any>info.pos).x}, ship.y=${(<any>info.pos).y}`);
     // map the outer camera coordinates to that of the main inner game avatar
     // so we "track" the inner game's main game object
-    if (this.outerSspScene.tag === 'plane') {
-      this.outerVrScene.dolly.position.x = (<any>info.pos).x * 6.0 + this.cameraKbdHandler.deltaX;
-      this.outerVrScene.dolly.position.y = (<any>info.pos).y * 6.0 + this.cameraKbdHandler.deltaY;
-    }
-    else if (this.outerSspScene.tag === 'cyl') {
-      let innerX = info.pos['x'];
-      let trackingInfo : any = (<SspCylSceneService>this.outerSspScene)
-        .getNormalizedTrackingCoords(info.pos['x'],info.pos['y'], info.pos['z'], 4.0 );
+    this.outerSspScene.outerCameraTrack(avatarInfo, this.outerVrScene, this.cameraKbdHandler);
+    // if (this.outerSspScene.tag === 'plane') {
+    //   // (<SspPlaneSceneService>this.outerSspScene).outerCameraTrack(avatarInfo, this.outerVrScene, this.cameraKbdHandler);
+    //   this.outerSspScene.outerCameraTrack(avatarInfo, this.outerVrScene, this.cameraKbdHandler);
+    //   // this.outerVrScene.dolly.position.x = (<any>avatarInfo.pos).x * 6.0 + this.cameraKbdHandler.deltaX;
+    //   // this.outerVrScene.dolly.position.y = (<any>avatarInfo.pos).y * 6.0 + this.cameraKbdHandler.deltaY;
+    // }
+    // else if (this.outerSspScene.tag === 'cyl') {
+    //   (<SspCylSceneService>this.outerSspScene).outerCameraTrack(avatarInfo, this.outerVrScene, this.cameraKbdHandler);
+    //   // let innerX = info.pos['x'];
+    //   // let trackingInfo : any = (<SspCylSceneService>this.outerSspScene)
+    //   //   .getNormalizedTrackingCoords(info.pos['x'],info.pos['y'], info.pos['z'], 4.0 );
 
-      console.log(`trackingInfo.x=${trackingInfo.x},trackingInfo.y=${trackingInfo.y},
-      trackingInfo.z=${trackingInfo.z},trackingInfo.rotQuat=${trackingInfo.rotQuat}`);  
+    //   // console.log(`trackingInfo.x=${trackingInfo.x},trackingInfo.y=${trackingInfo.y},
+    //   // trackingInfo.z=${trackingInfo.z},trackingInfo.rotQuat=${trackingInfo.rotQuat}`);  
 
-      this.outerVrScene.dolly.position.x = trackingInfo.x * 12.5 + this.cameraKbdHandler.deltaX;
-      // this.outerVrScene.dolly.position.y = trackingInfo.y * 40.0 + this.cameraKbdHandler.deltaY;
-      this.outerVrScene.dolly.position.z = trackingInfo.z * 12.5 + this.cameraKbdHandler.deltaZ + 50.0;
-    }
+    //   // let cameraRadius = (<SspCylSceneService>this.outerSspScene).radius * 3.0;
+
+    //   // this.outerVrScene.dolly.position.x = trackingInfo.x * cameraRadius + this.cameraKbdHandler.deltaX;
+    //   // // this.outerVrScene.dolly.position.y = trackingInfo.y * 40.0 + this.cameraKbdHandler.deltaY;
+    //   // this.outerVrScene.dolly.position.y = trackingInfo.y * 15.0 + this.cameraKbdHandler.deltaY;
+    //   // // this.outerVrScene.dolly.position.z = trackingInfo.z * cameraRadius + this.cameraKbdHandler.deltaZ + 50.0;
+    //   // this.outerVrScene.dolly.position.z = trackingInfo.z * cameraRadius + this.cameraKbdHandler.deltaZ;
+
+    //   // // this.outerVrScene.dolly.quaternion = trackingInfo.rotQuat;
+    //   // this.outerVrScene.dolly.setRotationFromQuaternion(trackingInfo.rotQuat);
+    // }
 
     // render the inner game into to offscreen buffer.
     this.webGLRenderer.render(
