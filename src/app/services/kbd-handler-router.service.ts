@@ -43,6 +43,8 @@ export class KbdHandlerRouterService {
   keyEventHandler(event: KeyboardEvent) {
     // debugger;
     // console.log(`event.keyCode=${event.keyCode}`);
+    event.stopPropagation();
+    event.preventDefault();
     if(event.keyCode === this.toggleKey) {
       console.log(`keyEventHandler.toggle: activeKbdHandler=${this.activeKbdHandler}`);
       console.log(`keyEventHandler.toggle: activeKbdHandler.name=${this.activeKbdHandler._name}`);

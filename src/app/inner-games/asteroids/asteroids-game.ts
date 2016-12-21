@@ -166,6 +166,7 @@ export class AsteroidsGame implements InnerGame {
     info['pos'] = {};
     info['pos'].x = this.ship.mesh.position.x;
     info['pos'].y = this.ship.mesh.position.y;
+    info['pos'].z = this.ship.mesh.position.z;
 
     return <IMainCharacterInfo>info;
     // return info;

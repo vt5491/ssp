@@ -4,13 +4,15 @@ import { TestBed, async, inject } from '@angular/core/testing';
 import { SspCylSceneService, SspCylSceneProvider } from './ssp-cyl-scene.service';
 import { VRSceneService, VRSceneServiceProvider } from './vr-scene.service';
 import { BaseService } from './base.service';
+import { UtilsService } from './utils.service';
 import { IMainCharacterInfo } from '../interfaces/main-character-info';
 import { CameraKbdHandlerService } from './camera-kbd-handler.service';
 
 describe('Service: SspCylScene', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [SspCylSceneProvider, VRSceneServiceProvider, BaseService, CameraKbdHandlerService]
+      providers: [SspCylSceneProvider, VRSceneServiceProvider, 
+      BaseService, CameraKbdHandlerService, UtilsService]
     });
   });
 

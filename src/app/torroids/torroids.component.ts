@@ -87,8 +87,10 @@ export class TorroidsComponent implements OnInit {
     // this.model = {
     //   outerScene: "torus"
     // }; 
-    // this.model.outerScene = 'torus';
-    this.model.outerScene = 'plane';
+    // this sets which option is checked by default
+    this.model.outerScene = 'torus';
+    // this.model.outerScene = 'plane';
+    this.model.enableCameraTracking = true;
     console.log('TorroidComponent: ctor: _kbdHandlerRouterService=' + this._kbdHandlerRouter);
     // console.log('TorroidComponent: ctor: baseService=' + this.baseService);
     this.innerGame = this.injector.get(AsteroidsGame);
@@ -162,6 +164,7 @@ export class TorroidsComponent implements OnInit {
     console.log('TorroidsComponent.startGame: entered');
     console.log('TorroidsComponent.startGame: this.model.outerScene=' + this.model.outerScene);
 
+    this.utils.parms.enableCameraTracking = this.model.enableCameraTracking;
     // this.innerGame = this.injector.get(AsteroidsMainService);
 
     switch (this.model.outerScene) {
@@ -210,9 +213,13 @@ export class TorroidsComponent implements OnInit {
     this.webGLRenderer = this.sspScene.vrScene.webGLRenderer;
     // this.sspRuntime = new SspRuntimeService(this.sspScene.vrSceneService, this.innerGame);
     // this.sspRuntime = new SspRuntimeService(this.sspScene.vrSceneService, 
-    this.sspRuntime = new SspRuntimeService(this.sspScene, 
+    this.sspRuntime = new SspRuntimeService(
+      this.sspScene, 
       this.injector.get(THREE.WebGLRenderTarget),
-      this.innerGame, this.injector.get(CameraKbdHandlerService));
+      this.innerGame, 
+      this.injector.get(CameraKbdHandlerService),
+      this.injector.get(UtilsService) 
+      );
     this.initOuterScene();
 
     // let control = new function() { 

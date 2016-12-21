@@ -4,12 +4,13 @@ import { TestBed, async, inject } from '@angular/core/testing';
 import { SspRuntimeService } from './ssp-runtime.service';
 import { VRSceneService, VRSceneServiceProvider } from './vr-scene.service';
 // import { SspSceneService } from './ssp-scene.service';
-import { SspPlaneSceneService } from './ssp-plane-scene.service';
+import { SspPlaneSceneService, SspPlaneSceneProvider } from './ssp-plane-scene.service';
 import { ISspScene} from '../interfaces/ssp-scene';
 import { InnerGame } from '../inner-game';
 import { AsteroidsGame } from '../inner-games/asteroids/asteroids-game';
 import { CameraKbdHandlerService } from './camera-kbd-handler.service';
 import { BaseService } from './base.service';
+import { UtilsService } from './utils.service';
 
 describe('Service: SspRuntime', () => {
   // let dummyInnerGame : InnerGame = {}; 
@@ -47,7 +48,7 @@ describe('Service: SspRuntime', () => {
     TestBed.configureTestingModule({
       // providers: [SspRuntimeService, VRSceneServiceProvider, AsteroidsGame]
       providers: [ VRSceneServiceProvider, webglRenderTargetProvider,
-        SspSceneServiceProvider, CameraKbdHandlerService, BaseService]
+        SspPlaneSceneProvider, CameraKbdHandlerService, BaseService, UtilsService]
     });
     // this.innerGame = new InnerGame();
     this.innerGame = {};
@@ -81,20 +82,29 @@ describe('Service: SspRuntime', () => {
   // it('should ...', inject([SspRuntimeService, VRSceneService], 
   // it('should ctor works', inject([SspSceneService, THREE.WebGLRenderTarget, CameraKbdHandlerService], 
   //   (sspSceneService : SspSceneService, webglRenderTarget: THREE.WebGLRenderTarget, cameraKbdHandler : CameraKbdHandlerService,
-  xit('should ctor works', inject([SspSceneServiceProvider, 
-    THREE.WebGLRenderTarget, CameraKbdHandlerService], 
+  // it('should ctor works', inject([SspSceneServiceProvider, 
+  it('should ctor works', inject([ SspPlaneSceneService,
+    THREE.WebGLRenderTarget, CameraKbdHandlerService, VRSceneService, UtilsService], 
     (sspSceneService : ISspScene, 
      webglRenderTarget: THREE.WebGLRenderTarget, 
      cameraKbdHandler : CameraKbdHandlerService,
+     vrSceneService : VRSceneService,
+     utils : UtilsService
     //  service = new SspRuntimeService(vrSceneService, asteroidsGame)) => {
-     service = new SspRuntimeService(
-       sspSceneService, 
-       webglRenderTarget, 
-       this.innerGame,
-        cameraKbdHandler 
-       )) => {
+    //  service = new SspRuntimeService(
+    //    sspSceneService, 
+    //    webglRenderTarget, 
+    //    this.innerGame,
+    //     cameraKbdHandler 
+       ) => {
+      let service = new SspRuntimeService(
+        sspSceneService,
+        webglRenderTarget,
+        this.innerGame,
+        cameraKbdHandler, utils);
       expect(service).toBeTruthy();
-      expect(service.offscreenBuffer).toBeTruthy();
+      expect(service.offscreenImageBuf.image.data).toBeTruthy();
+      expect(service.utils).toBeTruthy();
   }));
 
   // it ('mainLoop works', inject([VRSceneService, InnerGame], vrSceneService :VRSceneService,  ))

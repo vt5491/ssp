@@ -36,6 +36,9 @@ Torroids.
    value="cyl"
    tabindex="2"
    dhecked="checked">Cyl<br/> -->
+  <label><input type="checkbox" id="cbox1" 
+    [(ngModel)]="model.enableCameraTracking" value="camera_tracking_on" 
+    [checked]="model.enableCameraTracking==true">Enable Camera Tracking</label><br>
  </span>
   <p>
     <button (click)="startButtonClick(input, $event)">Start Game</button>

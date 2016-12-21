@@ -14,5 +14,6 @@ describe('Service: Utils', () => {
     expect(service).toBeTruthy();
     expect(service.addControls).toBeTruthy();
     expect(service.datGUI).toBeTruthy();
+    expect(service.parms).toBeTruthy();
   }));
 });

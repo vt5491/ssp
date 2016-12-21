@@ -2,6 +2,7 @@
 import { Injectable } from '@angular/core';
 import { BaseService } from '../services/base.service';
 import { KbdHandler } from '../interfaces/kbd-handler';
+import { UtilsService } from './utils.service';
 
 @Injectable()
 export class CameraKbdHandlerService implements KbdHandler {
@@ -18,7 +19,7 @@ export class CameraKbdHandlerService implements KbdHandler {
   deltaY : number = 0.0;
   deltaZ : number = 0.0;
 
-  constructor(public base : BaseService ) {
+  constructor(public base : BaseService, public utils: UtilsService ) {
     this.name = 'cameraKbdHandler';
   }
 
@@ -26,6 +27,7 @@ export class CameraKbdHandlerService implements KbdHandler {
   keyEventHandler (event: KeyboardEvent) {
     // console.log(`CameraKbdHandlerService.keyHandler: entered`);
     // console.log(`CameraKbdHandlerService.keyHandler: event=${event}, dolly=${this.dolly}`);
+    event.preventDefault();
 
     let moveFactor = 1.0;
     switch( event.keyCode) {
@@ -34,6 +36,7 @@ export class CameraKbdHandlerService implements KbdHandler {
         //this.dolly.position.z -= this.CAMERA_MOVE_DELTA;
         this.dolly.translateZ(moveFactor * -this.CAMERA_MOVE_DELTA);
         //console.log('this.do-ly.postion.x=' + this.this.dolly.position.x);
+        this.deltaZ -= moveFactor * this.CAMERA_MOVE_DELTA;
       break;
 
       case 'S'.charCodeAt(0):
@@ -41,6 +44,7 @@ export class CameraKbdHandlerService implements KbdHandler {
         //dolly.position.z += CAMERA_MOVE_DELTA;
         this.dolly.translateZ(moveFactor * this.CAMERA_MOVE_DELTA);
         // console.log('dolly.postion.x=' + dolly.position.x);
+        this.deltaZ += moveFactor * this.CAMERA_MOVE_DELTA;
       break;
 
       case 'D'.charCodeAt(0):
@@ -79,6 +83,16 @@ export class CameraKbdHandlerService implements KbdHandler {
       case 'E'.charCodeAt(0):
         var tmpQuat = (new THREE.Quaternion()).setFromAxisAngle( new THREE.Vector3(0,1,0), this.base.ONE_DEG * -this.CAMERA_ROT_DELTA);
         this.dolly.quaternion.multiply(tmpQuat);
+      break;
+
+      // // ctrl-t : toggle camera tracking
+      // case 'T'.charCodeAt(0):
+      //   if (event.ctrlKey) {
+      //     this.utils.parms.enableCameraTracking = !this.utils.parms.enableCameraTracking;
+      //   }
+      // break;
+      case 'Z'.charCodeAt(0):
+        this.utils.parms.enableCameraTracking = !this.utils.parms.enableCameraTracking;
       break;
     }
   }

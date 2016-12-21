@@ -3,11 +3,12 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { CameraKbdHandlerService } from './camera-kbd-handler.service';
 import { BaseService } from './base.service';
+import { UtilsService } from './utils.service';
 
 describe('Service: CameraKbdHandler', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [CameraKbdHandlerService, BaseService]
+      providers: [CameraKbdHandlerService, BaseService, UtilsService]
     });
   });
 
@@ -21,5 +22,6 @@ describe('Service: CameraKbdHandler', () => {
       expect(service.deltaX).toBeDefined();
       expect(service.deltaY).toBeDefined();
       expect(service.deltaZ).toBeDefined();
+      expect(service.utils).toBeDefined();
   }));
 });

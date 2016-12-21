@@ -6,8 +6,9 @@ import { VRSceneService, VRSceneServiceProvider } from './vr-scene.service';
 import { IMainCharacterInfo } from '../interfaces/main-character-info';
 import { CameraKbdHandlerService } from './camera-kbd-handler.service';
 import { BaseService } from './base.service';
+import { UtilsService } from './utils.service';
 
-fdescribe('Service: SspTorusScene', () => {
+describe('Service: SspTorusScene', () => {
 //  console.log(`ssp-torus-scene.service.spec.ts: now in describe`);
 
   beforeEach(() => {
@@ -15,7 +16,7 @@ fdescribe('Service: SspTorusScene', () => {
     TestBed.configureTestingModule({
       // providers: [SspTorusSceneService]
       providers: [SspTorusSceneProvider, VRSceneServiceProvider, 
-        CameraKbdHandlerService, BaseService
+        CameraKbdHandlerService, BaseService, UtilsService
         // note: this is needed even though it's not directly used
         // VRSceneServiceProvider 
         ]

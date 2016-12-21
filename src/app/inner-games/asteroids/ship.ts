@@ -24,7 +24,7 @@ export class Ship {
   vTheta : number;
   thetaLast : number;
   vel : number;  //TODO defunct
-  vScalar : number;
+  vScalar : number; // use this
 
   constructor(
     private base : BaseService
@@ -37,15 +37,20 @@ export class Ship {
     // this.vx = 0.04;
     // this.vy = 0.0;
     // this.vel = 0.01;
-    this.vScalar = 0.01;
+    // this.vScalar = 0.01;
+    // this controls how fast the ship goes
+    this.vScalar = 0.002;
 
     this.deltaVx = 0.001;
     this.deltaVy = 0.001;
-    this.deltaVel = 0.0005;
+    // this.deltaVel = 0.0005;
+    this.deltaVel = 0.0001;
     this.deltaTheta = 5.0 * this.base.ONE_DEG;
 
-    this.vTheta = this.base.ONE_DEG * 90.0; 
-    // this.vTheta = this.base.ONE_DEG * 0.0; 
+    // this makes it go in the y-dir
+    // this.vTheta = this.base.ONE_DEG * 90.0; 
+    // this makes it go in the x-dir
+    this.vTheta = this.base.ONE_DEG * 0.0; 
     this.thetaLast = this.vTheta; 
 
     // create the ship
@@ -81,6 +86,7 @@ export class Ship {
     this.mesh = new THREE.Mesh(this.geom, this.mat);
 
     // this.mesh.position.x = -3;
+    this.mesh.position.y = 12;
     this.mesh.position.z = -10;
     console.log(`Ship: mesh=${this.mesh}`);
   }

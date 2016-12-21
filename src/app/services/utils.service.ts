@@ -14,6 +14,7 @@ export class UtilsService {
 
   // declare var dat.GUI: any;
   datGUI : dat.GUI;
+  parms : any;
 
   constructor(
     private injector: Injector,
@@ -24,6 +25,8 @@ export class UtilsService {
     this.datGUI = new dat.GUI();
     // this.addControls();
     console.log(`UtilsService.cotr: datGUI=${this.datGUI}}`);
+
+    this.parms = {}; 
   }
 
   addControls(controlObject) {

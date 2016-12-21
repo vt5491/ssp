@@ -7,6 +7,7 @@ import { InnerGame } from '../inner-game';
 import { WebGLRenderTargetProvider } from './utils.service';
 import { IMainCharacterInfo } from '../interfaces/main-character-info';
 import { CameraKbdHandlerService } from './camera-kbd-handler.service';
+import { UtilsService } from './utils.service';
 
 @Injectable()
 @Component({
@@ -28,6 +29,7 @@ export class SspRuntimeService {
     private _offscreenBuffer : THREE.WebGLRenderTarget,
     public innerGame: InnerGame,
     public cameraKbdHandler : CameraKbdHandlerService,
+    private _utils : UtilsService
     ) { 
       this.outerVrScene = this.outerSspScene.vrScene;
 
@@ -39,6 +41,7 @@ export class SspRuntimeService {
       document.body.appendChild( this.webGLRenderer.domElement );
 
       this.gl_webGLRenderer = this.webGLRenderer.getContext();
+      console.log(`gl_webGLRenderer=${this.webGLRenderer}`);
 
       //TODO: I have to wrap in an if block only because I can't figure out
       // how to mock an HTMLELEMENT attached to the document.
@@ -85,7 +88,9 @@ export class SspRuntimeService {
     // console.log(`SspRuntime.mainLoop: ship.x=${(<any>info.pos).x}, ship.y=${(<any>info.pos).y}`);
     // map the outer camera coordinates to that of the main inner game avatar
     // so we "track" the inner game's main game object
-    this.outerSspScene.outerCameraTrack(avatarInfo, this.outerVrScene, this.cameraKbdHandler);
+    if (this.utils.parms.enableCameraTracking) {
+      this.outerSspScene.outerCameraTrack(avatarInfo, this.outerVrScene, this.cameraKbdHandler);
+    };
     // if (this.outerSspScene.tag === 'plane') {
     //   // (<SspPlaneSceneService>this.outerSspScene).outerCameraTrack(avatarInfo, this.outerVrScene, this.cameraKbdHandler);
     //   this.outerSspScene.outerCameraTrack(avatarInfo, this.outerVrScene, this.cameraKbdHandler);
@@ -149,5 +154,9 @@ export class SspRuntimeService {
   // Getters and Setters
   get offscreenBuffer(): THREE.WebGLRenderTarget {
     return this._offscreenBuffer;
+  };
+
+  get utils(): UtilsService {
+    return this._utils;
   };
 }
