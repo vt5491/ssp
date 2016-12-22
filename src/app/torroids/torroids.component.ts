@@ -147,6 +147,7 @@ export class TorroidsComponent implements OnInit {
     this.sspScene.vrScene.scene.add( axisHelper );
 
     webglRendererCanvas.focus();
+    document.getElementById('webgl-renderer-canvas').focus();
   }
 
   debugButtonClick(input, $event) {

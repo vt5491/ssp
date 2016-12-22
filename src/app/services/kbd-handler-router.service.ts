@@ -18,7 +18,8 @@ export class KbdHandlerRouterService {
 
   // private _kbdHandler : KbdHandler;
   private _activeKbdHandler : KbdHandler;
-  private _toggleKey : number;
+  private _toggleKey_1 : number;
+  private _toggleKey_2 : number;
   // private _cameraKbdHandler : CameraKbdHandlerService;
   // private _asteroidsKbdHandler : AsteroidsKbdHandler;
 
@@ -30,7 +31,8 @@ export class KbdHandlerRouterService {
     // default to standard camera controls
     this.activeKbdHandler = _cameraKbdHandler;
     console.log(`KbdHandlerRouterService.ctor: activeKbdHandler.name=${this.activeKbdHandler._name}`);
-    this.toggleKey = 'T'.charCodeAt(0);
+    this.toggleKey_1 = 'T'.charCodeAt(0);
+    this.toggleKey_2 = 'R'.charCodeAt(0);
    }
 
   // Note: defunct
@@ -43,9 +45,9 @@ export class KbdHandlerRouterService {
   keyEventHandler(event: KeyboardEvent) {
     // debugger;
     // console.log(`event.keyCode=${event.keyCode}`);
-    event.stopPropagation();
-    event.preventDefault();
-    if(event.keyCode === this.toggleKey) {
+    // event.stopPropagation();
+    // event.preventDefault();
+    if(event.keyCode === this.toggleKey_1 || event.keyCode === this.toggleKey_2) {
       console.log(`keyEventHandler.toggle: activeKbdHandler=${this.activeKbdHandler}`);
       console.log(`keyEventHandler.toggle: activeKbdHandler.name=${this.activeKbdHandler._name}`);
       switch (this.activeKbdHandler._name) {
@@ -88,10 +90,17 @@ export class KbdHandlerRouterService {
     this._activeKbdHandler = kbdh;
   }
 
-  get toggleKey() {
-    return this._toggleKey;
+  get toggleKey_1() {
+    return this._toggleKey_1;
   }
-  set toggleKey( key: number) {
-    this._toggleKey = key;
+  set toggleKey_1( key: number) {
+    this._toggleKey_1 = key;
+  }
+
+  get toggleKey_2() {
+    return this._toggleKey_2;
+  }
+  set toggleKey_2( key: number) {
+    this._toggleKey_2 = key;
   }
 }

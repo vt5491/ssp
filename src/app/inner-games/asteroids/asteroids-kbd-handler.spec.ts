@@ -7,6 +7,7 @@ import { Ship } from './ship'
 import { AsteroidsGame } from './asteroids-game'
 import { ThreeJsSceneProvider } from '../../services/utils.service';
 import { BaseService } from '../../services/base.service';
+import { UtilsService } from '../../services/utils.service';
 
 describe('Class: AsteroidsKbdHandler', () => {
   
@@ -20,7 +21,8 @@ describe('Class: AsteroidsKbdHandler', () => {
         // AsteroidsGameProvider, 
         AsteroidsGame, 
         ThreeJsSceneProvider, 
-        BaseService
+        BaseService,
+        UtilsService
         ]
     });
     this.base = new BaseService();
@@ -37,6 +39,7 @@ describe('Class: AsteroidsKbdHandler', () => {
     expect(service.keyEventHandler).toBeTruthy();
     expect(service.ship).toBeTruthy();
     expect(service.asteroidsGame).toBeTruthy();
+    expect(service.utils).toBeTruthy();
     // expect(service.bullet).toBeTruthy();
   }));
 

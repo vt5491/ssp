@@ -41,7 +41,7 @@ xdescribe('Service: KbdHandlerRouter', () => {
     expect(service).toBeTruthy();
     expect(service.cameraKbdHandler).toBeTruthy();
     expect(service.keyEventHandler).toBeTruthy();
-    expect(service.toggleKey).toEqual('T'.charCodeAt(0));
+    expect(service.toggleKey_1).toEqual('T'.charCodeAt(0));
   }));
 
   it('should toggle properly', inject(

@@ -27,7 +27,7 @@ export class CameraKbdHandlerService implements KbdHandler {
   keyEventHandler (event: KeyboardEvent) {
     // console.log(`CameraKbdHandlerService.keyHandler: entered`);
     // console.log(`CameraKbdHandlerService.keyHandler: event=${event}, dolly=${this.dolly}`);
-    event.preventDefault();
+    // event.preventDefault();
 
     let moveFactor = 1.0;
     switch( event.keyCode) {

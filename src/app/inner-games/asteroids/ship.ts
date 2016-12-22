@@ -25,6 +25,7 @@ export class Ship {
   thetaLast : number;
   vel : number;  //TODO defunct
   vScalar : number; // use this
+  nose : THREE.Mesh;
 
   constructor(
     private base : BaseService
@@ -48,9 +49,9 @@ export class Ship {
     this.deltaTheta = 5.0 * this.base.ONE_DEG;
 
     // this makes it go in the y-dir
-    // this.vTheta = this.base.ONE_DEG * 90.0; 
+    this.vTheta = this.base.ONE_DEG * 90.0; 
     // this makes it go in the x-dir
-    this.vTheta = this.base.ONE_DEG * 0.0; 
+    // this.vTheta = this.base.ONE_DEG * 0.0; 
     this.thetaLast = this.vTheta; 
 
     // create the ship
@@ -88,7 +89,14 @@ export class Ship {
     // this.mesh.position.x = -3;
     this.mesh.position.y = 12;
     this.mesh.position.z = -10;
-    console.log(`Ship: mesh=${this.mesh}`);
+    // console.log(`Ship: mesh=${this.mesh}`);
+    // let noseGeom = new THREE.CircleGeometry(0.05, 8);
+    let noseGeom = new THREE.PlaneGeometry(0.15,0.04);
+    let noseMat= new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide});
+
+    this.nose = new THREE.Mesh(noseGeom, noseMat);
+
+    this.mesh.add(this.nose);
   }
 
   // rotate(rotTheta : number) {

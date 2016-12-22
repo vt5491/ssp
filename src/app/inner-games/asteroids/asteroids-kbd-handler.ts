@@ -5,6 +5,7 @@ import { AsteroidsGame } from './asteroids-game';
 import { Bullet } from './bullet';
 import { KbdHandler } from '../../interfaces/kbd-handler';
 import { BaseService } from '../../services/base.service';
+import { UtilsService } from '../../services/utils.service';
 
 @Injectable()
 export class AsteroidsKbdHandler implements KbdHandler {
@@ -16,7 +17,8 @@ export class AsteroidsKbdHandler implements KbdHandler {
     // private _ship : Ship,
     private _asteroidsGame : AsteroidsGame,
     // private _bullet : Bullet,
-    private base : BaseService 
+    private base : BaseService, 
+    public utils : UtilsService
   ) {
     this.name = 'asteroidsKbdHandler';
    }
@@ -87,6 +89,10 @@ export class AsteroidsKbdHandler implements KbdHandler {
       // this.asteroidsGame.scene.add(bullet.mesh);
       // console.log(`AsteroidsKbdHandler.keyEventHandler: scene.length post=${this.asteroidsGame.scene.children.length}`);
 
+      break;
+
+      case 'Z'.charCodeAt(0):
+        this.utils.parms.enableCameraTracking = !this.utils.parms.enableCameraTracking;
       break;
 
     }

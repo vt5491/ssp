@@ -55,12 +55,12 @@ export class SspTorusSceneService implements ISspScene {
 
     //tmp add a hotspot circle
     // let circGeom = new THREE.CircleBufferGeometry(0.03, 8);
-    let geom = new THREE.CubeGeometry(5, 5, 50);
+    let geom = new THREE.CubeGeometry(1, 10, 120);
     let circMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00, side: THREE.DoubleSide});
 
     this.hotSpot = new THREE.Mesh(geom, circMaterial);
 
-    this.vrScene.scene.add(this.hotSpot);
+    // this.vrScene.scene.add(this.hotSpot);
   }
 
   outerCameraTrack(avatarInfo: IMainCharacterInfo, 
@@ -84,39 +84,62 @@ export class SspTorusSceneService implements ISspScene {
     // outerVrScene.dolly.rotateOnAxis(axis, trackingInfo.tubeTheta);
     // torus level
     let torusCameraRadius = this.torusRadius * 2.0;
-
+    /*
     outerVrScene.dolly.position.x = trackingInfo.xTorus * torusCameraRadius + cameraKbdHandler.deltaX;
     outerVrScene.dolly.position.y = trackingInfo.yTorus * torusCameraRadius + cameraKbdHandler.deltaY;
     outerVrScene.dolly.position.z = trackingInfo.zTorus * 1.0 + cameraKbdHandler.deltaZ;
 
     // outerVrScene.dolly.setRotationFromQuaternion(trackingInfo.rotTubeQuat);
 
-    console.log(`SspTorusSceneService.outerCameraTrack: dolly.position.x=${outerVrScene.dolly.position.x}
-      ,y=${outerVrScene.dolly.position.y}
-      ,z=${outerVrScene.dolly.position.z}`
-    );
+    // console.log(`SspTorusSceneService.outerCameraTrack: dolly.position.x=${outerVrScene.dolly.position.x}
+    //   ,y=${outerVrScene.dolly.position.y}
+    //   ,z=${outerVrScene.dolly.position.z}`
+    // );
 
     // add in tube level deltas
     let tubeCameraRadius = this.tubeRadius * 5.0;
 
-    outerVrScene.dolly.position.x += trackingInfo.x * tubeCameraRadius;
+    // outerVrScene.dolly.position.x += trackingInfo.x * tubeCameraRadius;
+    outerVrScene.dolly.position.x += trackingInfo.xTube;
     // outerVrScene.dolly.position.x += trackingInfo.x * tubeCameraRadius * Math.sin(trackingInfo.torusTheta);
     // outerVrScene.dolly.position.y = trackingInfo.y * 1.0 - this.torusRadius * Math.sin(trackingInfo.torusTheta) + cameraKbdHandler.deltaY;
-    outerVrScene.dolly.position.z += trackingInfo.z * tubeCameraRadius;
+    // outerVrScene.dolly.position.z += trackingInfo.z * tubeCameraRadius;
+    outerVrScene.dolly.position.y += trackingInfo.yTube;
+    outerVrScene.dolly.position.z += trackingInfo.zTube;
     // outerVrScene.dolly.position.z += trackingInfo.z * tubeCameraRadius * Math.cos(trackingInfo.torusTheta);
     // Object3D.rotateOnAxis( axis, angle );
-    let axis = new THREE.Vector3(Math.sin(trackingInfo.torusTheta), Math.sin(trackingInfo.torusTheta),0);
-    outerVrScene.dolly.rotateOnAxis( axis, trackingInfo.tubeTheta );
+    let axis = new THREE.Vector3(Math.cos(trackingInfo.torusTheta), Math.sin(trackingInfo.torusTheta),0);
+    // outerVrScene.dolly.rotateOnAxis( axis, trackingInfo.tubeTheta );
 
-    // outerVrScene.dolly.setRotationFromQuaternion(trackingInfo.rotTubeQuat);
+    outerVrScene.dolly.setRotationFromQuaternion(trackingInfo.rotTubeQuat);
     // outerVrScene.dolly.setRotationFromQuaternion(trackingInfo.rotTorusQuat);
-    outerVrScene.dolly.setRotationFromQuaternion(trackingInfo.rotTorusQuat.multiply(trackingInfo.rotTubeQuat));
+    // outerVrScene.dolly.setRotationFromQuaternion(trackingInfo.rotTorusQuat.multiply(trackingInfo.rotTubeQuat));
+    */
+    let ti = trackingInfo;
 
+    // this method only works when you're in the xz-plane
     this.hotSpot.position.x = trackingInfo.hotSpot.x;
     this.hotSpot.position.y = trackingInfo.hotSpot.y;
     this.hotSpot.position.z = trackingInfo.hotSpot.z;
+    // this.hotSpot.setRotationFromQuaternion(trackingInfo.rotTubeQuat);
+    // quaternion = new THREE.Quaternion().setFromAxisAngle( axisOfRotation, angleOfRotation );
+    // object.rotation.setEulerFromQuaternion( quaternion );
+    // object.rotation = new THREE.Euler().setFromQuaternion( quaternion )
+    // outerVrScene.dolly.rotation = new THREE.Euler().setFromQuaternion(trackingInfo.tmpQuat);
+    let cameraScale = 7.0;
+    outerVrScene.dolly.position.x = ti.torusHotSpot.x + ti.tubeHotSpot.x * cameraScale;
+    outerVrScene.dolly.position.y = ti.torusHotSpot.y + ti.tubeHotSpot.y * cameraScale;
+    outerVrScene.dolly.position.z = ti.torusHotSpot.z + ti.tubeHotSpot.z * cameraScale;
 
-    console.log(`SsspTorusScene.calcOuter: hs.x=${this.hotSpot.position.x},y=${this.hotSpot.position.y},z=${this.hotSpot.position.z}`);
+    outerVrScene.dolly.position.x += cameraKbdHandler.deltaX;
+    outerVrScene.dolly.position.y += cameraKbdHandler.deltaY;
+    outerVrScene.dolly.position.z += cameraKbdHandler.deltaZ;
+
+    outerVrScene.dolly.lookAt(ti.torusHotSpot);
+    // Object3D.rotateOnAxis( axis, angle );
+    // outerVrScene.dolly.rotateOnAxis(ti.torusHotSpot, ti.torusTheta);
+
+    // console.log(`SsspTorusScene.calcOuter: hs.x=${this.hotSpot.position.x},y=${this.hotSpot.position.y},z=${this.hotSpot.position.z}`);
     };
 
   getNormalizedTrackingCoords(innerX: number, innerY: number, innerZ: number, boundVal: number): Object {
@@ -139,8 +162,12 @@ export class SspTorusSceneService implements ISspScene {
 
     result.rotTubeQuat = new THREE.Quaternion();
     // result.rotTubeQuat.setFromAxisAngle( new THREE.Vector3( 0, 1, 0 ), tubeTheta );
-    let axis = new THREE.Vector3(Math.sin(torusTheta), Math.cos(torusTheta), 0);
+    // let axis = new THREE.Vector3(Math.sin(torusTheta), Math.cos(torusTheta), 0);
+    let axis = new THREE.Vector3(result.xTorus, result.yTorus, 0)
+      .applyAxisAngle(new THREE.Vector3(0,0,1), Math.PI / 2.0)
+      .normalize();
     result.rotTubeQuat.setFromAxisAngle( axis, tubeTheta );
+    console.log(`SspTorusSceneService.getNormalizedTrackingCoords: rotTubeQuat=%o`,result.rotTubeQuat);
 
     result.rotTorusQuat = new THREE.Quaternion();
     result.rotTubeQuat.setFromAxisAngle( new THREE.Vector3( 0, 0, 1 ), torusTheta );
@@ -154,8 +181,11 @@ export class SspTorusSceneService implements ISspScene {
     // torusHotSpot.z = innerZ;
     torusHotSpot.z = 0;
 
+    result.torusHotSpot = torusHotSpot;
+
     // rotate 90 deg about the z axis
     let perpVector = torusHotSpot.clone();
+    // perpVector.applyAxisAngle(new THREE.Vector3(0,0,1), Math.PI / 2.0);
     perpVector.applyAxisAngle(new THREE.Vector3(0,0,1), Math.PI / 2.0);
     perpVector.normalize();
 
@@ -166,7 +196,17 @@ export class SspTorusSceneService implements ISspScene {
     tubeHotSpot.y = 0;
     tubeHotSpot.z = 0;
 
-    tubeHotSpot.applyAxisAngle(perpVector, tubeTheta);
+    // tubeHotSpot.applyAxisAngle(perpVector, tubeTheta);
+    let tmpQuat = new THREE.Quaternion().setFromAxisAngle(perpVector, -tubeTheta + Math.PI / 2.0);
+    result.tmpQuat = tmpQuat;
+    tubeHotSpot.applyQuaternion(tmpQuat);
+
+    result.tubeHotSpot = tubeHotSpot;
+    // console.log(`SspTorusSceneService.getNormalizedTrackingCoords: torusHotSpot.x=${torusHotSpot.x},y=${torusHotSpot.y},z=${torusHotSpot.z}`);
+    // console.log(`SspTorusSceneService.getNormalizedTrackingCoords: tubeHotSpot.x=${tubeHotSpot.x},y=${tubeHotSpot.y},z=${tubeHotSpot.z}`);
+    result.xTube = tubeHotSpot.x;
+    result.yTube = tubeHotSpot.y;
+    result.zTube = tubeHotSpot.z;
 
     result.hotSpot = torusHotSpot.add(tubeHotSpot);
 
