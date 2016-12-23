@@ -33,6 +33,8 @@ describe('Service: SspTorusScene', () => {
     expect(service.torusRadius).toEqual(service.DEFAULT_TORUS_RADIUS);
     expect(service.tubeRadius).toBeTruthy();
     expect(service.tubeRadius).toEqual(service.DEFAULT_TUBE_RADIUS);
+    expect(service.torusArm).toBeTruthy();
+    expect(service.tubeArm).toBeTruthy();
   }));
 
   it('should have the proper instance variables', inject([SspTorusSceneService], (service: SspTorusSceneService) => {

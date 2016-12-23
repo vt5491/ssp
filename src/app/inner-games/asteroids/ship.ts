@@ -87,7 +87,8 @@ export class Ship {
     this.mesh = new THREE.Mesh(this.geom, this.mat);
 
     // this.mesh.position.x = -3;
-    this.mesh.position.y = 12;
+    // this.mesh.position.y = 12;
+    this.mesh.position.y = 2;
     this.mesh.position.z = -10;
     // console.log(`Ship: mesh=${this.mesh}`);
     // let noseGeom = new THREE.CircleGeometry(0.05, 8);

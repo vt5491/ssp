@@ -5,6 +5,7 @@ import { ISspScene} from '../interfaces/ssp-scene';
 // import { SspSceneService} from './ssp-scene.service';
 import { IMainCharacterInfo } from '../interfaces/main-character-info';
 import { CameraKbdHandlerService } from './camera-kbd-handler.service';
+import { UtilsService } from './utils.service';
 
 // @Component({
 //   // providers: [VRSceneServiceProvider]
@@ -21,17 +22,30 @@ export class SspTorusSceneService implements ISspScene {
   tag : string;
   torusRadius : number;
   tubeRadius : number
+  cameraRadius : number
+  lastTorusAngle : number;
+  lastTubeAngle : number;
   DEFAULT_TORUS_RADIUS = 100;
   DEFAULT_TUBE_RADIUS = 25;
+  DEFAULT_CAMERA_RADIUS_MULTIPLIER = 6.0;
   hotSpot : THREE.Mesh;
+  torusArm : THREE.Object3D;
+  tubeArm : THREE.Object3D;
   // constructor(width, height, webGLRenderer: THREE.WebGLRenderer) {
   // constructor(width, height, private _vrSceneService: VRSceneService) {
-  constructor(width, height, public vrScene: VRSceneService, torusRadius?, tubeRadius?) {
+  constructor(
+    width, 
+    height, 
+    public vrScene: VRSceneService, 
+    private _utils : UtilsService,
+    torusRadius?, 
+    tubeRadius?) {
     // super();
     console.log(`SspTorusSceneService.ctor: entered`);
 
     this.torusRadius = torusRadius || this.DEFAULT_TORUS_RADIUS; 
-    this.tubeRadius = torusRadius || this.DEFAULT_TUBE_RADIUS; 
+    this.tubeRadius = tubeRadius || this.DEFAULT_TUBE_RADIUS; 
+    this.cameraRadius = this.tubeRadius * this.DEFAULT_CAMERA_RADIUS_MULTIPLIER;
     this.init();
   }
 
@@ -61,9 +75,68 @@ export class SspTorusSceneService implements ISspScene {
     this.hotSpot = new THREE.Mesh(geom, circMaterial);
 
     // this.vrScene.scene.add(this.hotSpot);
+    //setup the "2-arm" parent-child cluster for the camera tracking.
+    // see plunker https://plnkr.co/edit/BsxsDnvJFJhOamLidf1b?p=info 
+    this.torusArm = new THREE.Object3D();
+    this.tubeArm = new THREE.Object3D();
+    this.tubeArm.position.x = this.torusRadius;
+
+    this.torusArm.add(this.tubeArm);
+    this.vrScene.scene.add(this.torusArm);
+
+    // if camera tracking is enabled then we need to add the camera dolly onto the
+    // two-arm "complex".
+    if (this.utils.parms.enableCameraTracking) {
+      this.tubeArm.add(this.vrScene.dolly);
+      // this.torusArm.add(this.vrScene.dolly);
+      this.vrScene.dolly.position.x = this.cameraRadius;
+      this.vrScene.dolly.position.y = 0;
+      this.vrScene.dolly.position.z = 0;
+
+      this.tubeArm.add(this.hotSpot);
+    }
+    this.lastTorusAngle = 0.0 * Math.PI / 1.0;
+    this.lastTubeAngle = 0.0 * Math.PI / 1.0;
   }
 
   outerCameraTrack(avatarInfo: IMainCharacterInfo, 
+    outerVrScene: VRSceneService,
+    cameraKbdHandler: CameraKbdHandlerService 
+    ) 
+  {
+    // var torusAngle = 7.0 * Math.PI / 4.0;
+    //TODO: parameterize this
+    let boundVal = 4.0;
+    let innerX = avatarInfo.pos['x'];
+    let innerY = avatarInfo.pos['y'];
+
+    let torusAngle = (Math.PI / boundVal) * innerX;
+    // torusAngle += Math.PI / 1.0; //adjust so ship is in view
+    torusAngle += Math.PI / 1.0; //adjust so ship is in view
+    let torusAxis = new THREE.Vector3(0,0,1);
+    this.torusArm.rotateOnAxis(torusAxis, torusAngle - this.lastTorusAngle);
+    // this.torusArm.setRotationFromAxisAngle(torusAxis, torusAngle);
+
+    let tubeAngle = (Math.PI / boundVal) * innerY;  
+    tubeAngle += Math.PI;
+    // let tubeAngle2 = tubeAngle + Math.PI / 2.0;
+    // let perpVector 
+    // let tubeAxis = new THREE.Vector3(Math.cos(tubeAngle), Math.sin(tubeAngle), 0);
+    // works
+    let tubeAxis = new THREE.Vector3(Math.cos(torusAngle + Math.PI / 2.0), Math.sin(torusAngle + Math.PI / 2.0), 0);
+    // works too
+    // let tubeAxis = new THREE.Vector3(Math.sin(torusAngle ), Math.cos(torusAngle), 0);
+    // tubeAxis.applyAxisAngle(new THREE.Vector3(0,0,1), Math.PI / 2.0);
+    this.tubeArm.rotateOnAxis(tubeAxis, tubeAngle - this.lastTubeAngle);
+    // this.tubeArm.setRotationFromAxisAngle(tubeAxis, tubeAngle);
+
+    // outerVrScene.dolly.lookAt(this.torusArm.position);
+
+    this.lastTorusAngle = torusAngle;
+    this.lastTubeAngle = tubeAngle;
+  };
+
+  outerCameraTrack_old(avatarInfo: IMainCharacterInfo, 
     outerVrScene: VRSceneService,
     cameraKbdHandler: CameraKbdHandlerService 
     ) {
@@ -85,7 +158,7 @@ export class SspTorusSceneService implements ISspScene {
     // torus level
     let torusCameraRadius = this.torusRadius * 2.0;
     /*
-    outerVrScene.dolly.position.x = trackingInfo.xTorus * torusCameraRadius + cameraKbdHandler.deltaX;
+    outerVrScene.dolly.position.x = trackingInfo.xTorus * torusCameraRadius cameraKbdHandler.deltaX;
     outerVrScene.dolly.position.y = trackingInfo.yTorus * torusCameraRadius + cameraKbdHandler.deltaY;
     outerVrScene.dolly.position.z = trackingInfo.zTorus * 1.0 + cameraKbdHandler.deltaZ;
 
@@ -213,6 +286,9 @@ export class SspTorusSceneService implements ISspScene {
     return result;
   }
   // Getters and Setters
+  get utils(): UtilsService {
+    return this._utils;
+  };
   // get vrSceneService(): VRSceneService {
   //   return this._vrSceneService;
   // };
@@ -234,7 +310,7 @@ export class SspTorusSceneService implements ISspScene {
 
 // let SspTorusSceneFactory = (webGLRenderer: THREE.WebGLRenderer) => {
 // let SspTorusSceneFactory = () => {
-let SspTorusSceneFactory = (vrScene: VRSceneService) => {
+let SspTorusSceneFactory = (vrScene: VRSceneService, utils: UtilsService) => {
   // console.log(`SspTorusSceneFactor.ctor: entered`);
   var width = window.innerWidth
   var height = window.innerHeight
@@ -244,7 +320,7 @@ let SspTorusSceneFactory = (vrScene: VRSceneService) => {
 
   // return new SspTorusSceneService(window.innerWidth, window.innerHeight, webGLRenderer);
   // return new SspTorusSceneService(window.innerWidth, window.innerHeight, vrSceneService);
-  return new SspTorusSceneService(window.innerWidth, window.innerHeight, vrScene);
+  return new SspTorusSceneService(window.innerWidth, window.innerHeight, vrScene, utils);
 };
 
 export let SspTorusSceneProvider = {
@@ -252,5 +328,5 @@ export let SspTorusSceneProvider = {
   useFactory: SspTorusSceneFactory,
   // deps: [THREE.WebGLRenderer]
   // deps: [VRSceneServiceProvider]
-  deps: [VRSceneService]
+  deps: [VRSceneService, UtilsService]
 }
