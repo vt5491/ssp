@@ -42,6 +42,13 @@ module.exports = function (config) {
     autoWatch: true,
     browsers: ['Chrome'],
     //browsers: ['Firefox'],
-    singleRun: false
+    singleRun: false,
+    //vt add
+    // get around chrome 55 issue
+    mime: {
+            'text/x-typescript': ['ts','tsx']
+                  
+    }
+    //vt end
   });
 };

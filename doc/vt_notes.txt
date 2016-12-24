@@ -1,0 +1,30 @@
+# 2016-12-23
+1) Some things to do when installing the git src on a new system:
+
+a) you may need to do "npm install" or "typings install dt~dat-gui --global"
+to get any updated non-git based artifacts.
+
+b) the dat.gui module under node_modules uses "exports" and for some reason, is not avaiable.
+
+edit file "/c/vtstuff/github/ssp/node_modules/dat-gui/vendor/dat.gui.js" and change at line 15:
+
+/** @namespace */
+//vtvar dat = module.exports = dat || {};
+var dat = dat || {};
+
+2) This module seems to like having vscode runnint with typescript version 1.8.9, even the though the actual app is compile 
+against tyscript of approx 2.1.  If you try to run vscode with ts 2.x, then you don't get proper intellisense completions.
+The best way to insure this particular project is using ts 1.8.9 (without affecting anyone else) is to edit the 'settings.json'
+file under .vscode of the root dir (the root root, not the "src" root):
+
+$ cat .vscode/settings.json
+{
+  "typescript.check.workspaceVersion": true,
+//"typescript.tsdk": "./node_modules/typescript/lib"
+  "typescript.tsdk": "../../npm/typescript_v1.8.9/node_modules/typescript/lib"
+  //vt"typescript.tsdk": "./node_modules/typescript/lib"
+}
+
+Note: settings.json considers "." (here path) to be the apps "root" root, and not the subdir it's in.  Thus all node_modules
+references are with rescpect to "." not "..".
+

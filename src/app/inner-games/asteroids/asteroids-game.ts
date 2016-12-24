@@ -1,3 +1,4 @@
+///<reference path="../../../../typings/index.d.ts" />
 import { Component, Injectable, Injector } from '@angular/core';
 import { Asteroid } from './asteroid';
 import { Bullet } from './bullet';
@@ -21,7 +22,7 @@ export class AsteroidsGame implements InnerGame {
   private asteroidsDuration : number = 60000;
   private startTime : number = Date.now();
   id : number = Date.now();
-
+  BOUND_VAL = 3.79;
 
   constructor(
     // private _scene : THREE.Scene,
@@ -58,11 +59,34 @@ export class AsteroidsGame implements InnerGame {
     // let gridHelper = new THREE.GridHelper(90, 9);
     // gridHelper.rotateX(this.base.ONE_DEG * 45.0);
     // this.scene.add(gridHelper);
+    // let gridGeom : THREE.Geometry = new THREE.Geometry();
+    let gridXGeom = new THREE.PlaneBufferGeometry(12.0, 0.02);
+    let gridYGeom = new THREE.PlaneBufferGeometry( 0.02, 12.0);
+    // gridGeom.vertices.push(new THREE.Vector3(-this.BOUND_VAL, 0, 0));
+    // gridGeom.vertices.push(new THREE.Vector3(this.BOUND_VAL, 0, 0));
+    // gridGeom.vertices.push(new THREE.Vector3(-3, 0, 0));
+    // gridGeom.vertices.push(new THREE.Vector3(3, 0, 0));
+    // gridGeom.vertices.push(new THREE.Vector3(0, 3, 0));
+
+    // let gridMat = new THREE.LineBasicMaterial({ linewidth: 2, side: THREE.DoubleSide});
+    let gridMat = new THREE.MeshBasicMaterial({  side: THREE.DoubleSide});
+    gridMat.color = new THREE.Color(200, 200, 200);
+
+    let gridXMesh = new THREE.Mesh(gridXGeom, gridMat);
+    gridXMesh.position.x = -3.0;
+    gridXMesh.position.z = -10.0;
+
+    let gridYMesh = new THREE.Mesh(gridYGeom, gridMat);
+    gridYMesh.position.y = -3.0;
+    gridYMesh.position.z = -10.0;
+
+    this.scene.add(gridXMesh);
+    this.scene.add(gridYMesh);
   };
 
   updateScene() {
     // 3.7 is a little short. 3.8 is a little long
-    let boundVal = 3.79;
+    let boundVal = this.BOUND_VAL;
     // update asteroids
     for (let i = 0; i < this.asteroids.length; i++) {
       let asteroid = this.asteroids[i];

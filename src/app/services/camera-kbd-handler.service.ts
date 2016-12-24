@@ -6,8 +6,6 @@ import { UtilsService } from './utils.service';
 
 @Injectable()
 export class CameraKbdHandlerService implements KbdHandler {
-  // static CAMERA_MOVE_DELTA = 1.2;
-  // static CAMERA_ROT_DELTA = 5;
   CAMERA_MOVE_DELTA : number = 1.2;
   CAMERA_ROT_DELTA : number = 5;
 
@@ -32,45 +30,31 @@ export class CameraKbdHandlerService implements KbdHandler {
     let moveFactor = 1.0;
     switch( event.keyCode) {
       case 'W'.charCodeAt(0):
-        //console.log('you pressed s');
-        //this.dolly.position.z -= this.CAMERA_MOVE_DELTA;
         this.dolly.translateZ(moveFactor * -this.CAMERA_MOVE_DELTA);
-        //console.log('this.do-ly.postion.x=' + this.this.dolly.position.x);
         this.deltaZ -= moveFactor * this.CAMERA_MOVE_DELTA;
       break;
 
       case 'S'.charCodeAt(0):
-        // console.log('you pressed s');
-        //dolly.position.z += CAMERA_MOVE_DELTA;
         this.dolly.translateZ(moveFactor * this.CAMERA_MOVE_DELTA);
-        // console.log('dolly.postion.x=' + dolly.position.x);
         this.deltaZ += moveFactor * this.CAMERA_MOVE_DELTA;
       break;
 
       case 'D'.charCodeAt(0):
-        //console.log('you pressed s');
-        //this.dolly.position.x += this.CAMERA_MOVE_DELTA;
         this.dolly.translateX(moveFactor * this.CAMERA_MOVE_DELTA);
-        //console.log('this.dolly.postion.x=' + this.dolly.position.x);
         this.deltaX += moveFactor * this.CAMERA_MOVE_DELTA;
       break;
 
       case 'A'.charCodeAt(0):
-        //this.dolly.position.x -= this.CAMERA_MOVE_DELTA;
         this.dolly.translateX(moveFactor * -this.CAMERA_MOVE_DELTA);
         this.deltaX -= moveFactor * this.CAMERA_MOVE_DELTA;
       break;
 
       case 'P'.charCodeAt(0):
-        //console.log('you pressed s');
-        //this.dolly.position.y += this.CAMERA_MOVE_DELTA;
-        //console.log('this.dolly.postion.x=' + this.dolly.position.x);
         this.dolly.translateY(moveFactor * this.CAMERA_MOVE_DELTA);
         this.deltaY += moveFactor * this.CAMERA_MOVE_DELTA;
       break;
 
       case 'N'.charCodeAt(0):
-        //this.dolly.position.y -= this.CAMERA_MOVE_DELTA;
         this.dolly.translateY(moveFactor * -this.CAMERA_MOVE_DELTA);
         this.deltaY -= moveFactor * this.CAMERA_MOVE_DELTA;
       break;
