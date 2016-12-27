@@ -52,6 +52,10 @@ export class SspRuntimeService {
         // this.offscreenImageBuf = this.generateDataTexture(webglEl.offsetWidth, webglEl.offsetHeight, new THREE.Color(0x000000));
         let innerGameWidth = webglEl.offsetWidth * 1.0;
         let innerGameHeight = webglEl.offsetHeight * 1.0;
+        // let innerGameWidth = 1024;
+        // let innerGameHeight = 1024;
+        console.log(`SspRuntime.ctor. innerGameWidth=${innerGameWidth}, innerGameHeight=${innerGameHeight}`);
+        
         // this.offscreenImageBuf = this.generateDataTexture(webglEl.offsetWidth * 0.5, webglEl.offsetHeight * 0.5, new THREE.Color(0x000000));
         this.offscreenImageBuf = this.generateDataTexture(innerGameWidth, innerGameHeight, new THREE.Color(0x000000));
       // }

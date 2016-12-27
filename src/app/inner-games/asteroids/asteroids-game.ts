@@ -60,8 +60,9 @@ export class AsteroidsGame implements InnerGame {
     // gridHelper.rotateX(this.base.ONE_DEG * 45.0);
     // this.scene.add(gridHelper);
     // let gridGeom : THREE.Geometry = new THREE.Geometry();
-    let gridXGeom = new THREE.PlaneBufferGeometry(12.0, 0.02);
-    let gridYGeom = new THREE.PlaneBufferGeometry( 0.02, 12.0);
+    // Note: if you go beyond 16.0 it just gets truncated
+    let gridXGeom = new THREE.PlaneBufferGeometry(16.0, 0.02);
+    let gridYGeom = new THREE.PlaneBufferGeometry( 0.02, 16.0);
     // gridGeom.vertices.push(new THREE.Vector3(-this.BOUND_VAL, 0, 0));
     // gridGeom.vertices.push(new THREE.Vector3(this.BOUND_VAL, 0, 0));
     // gridGeom.vertices.push(new THREE.Vector3(-3, 0, 0));
@@ -92,12 +93,12 @@ export class AsteroidsGame implements InnerGame {
       let asteroid = this.asteroids[i];
 
       let now = Date.now();
-      let delta_t = now - this.startTime; 
+      let delta_t = now - this.startTime;
       let ratio = delta_t / this.asteroidsDuration;
       let posX = 2 * boundVal * ratio;
 
-      asteroid.mesh.position.x = 
-        ((this.asteroids[i].x + posX + boundVal) % 2.0 * boundVal) - boundVal; 
+      asteroid.mesh.position.x =
+        ((this.asteroids[i].x + posX + boundVal) % 2.0 * boundVal) - boundVal;
     }
     // update bullets
     // console.log(`AsteroidsGame.updateScene: bullets.length=${this.bullets.length}, asteroidsGame.id=${this.id}`);

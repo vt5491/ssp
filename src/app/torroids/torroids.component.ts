@@ -33,16 +33,16 @@ import { Ship } from '../inner-games/asteroids/ship';
   styleUrls: ['./torroids.component.css'],
   // providers: [ElementRef],
   providers: [VRSceneServiceProvider, WebGLCanvasComponent, SspTorusSceneProvider,
-    SspCylSceneProvider, SspPlaneSceneProvider, SspCubeSceneProvider, 
+    SspCylSceneProvider, SspPlaneSceneProvider, SspCubeSceneProvider,
     SspPyramidSceneProvider, SspSphereSceneProvider,
-    AsteroidsMainService, 
+    AsteroidsMainService,
     // note: we get a global singleton AsteroidsGame in app.module
-    // AsteroidsGameProvider, 
+    // AsteroidsGameProvider,
     //THREE.WebGLRenderTarget
-    WebGLRenderTargetProvider, ThreeJsSceneProvider, 
+    WebGLRenderTargetProvider, ThreeJsSceneProvider,
     // Ship,
     KbdHandlerRouterService,
-  // BaseService 
+  // BaseService
   ]
 })
 
@@ -69,9 +69,9 @@ export class TorroidsComponent implements OnInit {
   //TODO create an official interface for this type
   // innerGame : any;
   innerGame : InnerGame;
-  
+
   constructor(
-    private el: ElementRef, 
+    private el: ElementRef,
     // private _sspTorusSceneService: SspTorusSceneService,
     // public baseService: BaseService,
     public base: BaseService,
@@ -81,22 +81,22 @@ export class TorroidsComponent implements OnInit {
     // private _sspScene: SspSceneService,
     // public sspTorusRuntimeService: SspTorusRuntimeService
     private utils: UtilsService
-    ) 
-  { 
+    )
+  {
     console.log(`TorroidComponent.ctor: entered`);
     // this.model = {
     //   outerScene: "torus"
-    // }; 
+    // };
     // this sets which option is checked by default
-    this.model.outerScene = 'torus';
+    this.model.outerScene = 'cube';
     // this.model.outerScene = 'plane';
     this.model.enableCameraTracking = true;
     console.log('TorroidComponent: ctor: _kbdHandlerRouterService=' + this._kbdHandlerRouter);
     // console.log('TorroidComponent: ctor: baseService=' + this.baseService);
     this.innerGame = this.injector.get(AsteroidsGame);
-    let control = new function() { 
-      this.canvasWidth = 500; 
-      // this.innerGame.ship.mesh.position.x 
+    let control = new function() {
+      this.canvasWidth = 500;
+      // this.innerGame.ship.mesh.position.x
      };
 
     this.utils.addControls(control);
@@ -112,7 +112,9 @@ export class TorroidsComponent implements OnInit {
     webglDiv.appendChild(this.webGLRenderer.domElement).setAttribute("id", 'webgl-renderer-canvas');
     // webglDiv.setAttribute("id", 'webgl-renderer');
 
-    this.webGLRenderer.setSize(window.innerWidth, window.innerHeight);
+    // Note: setting this value doesn't seem to have any effect (?)
+    // this.webGLRenderer.setSize(window.innerWidth, window.innerHeight);
+    // this.webGLRenderer.setSize(1024 * 4.0, 1024 * 4.0);
     // this.webGLRenderer.setSize(window.innerWidth * 2.0, window.innerHeight * 2.0);
 
     let webglRendererCanvas : HTMLElement = this.el.nativeElement.querySelector('#webgl-renderer-canvas');
@@ -203,7 +205,7 @@ export class TorroidsComponent implements OnInit {
     //TODO: these next lines means the client has to know low-levels of
     // kbdHandlerRouter.  Is there a way to eliminate this?
     //set the dolly of the cameraKbdHandler
-    this.kbdHandlerRouter.cameraKbdHandler.dolly = this.sspScene.vrScene.dolly; 
+    this.kbdHandlerRouter.cameraKbdHandler.dolly = this.sspScene.vrScene.dolly;
 
     //set the ship of the asteroidsKdbHandler
     //  this.kbdHandlerRouter.asteroidsKbdHandler.ship = (<AsteroidsGame>this.innerGame).ship;
@@ -213,18 +215,18 @@ export class TorroidsComponent implements OnInit {
     console.log(`TorroidsComponent.startGame: this.innerGame.asteroidsGame.asteroids[0].vx= ${(<any>this.innerGame).asteroids[0].vx}`);
     this.webGLRenderer = this.sspScene.vrScene.webGLRenderer;
     // this.sspRuntime = new SspRuntimeService(this.sspScene.vrSceneService, this.innerGame);
-    // this.sspRuntime = new SspRuntimeService(this.sspScene.vrSceneService, 
+    // this.sspRuntime = new SspRuntimeService(this.sspScene.vrSceneService,
     this.sspRuntime = new SspRuntimeService(
-      this.sspScene, 
+      this.sspScene,
       this.injector.get(THREE.WebGLRenderTarget),
-      this.innerGame, 
+      this.innerGame,
       this.injector.get(CameraKbdHandlerService),
-      this.injector.get(UtilsService) 
+      this.injector.get(UtilsService)
       );
     this.initOuterScene();
 
-    // let control = new function() { 
-    //   this.canvasWidth = 500; 
+    // let control = new function() {
+    //   this.canvasWidth = 500;
     //   // this.sspScene.sspSurface.position.x = 100;
     //   // this.innerGame.asteroidsGame.asteroids[0].vx=0.1;
     // };

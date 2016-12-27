@@ -37,7 +37,12 @@ export class VRSceneService {
     // shouldn't have to do this, but..
     // glRenderer.init()
     // console.log(`VrScene.ctor: glRenderer.guid=${glRenderer.guid}`)
-
+    // Note: setting the size here doesn't have any effect as it's overridden
+    // in torroids.component anyway (?) 
+    // this.webGLRenderer.setSize(window.innerWidth, window.innerHeight);
+    //this.webGLRenderer.setSize(2048, 2048);
+    console.log(`->VrSceneSerivce.ctor: webGLRenderer.width=${this.webGLRenderer.getSize().width},width=${this.webGLRenderer.getSize().height}`);
+    
     this.scene = new THREE.Scene;
 
     this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight);
