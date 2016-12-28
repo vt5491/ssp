@@ -197,14 +197,39 @@ export class SspCubeScene implements ISspScene {
 
     // assign to the api level var 'sspSurface', so other components using this
     // component know what to draw on.
-    this.sspSurface = this.cubeMesh;
-    this.sspMaterial = cubeMaterial;
+    // this.sspSurface = this.cubeMesh;
+    // this.sspMaterial = cubeMaterial;
 
     this.tag = 'cube';
     // add a GridHelper
     // let gridHelper = new THREE.GridHelper(10, 10);
     // gridHelper.rotateX(Math.PI / 180.0 * 90.0);
     // this.vrSceneService.scene.add(gridHelper);
+    var loader = new THREE.JSONLoader();
+    // loader.load('vendor/models/torus_3js.json', function(geometry) {
+    console.log(`SspCubeScene.ctor: calling load on json file`);
+    loader.load('two_face_cube.json', (geometry) => {
+      console.log(`SspCubeScene.ctor: now loading json file`);
+
+      // var mesh = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({ color: 0xbb80bb, side: THREE.DoubleSide }));
+      let cubeMaterial2 = new THREE.MeshBasicMaterial({ color: 0xff0080, side: THREE.DoubleSide });
+      var mesh = new THREE.Mesh(geometry, cubeMaterial2);
+      mesh.position.x = 60;
+      mesh.position.y = -10;
+      mesh.position.z = 10;
+      mesh.scale.set(20, 20, 20);
+
+      mesh.rotateY(-Math.PI / 2.0);
+
+      console.log(`SspCubeScene.ctor: mesh=${mesh}`);
+      this.vrScene.scene.add(mesh);
+
+      // assign to the api level var 'sspSurface', so other components using this
+      // component know what to draw on.
+      this.sspSurface = mesh;
+      this.sspMaterial = cubeMaterial2;
+      // let cubeMaterial2 = new THREE.MeshBasicMaterial({ color: 0xff0080, side: THREE.DoubleSide });
+    });
   };
 
   outerCameraTrack(avatarInfo: IMainCharacterInfo, 

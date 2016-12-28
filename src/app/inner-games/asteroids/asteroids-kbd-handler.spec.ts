@@ -97,7 +97,8 @@ describe('Class: AsteroidsKbdHandler', () => {
     let bulletsOrigLength = service.asteroidsGame.bullets.length;
     let sceneOrigLength = service.asteroidsGame.scene.children.length;
 
-    Object.defineProperty(event, 'keyCode', {'value': ' '.charCodeAt(0)});
+    // Object.defineProperty(event, 'keyCode', {'value': ' '.charCodeAt(0)});
+    Object.defineProperty(event, 'keyCode', {'value': 'J'.charCodeAt(0)});
 
     // let startTheta = ship.theta;
     service.keyEventHandler(event);

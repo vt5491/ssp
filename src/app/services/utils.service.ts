@@ -14,6 +14,7 @@ export class UtilsService {
 
   // declare var dat.GUI: any;
   datGUI : dat.GUI;
+  stats : Stats;
   parms : any;
 
   constructor(
@@ -33,6 +34,22 @@ export class UtilsService {
     this.datGUI.add( controlObject, 'canvasWidth', 500, 1000);
     // this.datGUI.add( controlObject, 'this.sspScene.sspSurface.position.x', 500, 1000);
   };
+
+  addStats() {
+    this.stats = new Stats();
+    // this.stats.showPanel( 1 ); // 0: fps, 1: ms, 2: mb, 3+: custom
+    (<any> this.stats).setMode(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+    // document.body.appendChild( this.stats.dom );
+    // document.body.appendChild( (<any>this.stats).domElement );
+    // document.getElementsByTagName('h1')[0].appendChild( (<any>this.stats).domElement );
+    // this puts it at the top
+    // let appRootElem = document.getElementsByTagName('app-root')[0]; 
+    let insertPointElem = document.getElementById('webgl-container'); 
+    
+    insertPointElem.insertBefore(
+      (<any>this.stats).domElement, 
+      insertPointElem.childNodes[insertPointElem.childNodes.length - 1] );
+  }
 
 }
 

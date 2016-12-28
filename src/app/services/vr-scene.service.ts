@@ -25,6 +25,7 @@ export class VRSceneService {
   sphere: Mesh;
   cube: Mesh;
   BaseRotation = new THREE.Quaternion();
+  orbitControls : THREE.OrbitControls;
   // webGLRenderer: THREE.WebGLRenderer;
 
   // constructor() { }
@@ -65,6 +66,14 @@ export class VRSceneService {
       this.vrEffect.setSize(width, height);
       this.webVrManager = new (<any>window).WebVRManager(this.webGLRenderer, this.vrEffect);
     }
+
+    // apply orbitControls to the camera as well
+    this.orbitControls = new THREE.OrbitControls(this.camera, this.webGLRenderer.domElement);
+		//controls.addEventListener( 'change', render ); // add this only if there is no animation loop (requestAnimationFrame)
+		this.orbitControls.enableDamping = true;
+		this.orbitControls.dampingFactor = 0.25;
+		this.orbitControls.enableZoom = false;    
+
     this.camera.quaternion.copy(this.BaseRotation);
 
     // // add a GridHelper

@@ -3,7 +3,9 @@
     "dat-gui": "registry:dt/dat-gui#0.5.0+20160317120654",
     "jasmine": "registry:dt/jasmine#2.5.0+20161003201800",
     "lodash": "registry:dt/lodash#4.14.0+20161003133408",
+    "stats.js": "registry:dt/stats.js#0.16.0+20161123230554",
     "three": "registry:dt/three#0.0.0+20161004170959",
+    "three-orbitcontrols": "registry:dt/three-orbitcontrols#0.0.0+20160704010734",
     "three-vrcontrols": "registry:dt/three-vrcontrols#0.0.0+20160317120654",
     "three-vreffect": "registry:dt/three-vreffect#0.0.0+20160317120654"
   }

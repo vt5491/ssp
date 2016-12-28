@@ -3,7 +3,7 @@ import { VRSceneService, VRSceneServiceProvider } from '../services/vr-scene.ser
 // import { SspSceneService } from '../services/ssp-scene.service';
 import { ISspScene} from '../interfaces/ssp-scene';
 import { SspCylSceneService } from './ssp-cyl-scene.service';
-import { InnerGame } from '../inner-game';
+import { InnerGame } from '../interfaces/inner-game';
 import { WebGLRenderTargetProvider } from './utils.service';
 import { IMainCharacterInfo } from '../interfaces/main-character-info';
 import { CameraKbdHandlerService } from './camera-kbd-handler.service';
@@ -21,6 +21,9 @@ export class SspRuntimeService {
   gl_webGLRenderer: any;
   offscreenImageBuf : THREE.DataTexture;
   innerSceneCamera: THREE.PerspectiveCamera;
+  isPresenting : boolean;
+  innerGameWidth : number;
+  innerGameHeight : number;
   // constructor() { }
   constructor(
     // public outerVrScene: VRSceneService, 
@@ -47,6 +50,7 @@ export class SspRuntimeService {
       // how to mock an HTMLELEMENT attached to the document.
       // if (document.getElementById('webGLRenderer_outerScene')) {
         // let webglEl = document.getElementById('webGLRenderer_outerScene');
+        /*
         let webglEl = document.getElementById('webGLRenderer');
         console.log(`SspRuntimeService.ctor: offsetWidth= ${webglEl.offsetWidth}, offsetHeight=${webglEl.offsetHeight}`);
         // this.offscreenImageBuf = this.generateDataTexture(webglEl.offsetWidth, webglEl.offsetHeight, new THREE.Color(0x000000));
@@ -58,13 +62,16 @@ export class SspRuntimeService {
         
         // this.offscreenImageBuf = this.generateDataTexture(webglEl.offsetWidth * 0.5, webglEl.offsetHeight * 0.5, new THREE.Color(0x000000));
         this.offscreenImageBuf = this.generateDataTexture(innerGameWidth, innerGameHeight, new THREE.Color(0x000000));
+        */
       // }
+      this.initOffscreenImageBuf();
 
       // this.offscreenImageBuf = this.generateDataTexture(tmp.offsetWidth, tmp.offsetHeight, new THREE.Color(0x000000));
       // this.offscreenImageBuf.needsUpdate = true;
       // this.innerSceneCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight);
-      this.innerSceneCamera = new THREE.PerspectiveCamera(75, innerGameWidth / innerGameHeight);
-      this.innerSceneCamera.position.z = -5.0;
+      // this.innerSceneCamera = new THREE.PerspectiveCamera(75, this.innerGameWidth / this.innerGameHeight);
+      // this.innerSceneCamera.position.z = -5.0;
+      this.initInnerSceneCamera();
 
   }
 
@@ -82,6 +89,7 @@ export class SspRuntimeService {
     window.requestAnimationFrame(SspRuntimeService
       .prototype.mainLoop.bind(this));
 
+    this.utils.stats.begin();
     // update the innerGame
     (<any>this.innerGame).updateScene();
 
@@ -151,8 +159,54 @@ export class SspRuntimeService {
     this.outerSspScene.sspMaterial.map = this.offscreenImageBuf;
 
     this.outerVrScene.vrControls.update();
+    if (!(<any>this.outerVrScene.vrEffect).isPresenting) {
+      // console.log(`SspRuntime.mainloop: now calling orbitControls.update`);
+      // this.outerVrScene.orbitControls.update();
+    }
+    else {
+      if( !this.isPresenting) {
+      // have to get rid of orbitControls once in full vr mode, as it seems
+      // to intercept the key presses.
+        this.isPresenting = true;
+        console.log(`SspRuntime.mainloop: now disposing of orbitControls`);
+        this.outerVrScene.orbitControls.dispose();
+      }
+      // console.log(`SspRuntime.mainloop: now calling VRControls.update`);
+      // this.outerVrScene.vrControls.update();
+    }
 
     this.outerVrScene.webVrManager.render(this.outerVrScene.scene, this.outerVrScene.camera);
+
+    this.utils.stats.end();
+  }
+
+  initOffscreenImageBuf() {
+    // let webglEl = document.getElementById('webGLRenderer');
+    //TODO: you should probably just go off this.outerVrScene.webGLRenderer
+    // actually webGlRenderer.size.width is unknown to typescript
+    let webglEl = this.outerVrScene.webGLRenderer.domElement;
+    // this.outerVrScene.webGLRenderer.getSize.width;
+    console.log(`SspRuntimeService.ctor: offsetWidth= ${webglEl.offsetWidth}, offsetHeight=${webglEl.offsetHeight}`);
+    // this.offscreenImageBuf = this.generateDataTexture(webglEl.offsetWidth, webglEl.offsetHeight, new THREE.Color(0x000000));
+    this.innerGameWidth = webglEl.offsetWidth * 1.0;
+    this.innerGameHeight = webglEl.offsetHeight * 1.0;
+    // let innerGameWidth = 1024;
+    // let innerGameHeight = 1024;
+    // console.log(`SspRuntime.ctor. innerGameWidth=${innerGameWidth}, innerGameHeight=${innerGameHeight}`);
+
+    // this.offscreenImageBuf = this.generateDataTexture(webglEl.offsetWidth * 0.5, webglEl.offsetHeight * 0.5, new THREE.Color(0x000000));
+    this.offscreenImageBuf = this.generateDataTexture(this.innerGameWidth, this.innerGameHeight, new THREE.Color(0x000000));
+  };
+
+  initInnerSceneCamera() {
+    this.innerSceneCamera = new THREE.PerspectiveCamera(75, this.innerGameWidth / this.innerGameHeight);
+    this.innerSceneCamera.position.z = -5.0;
+  };
+
+  onResize(event) {
+    console.log(`SspRuntimeService.onResize: now handling resize event`);
+    this.initOffscreenImageBuf();
+    this.initInnerSceneCamera();
   }
 
   // Getters and Setters

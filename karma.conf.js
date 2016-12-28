@@ -20,7 +20,9 @@ module.exports = function (config) {
       './node_modules/three/examples/js/controls/VRControls.js',
       './node_modules/three/examples/js/effects/VREffect.js',
       './node_modules/webvr-boilerplate/build/webvr-manager.js',
-      './node_modules/dat-gui/vendor/dat.gui.js'
+      './node_modules/dat-gui/vendor/dat.gui.js',
+      './node_modules/stats-js/build/stats.min.js',
+      './node_modules/three/examples/js/controls/OrbitControls.js'
     ],
     preprocessors: {
       './src/test.ts': ['angular-cli']

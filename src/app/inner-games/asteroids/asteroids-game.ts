@@ -3,7 +3,7 @@ import { Component, Injectable, Injector } from '@angular/core';
 import { Asteroid } from './asteroid';
 import { Bullet } from './bullet';
 import { Ship } from './ship';
-import { InnerGame } from '../../inner-game';
+import { InnerGame } from '../../interfaces/inner-game';
 import { ThreeJsSceneProvider } from '../../services/utils.service';
 import { BaseService } from '../../services/base.service';
 import { IMainCharacterInfo } from '../../interfaces/main-character-info';

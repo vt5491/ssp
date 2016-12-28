@@ -22,7 +22,7 @@ import { AsteroidsMainService} from '../inner-games/asteroids/asteroids-main.ser
 // import { AsteroidsGame, AsteroidsGameProvider } from '../inner-games/asteroids/asteroids-game';
 import { AsteroidsGame } from '../inner-games/asteroids/asteroids-game';
 import { AsteroidsKbdHandler } from '../inner-games/asteroids/asteroids-kbd-handler';
-import { InnerGame } from '../inner-game';
+import { InnerGame } from '../interfaces/inner-game';
 import { WebGLRenderTargetProvider, UtilsService } from '../services/utils.service';
 import { ThreeJsSceneProvider } from '../services/utils.service';
 import { Ship } from '../inner-games/asteroids/ship';
@@ -61,7 +61,7 @@ export class TorroidsComponent implements OnInit {
   // sspScene : SspScene;
   // private _sspScene : SspSceneService;
   private _sspScene : ISspScene;
-  sspRuntime: SspRuntime;
+  sspRuntime: SspRuntimeService;
   // sspTorusRuntimeService : SspTorusRuntimeService;
   // model : { [outerScene : string] : string} = {};
   model : any = {};
@@ -90,7 +90,7 @@ export class TorroidsComponent implements OnInit {
     // this sets which option is checked by default
     this.model.outerScene = 'cube';
     // this.model.outerScene = 'plane';
-    this.model.enableCameraTracking = true;
+    this.model.enableCameraTracking = false;
     console.log('TorroidComponent: ctor: _kbdHandlerRouterService=' + this._kbdHandlerRouter);
     // console.log('TorroidComponent: ctor: baseService=' + this.baseService);
     this.innerGame = this.injector.get(AsteroidsGame);
@@ -100,10 +100,12 @@ export class TorroidsComponent implements OnInit {
      };
 
     this.utils.addControls(control);
+    // this.utils.addStats();
   }
 
   ngOnInit() {
     console.log('TorroidsComponent.ngOnInit: entered');
+    // this.utils.addStats();
   }
 
   initOuterScene() {
@@ -231,6 +233,7 @@ export class TorroidsComponent implements OnInit {
     //   // this.innerGame.asteroidsGame.asteroids[0].vx=0.1;
     // };
     // this.utils.addControls(control);
+    this.utils.addStats();
 
     this.sspRuntime.mainLoop();
   }
@@ -238,6 +241,22 @@ export class TorroidsComponent implements OnInit {
   kbdEventHandler($event) {
     this.kbdHandlerRouter.keyEventHandler($event);
   };
+
+  onResize(event) {
+    console.log('TorroidsComponent.onResize: event=' + event)
+    // var camera = this.vrRuntime.vrScene.camera;
+    var camera = this.sspRuntime.outerVrScene.camera;
+    // var renderer = this.vrRuntime.vrRenderer.renderer
+    var renderer = this.sspRuntime.webGLRenderer;
+
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize( window.innerWidth, window.innerHeight );
+
+    // and inform the inner game as well
+    this.sspRuntime.onResize(event);
+  }
 
   // Getters and Setters
   get kbdHandlerRouter(): KbdHandlerRouterService {

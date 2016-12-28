@@ -1,7 +1,7 @@
 <router-outlet></router-outlet>
 Torroids.
 <!-- <div class='container' id='webgl-container'  (click)='kbdEventHandler($event)' (keydown)='kbdEventHandler($event)' uabindex="1"> -->
-<div class='container' id='webgl-container'>
+<div class='container' id='webgl-container' (window:resize)="onResize($event)">
   <!-- original canvas<br/>
   <canvas width="100" height="100" id="scene-view" (keydown)='kbdEventHandler($event)' ></canvas> -->
   <span [hidden]="hideSpan1" id='outer-scene-select'>
@@ -36,8 +36,8 @@ Torroids.
    value="cyl"
    tabindex="2"
    dhecked="checked">Cyl<br/> -->
-  <label><input type="checkbox" id="cbox1" 
-    [(ngModel)]="model.enableCameraTracking" value="camera_tracking_on" 
+  <label><input type="checkbox" id="cbox1"
+    [(ngModel)]="model.enableCameraTracking" value="camera_tracking_on"
     [checked]="model.enableCameraTracking==true">Enable Camera Tracking</label><br>
  </span>
   <p>

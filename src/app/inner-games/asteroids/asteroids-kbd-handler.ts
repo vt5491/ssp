@@ -13,11 +13,11 @@ export class AsteroidsKbdHandler implements KbdHandler {
   _name : string = 'asteroidsKbdHandler';
   // _ship : Ship;
 
-  constructor( 
+  constructor(
     // private _ship : Ship,
     private _asteroidsGame : AsteroidsGame,
     // private _bullet : Bullet,
-    private base : BaseService, 
+    private base : BaseService,
     public utils : UtilsService
   ) {
     this.name = 'asteroidsKbdHandler';
@@ -78,7 +78,8 @@ export class AsteroidsKbdHandler implements KbdHandler {
 
       // bullet fire
       // case ' '.charCodeAt(0):
-      case 32:
+      // case 32:
+      case 'J'.charCodeAt(0):
         // console.log('you pressed <space>');
         this.asteroidsGame.shipFiredBullet();
       // let bullet = new Bullet();
