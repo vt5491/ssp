@@ -1,5 +1,6 @@
 ///<reference path="../../../typings/index.d.ts" />
 import { Injectable, Injector } from '@angular/core';
+import { IMoveableGameObject } from '../interfaces/imoveable-game-object';
 // import * as _ from 'lodash';
 // import {GUI} from 'dat.GUI';
 // import {dat} from 'dat-gui/vendor/dat.gui';
@@ -51,6 +52,34 @@ export class UtilsService {
       insertPointElem.childNodes[insertPointElem.childNodes.length - 1] );
   }
 
+  updatePos(moveableGameObject: IMoveableGameObject, boundVal: number) {
+    // console.log(`Utils.UpdatePos: entered`);
+    
+    let meshX = moveableGameObject.mesh.position.x;
+    let meshY = moveableGameObject.mesh.position.y;
+
+    meshX += moveableGameObject.vx;
+    meshY += moveableGameObject.vy;
+
+    if (meshX > boundVal) {
+      meshX = -boundVal;
+    }
+
+    if (meshX < -boundVal) {
+      meshX = boundVal;
+    }
+
+    if (meshY > boundVal) {
+      meshY = -boundVal;
+    }
+
+    if (meshY < -boundVal) {
+      meshY = boundVal;
+    }
+
+    moveableGameObject.mesh.position.x = meshX;
+    moveableGameObject.mesh.position.y = meshY;
+  }
 }
 
 // here's where we define the providers for things that don't have their own native

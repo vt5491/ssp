@@ -4,7 +4,10 @@ import { Injectable } from '@angular/core';
 export class BaseService {
 
   static ONE_DEG = Math.PI / 180.0;
+  //TODO: projectionBoundary and _boundVal are the same idea.  Decide which
+  // one to go with and get rid of the other (probably keep projectionBoundary)
   projectionBoundary : number;
+  private _boundVal : number;
 
   constructor() { 
     this.init();
@@ -19,4 +22,12 @@ export class BaseService {
   get ONE_DEG(): number {
     return BaseService.ONE_DEG;
   } 
+
+  public get boundVal() : number {
+    return this._boundVal;
+  }
+  public set boundVal(v : number) {
+    this._boundVal = v;
+  }
+  
 }

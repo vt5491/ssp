@@ -1,15 +1,19 @@
 ///<reference path="../../../../typings/index.d.ts" />
 import { Injectable } from '@angular/core';
 import { BaseService } from '../../services/base.service';
+import { UtilsService } from '../../services/utils.service';
+import { IMoveableGameObject } from "../../interfaces/imoveable-game-object";
 
 @Injectable()
 // @Component({
 //   providers: [BaseService],
 // })
-export class Ship {
+export class Ship implements IMoveableGameObject {
 
-  _vx : number;
-  _vy : number;
+  // _vx : number;
+  // _vy : number;
+  vx : number;
+  vy : number;
   deltaVx : number;
   deltaVy : number;
   deltaVel : number;
@@ -21,26 +25,29 @@ export class Ship {
   // mesh: THREE.Line;
   lineMesh: THREE.Line;
   theta : number;
-  vTheta : number;
+  // vTheta : number;
   thetaLast : number;
   vel : number;  //TODO defunct
   vScalar : number; // use this
+  accelScalar : number;
   nose : THREE.Mesh;
 
   constructor(
-    private base : BaseService
-  ) { 
+    private _base : BaseService,
+    private _utils : UtilsService
+  ) {
 
     this.init();
   }
 
   init() {
-    // this.vx = 0.04;
-    // this.vy = 0.0;
+    this.vx = 0.0;
+    this.vy = 0.0;
     // this.vel = 0.01;
     // this.vScalar = 0.01;
-    // this controls how fast the ship goes
+    //  this controls how fast the ship goes
     this.vScalar = 0.002;
+    this.accelScalar = 0.0004;
 
     this.deltaVx = 0.001;
     this.deltaVy = 0.001;
@@ -49,10 +56,11 @@ export class Ship {
     this.deltaTheta = 5.0 * this.base.ONE_DEG;
 
     // this makes it go in the y-dir
-    this.vTheta = this.base.ONE_DEG * 90.0; 
+    // this.vTheta = this.base.ONE_DEG * 90.0;
+    this.theta = this.base.ONE_DEG * 90.0;
     // this makes it go in the x-dir
-    // this.vTheta = this.base.ONE_DEG * 0.0; 
-    this.thetaLast = this.vTheta; 
+    // this.vTheta = this.base.ONE_DEG * 0.0;
+    this.thetaLast = this.theta;
 
     // create the ship
     this.geom = new THREE.Geometry()
@@ -104,26 +112,70 @@ export class Ship {
   rotate() {
     // this.mesh.rotateZ(this.theta);
     // this.mesh.rotateZ(rotTheta);
-    this.mesh.rotateZ(this.vTheta - this.thetaLast);
+    // this.mesh.rotateZ(this.vTheta - this.thetaLast);
+    this.mesh.rotateZ(this.theta - this.thetaLast);
 
-    this.thetaLast = this.vTheta;
+    this.thetaLast = this.theta;
+  };
+
+  thrust() {
+    this.vx += this.accelScalar * Math.cos(this.theta);
+    this.vy += this.accelScalar * Math.sin(this.theta);
+  };
+
+  updatePos() {
+    // console.log(`---> in new updatPos`);
+    this.utils.updatePos(this, this.base.projectionBoundary);
+    // let shipX = this.mesh.position.x;
+    // let shipY = this.mesh.position.y;
+    //
+    // let boundVal = this.base.projectionBoundary;
+    //
+    // shipX += this.vx;
+    // shipY += this.vy;
+    //
+    // if (shipX > boundVal) {
+    //   shipX = -boundVal;
+    // }
+    //
+    // if (shipX < -boundVal) {
+    //   shipX = boundVal;
+    // }
+    //
+    // if (shipY > boundVal) {
+    //   shipY = -boundVal;
+    // }
+    //
+    // if (shipY < -boundVal) {
+    //   shipY = boundVal;
+    // }
+    //
+    // this.mesh.position.x = shipX;
+    // this.mesh.position.y = shipY;
   }
 
   //getters and setters
-  get vx(): number {
-    return this.vScalar * Math.cos(this.vTheta);
-  }
-  set vx( newVx: number) {
-    this.vTheta = Math.atan( this.vy / newVx);
-    this.vScalar = Math.sqrt(newVx * newVx + this.vy * this.vy);
-  }
+  get base(): BaseService {
+    return this._base;
+  };
+  get utils(): UtilsService {
+    return this._utils;
+  };
 
-  get vy(): number {
-    return this.vScalar * Math.sin(this.vTheta);
-  }
-  set vy( newVy: number) {
-    this.vTheta = Math.atan( newVy / this.vx);
-    this.vScalar = Math.sqrt(this.vx * this.vx + newVy * newVy);
-  }
+  // get vx(): number {
+  //   return this.vScalar * Math.cos(this.vTheta);
+  // }
+  // set vx( newVx: number) {
+  //   this.vTheta = Math.atan( this.vy / newVx);
+  //   this.vScalar = Math.sqrt(newVx * newVx + this.vy * this.vy);
+  // }
+  //
+  // get vy(): number {
+  //   return this.vScalar * Math.sin(this.vTheta);
+  // }
+  // set vy( newVy: number) {
+  //   this.vTheta = Math.atan( newVy / this.vx);
+  //   this.vScalar = Math.sqrt(this.vx * this.vx + newVy * newVy);
+  // }
 
 }

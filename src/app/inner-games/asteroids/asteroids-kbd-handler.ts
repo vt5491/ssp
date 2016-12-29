@@ -27,6 +27,8 @@ export class AsteroidsKbdHandler implements KbdHandler {
   keyEventHandler (event: KeyboardEvent) {
 
     switch( event.keyCode) {
+      //TODO: this module should just route to asteroids-game and do no low level manipulation
+      // what this means is you need to get rid of the 'this.ship.vx = blah' code
       case 'D'.charCodeAt(0):
       // console.log('you pressed d');
       //this.dolly.position.x += this.CAMERA_MOVE_DELTA;
@@ -66,20 +68,20 @@ export class AsteroidsKbdHandler implements KbdHandler {
       // rotate
       case 'Q'.charCodeAt(0):
       // console.log('you pressed q');
-      this.ship.vTheta += this.ship.deltaTheta;
+      this.ship.theta += this.ship.deltaTheta;
 
       break;
 
       case 'E'.charCodeAt(0):
       // console.log('you pressed e');
-      this.ship.vTheta -= this.ship.deltaTheta;
+      this.ship.theta -= this.ship.deltaTheta;
 
       break;
 
       // bullet fire
       // case ' '.charCodeAt(0):
       // case 32:
-      case 'J'.charCodeAt(0):
+      case ' '.charCodeAt(0):
         // console.log('you pressed <space>');
         this.asteroidsGame.shipFiredBullet();
       // let bullet = new Bullet();
@@ -96,6 +98,9 @@ export class AsteroidsKbdHandler implements KbdHandler {
         this.utils.parms.enableCameraTracking = !this.utils.parms.enableCameraTracking;
       break;
 
+      case 'J'.charCodeAt(0):
+        this.asteroidsGame.shipThrust();
+      break;
     }
   }
 

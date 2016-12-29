@@ -83,13 +83,13 @@ describe('Class: AsteroidsKbdHandler', () => {
     let event : KeyboardEvent =  <KeyboardEvent>{};
     let ship = service.ship;
 
-    ship.vTheta = 0.0;
+    ship.theta = 0.0;
     Object.defineProperty(event, 'keyCode', {'value': 'Q'.charCodeAt(0)});
 
-    let startTheta = ship.vTheta;
+    let startTheta = ship.theta;
     service.keyEventHandler(event);
 
-    expect(ship.vTheta).toEqual(startTheta + ship.deltaTheta);
+    expect(ship.theta).toEqual(startTheta + ship.deltaTheta);
   }));
 
   it('keyHandler space should fire a bullet', inject([AsteroidsKbdHandler], (service: AsteroidsKbdHandler) => {
@@ -98,7 +98,7 @@ describe('Class: AsteroidsKbdHandler', () => {
     let sceneOrigLength = service.asteroidsGame.scene.children.length;
 
     // Object.defineProperty(event, 'keyCode', {'value': ' '.charCodeAt(0)});
-    Object.defineProperty(event, 'keyCode', {'value': 'J'.charCodeAt(0)});
+    Object.defineProperty(event, 'keyCode', {'value': ' '.charCodeAt(0)});
 
     // let startTheta = ship.theta;
     service.keyEventHandler(event);
@@ -109,5 +109,19 @@ describe('Class: AsteroidsKbdHandler', () => {
     // console.log(`ut: bulletsOrigLength=${bulletsOrigLength}`);
     // console.log(`ut: scene=${service.asteroidsGame.scene}`);
     expect(service.asteroidsGame.scene.children.length).toEqual(sceneOrigLength + 1);
+  }));
+
+  it('keyHandler j should thrust ship', inject([AsteroidsKbdHandler], (service: AsteroidsKbdHandler) => {
+    let event : KeyboardEvent =  <KeyboardEvent>{};
+
+    Object.defineProperty(event, 'keyCode', {'value': 'J'.charCodeAt(0)});
+
+    service.keyEventHandler(event);
+
+    let ship = service.asteroidsGame.ship;
+    console.log(`ut: ship.vx=${ship.vx}, ship.vy=${ship.vy}, accelScalar=${ship.accelScalar}`);
+    
+    expect(ship.vx).toBeCloseTo(0.0);
+    expect(ship.vy).toEqual(ship.accelScalar);
   }));
 });

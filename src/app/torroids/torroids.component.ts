@@ -18,7 +18,7 @@ import { SspCylRuntimeService } from '../services/ssp-cyl-runtime.service';
 import { SspRuntimeService } from '../services/ssp-runtime.service';
 import { KbdHandlerRouterService} from '../services/kbd-handler-router.service';
 import { CameraKbdHandlerService} from '../services/camera-kbd-handler.service';
-import { AsteroidsMainService} from '../inner-games/asteroids/asteroids-main.service';
+// import { AsteroidsMainService} from '../inner-games/asteroids/asteroids-main.service';
 // import { AsteroidsGame, AsteroidsGameProvider } from '../inner-games/asteroids/asteroids-game';
 import { AsteroidsGame } from '../inner-games/asteroids/asteroids-game';
 import { AsteroidsKbdHandler } from '../inner-games/asteroids/asteroids-kbd-handler';
@@ -35,7 +35,7 @@ import { Ship } from '../inner-games/asteroids/ship';
   providers: [VRSceneServiceProvider, WebGLCanvasComponent, SspTorusSceneProvider,
     SspCylSceneProvider, SspPlaneSceneProvider, SspCubeSceneProvider,
     SspPyramidSceneProvider, SspSphereSceneProvider,
-    AsteroidsMainService,
+    // AsteroidsMainService,
     // note: we get a global singleton AsteroidsGame in app.module
     // AsteroidsGameProvider,
     //THREE.WebGLRenderTarget

@@ -22,4 +22,9 @@ describe('Service: Base', () => {
   it('should have an instance level value projectionBoundary', inject([BaseService], (service: BaseService) => {
     expect(service.projectionBoundary).toBeTruthy();
   }));
+
+  it('should have a boundVal value', inject([BaseService], (service: BaseService) => {
+    service.boundVal = 7.0;
+    expect(service.boundVal).toEqual(7.0);
+  }));
 });

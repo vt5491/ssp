@@ -6,6 +6,7 @@ import { Ship } from './ship';
 import { InnerGame } from '../../interfaces/inner-game';
 import { ThreeJsSceneProvider } from '../../services/utils.service';
 import { BaseService } from '../../services/base.service';
+import { UtilsService } from '../../services/utils.service';
 import { IMainCharacterInfo } from '../../interfaces/main-character-info';
 
 @Component({
@@ -23,6 +24,7 @@ export class AsteroidsGame implements InnerGame {
   private startTime : number = Date.now();
   id : number = Date.now();
   BOUND_VAL = 3.79;
+  seedAsteroidCount : number = 4;
 
   constructor(
     // private _scene : THREE.Scene,
@@ -33,24 +35,28 @@ export class AsteroidsGame implements InnerGame {
     // @Inject(THREE.Scene) _scene: THREE.Scene,
     private _ship : Ship,
     private _base : BaseService,
-    private injector : Injector
+    private injector : Injector,
+    private _utils : UtilsService
   ) {
     // I seem to have to manually inject THREE.Scene because it's a third-party Component
     // and I can't wrap it in @Ijnectable?
     this._scene = this.injector.get(THREE.Scene);
     // this.asteroids.push( new Asteroid());
     // this._scene = new THREE.Scene();
+    this.base.projectionBoundary = this.BOUND_VAL;
+
     this.initScene();
   }
 
   initScene() {
-    this.asteroids.push( new Asteroid());
-    this.scene.add(this.asteroids[0].mesh);
-
-    this.asteroids.push( new Asteroid());
-    this.asteroids[1].vx = 0.004;
-    this.asteroids[1].x = 1;
-    this.scene.add(this.asteroids[1].mesh);
+    // this.asteroids.push( new Asteroid());
+    // this.scene.add(this.asteroids[0].mesh);
+    //
+    // this.asteroids.push( new Asteroid());
+    // this.asteroids[1].vx = 0.004;
+    // this.asteroids[1].x = 1;
+    // this.scene.add(this.asteroids[1].mesh);
+    this.initAsteroids();
 
     // this.scene.add(this.ship.lineMesh);
     this.scene.add(this.ship.mesh);
@@ -85,6 +91,28 @@ export class AsteroidsGame implements InnerGame {
     this.scene.add(gridYMesh);
   };
 
+  initAsteroids() {
+    for (let i = 0; i < this.seedAsteroidCount; i++) {
+      let asteroid = new Asteroid(this.base, this.utils);
+
+      // set position between projection bounds
+      let boundVal = this.base.projectionBoundary;
+
+      asteroid.mesh.position.x = (boundVal * Math.random() * 2.0) - boundVal;
+      asteroid.mesh.position.y = (boundVal * Math.random() * 2.0) - boundVal;
+
+      // set velocity
+      let asteroidTheta = 2.0 * Math.PI * Math.random();
+      //TODO: parameterize the magic numbers
+      asteroid.vx = Math.cos(asteroidTheta) * 0.004;
+      asteroid.vy = Math.sin(asteroidTheta) * 0.004;
+
+      this.asteroids[i] = asteroid;
+
+      this.scene.add(asteroid.mesh);
+    }
+  }
+
   updateScene() {
     // 3.7 is a little short. 3.8 is a little long
     let boundVal = this.BOUND_VAL;
@@ -92,13 +120,14 @@ export class AsteroidsGame implements InnerGame {
     for (let i = 0; i < this.asteroids.length; i++) {
       let asteroid = this.asteroids[i];
 
-      let now = Date.now();
-      let delta_t = now - this.startTime;
-      let ratio = delta_t / this.asteroidsDuration;
-      let posX = 2 * boundVal * ratio;
-
-      asteroid.mesh.position.x =
-        ((this.asteroids[i].x + posX + boundVal) % 2.0 * boundVal) - boundVal;
+      asteroid.updatePos();
+      // let now = Date.now();
+      // let delta_t = now - this.startTime;
+      // let ratio = delta_t / this.asteroidsDuration;
+      // let posX = 2 * boundVal * ratio;
+      //
+      // asteroid.mesh.position.x =
+      //   ((this.asteroids[i].x + posX + boundVal) % 2.0 * boundVal) - boundVal;
     }
     // update bullets
     // console.log(`AsteroidsGame.updateScene: bullets.length=${this.bullets.length}, asteroidsGame.id=${this.id}`);
@@ -108,27 +137,28 @@ export class AsteroidsGame implements InnerGame {
 
 
     // translate ship
+    this.ship.updatePos();
     // this.ship.lineMesh.position.x += this.ship.vx / 4.0;
-    this.ship.mesh.position.x += this.ship.vScalar * Math.cos(this.ship.vTheta);
-
-    if (this.ship.mesh.position.x > boundVal) {
-      this.ship.mesh.position.x = -boundVal;
-    }
-
-    if (this.ship.mesh.position.x < -boundVal) {
-      this.ship.mesh.position.x = boundVal;
-    }
-
-    // this.ship.mesh.position.y += this.ship.vy / 4.0;
-    this.ship.mesh.position.y += this.ship.vScalar * Math.sin(this.ship.vTheta);
-
-    if (this.ship.mesh.position.y > boundVal) {
-      this.ship.mesh.position.y = -boundVal;
-    }
-
-    if (this.ship.mesh.position.y < -boundVal) {
-      this.ship.mesh.position.y = boundVal;
-    }
+    // this.ship.mesh.position.x += this.ship.vScalar * Math.cos(this.ship.theta);
+    //
+    // if (this.ship.mesh.position.x > boundVal) {
+    //   this.ship.mesh.position.x = -boundVal;
+    // }
+    //
+    // if (this.ship.mesh.position.x < -boundVal) {
+    //   this.ship.mesh.position.x = boundVal;
+    // }
+    //
+    // // this.ship.mesh.position.y += this.ship.vy / 4.0;
+    // this.ship.mesh.position.y += this.ship.vScalar * Math.sin(this.ship.theta);
+    //
+    // if (this.ship.mesh.position.y > boundVal) {
+    //   this.ship.mesh.position.y = -boundVal;
+    // }
+    //
+    // if (this.ship.mesh.position.y < -boundVal) {
+    //   this.ship.mesh.position.y = boundVal;
+    // }
 
     // console.log(`AsteroidsGame.updateScene: ship.x=${this.ship.mesh.position.x}, ship.y=${this.ship.mesh.position.y}`);
 
@@ -161,7 +191,8 @@ export class AsteroidsGame implements InnerGame {
     // note: we do not use injected Bullets because we don't want singletons
     let bullet = new Bullet(this.base);
     // bullet.vTheta = Math.atan(this.ship.vy / this.ship.vx);
-    bullet.vTheta = Math.atan2(this.ship.vy , this.ship.vx);
+    // bullet.vTheta = Math.atan2(this.ship.vy , this.ship.vx);
+    bullet.vTheta = this.ship.theta;
     // console.log(`AsteroidsGame.shipFiredBullet: ship.vy=${this.ship.vy},ship.vx=${this.ship.vx}`);
     // console.log(`AsteroidsGame.shipFiredBullet: bullet.vTheta=${bullet.vTheta}`);
 
@@ -179,6 +210,10 @@ export class AsteroidsGame implements InnerGame {
     this.bullets.push(bullet);
   };
 
+  shipThrust() {
+    this.ship.thrust();
+  }
+
   // getMainCharacterInfo() : <MainCharacterInfo> {} {
   // getMainCharacterInfo() : Object {
   // this returns info about the main user controlled screen avatar.  It can
@@ -195,24 +230,27 @@ export class AsteroidsGame implements InnerGame {
 
     return <IMainCharacterInfo>info;
     // return info;
-  }
+  };
 
   //getters and setters
   get asteroids(): Asteroid [] {
     return this._asteroids;
-  }
+  };
   get scene(): THREE.Scene {
     return this._scene;
-  }
+  };
   get ship(): Ship {
     return this._ship;
-  }
+  };
   get bullets(): Bullet [] {
     return this._bullets;
-  }
+  };
   get base(): BaseService {
     return this._base;
-  }
+  };
+  get utils(): UtilsService {
+    return this._utils;
+  };
 }
 
 // let AsteroidsGameFactory = (scene : THREE.Scene, ship : Ship) => {

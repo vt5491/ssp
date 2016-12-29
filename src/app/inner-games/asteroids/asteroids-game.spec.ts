@@ -8,16 +8,18 @@ import { Ship } from './ship';
 import { Bullet } from './bullet';
 import { ThreeJsSceneProvider } from '../../services/utils.service';
 import { BaseService } from '../../services/base.service';
+import { UtilsService } from '../../services/utils.service';
 // import { SspTorusRuntimeService } from './ssp-torus-runtime.service';
 // import { VRSceneService, VRSceneServiceProvider } from './vr-scene.service';
 
 describe('Class: AsteroidsGame', () => {
+  let base = new BaseService();
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       // providers: [SspTorusRuntimeService, VRSceneServiceProvider]
       providers: [AsteroidsGame, ThreeJsSceneProvider, 
-        Ship, Bullet, BaseService]
+        Ship, Bullet, BaseService, UtilsService]
       // providers: [ThreeJsSceneProvider, Ship, BaseService]
     });
   });
@@ -29,6 +31,8 @@ describe('Class: AsteroidsGame', () => {
     expect(asteroidsGame.bullets).toBeTruthy();
     expect(asteroidsGame.base).toBeTruthy();
     expect(asteroidsGame.getMainCharacterInfo).toBeTruthy();
+    expect(asteroidsGame.initAsteroids).toBeTruthy();
+    expect(asteroidsGame.utils).toBeTruthy();
   }));
 
   // it('initScene workds', inject([AsteroidsGame], (asteroidsGameProvider))
@@ -46,7 +50,7 @@ describe('Class: AsteroidsGame', () => {
     (ag: AsteroidsGame, base: BaseService) => {
       // ag.ship.vx = 1.0;
       // ag.ship.vy = 2.0;
-      ag.ship.vTheta = base.ONE_DEG * 45.0; 
+      ag.ship.theta = base.ONE_DEG * 45.0; 
       ag.ship.vScalar = 1.0;
       ag.ship.mesh.position.x = 5.0;
       ag.ship.mesh.position.y = -4.0;
@@ -56,7 +60,8 @@ describe('Class: AsteroidsGame', () => {
       expect(ag.bullets.length).toEqual(1);
       let bullet = ag.bullets[0];
       // bullet should be heading in same dir as the ship
-      expect(bullet.vx / bullet.vy).toBeCloseTo( ag.ship.vx / ag.ship.vy); 
+      // expect(bullet.vx / bullet.vy).toBeCloseTo( ag.ship.vx / ag.ship.vy); 
+      expect(Math.atan(bullet.vy / bullet.vx)).toBeCloseTo( ag.ship.theta); 
 
       // bullet pos should be the same as ship initially
       expect(bullet.mesh.position.x).toEqual(ag.ship.mesh.position.x);
@@ -100,5 +105,33 @@ describe('Class: AsteroidsGame', () => {
       let result = ag.getMainCharacterInfo();
 
       expect(result.pos).toBeTruthy();
+  }));
+
+  it('shipThrust works as expected', inject([AsteroidsGame], 
+    (astGame: AsteroidsGame) => {
+      let result = astGame.shipThrust();
+
+      expect(astGame.ship.vx).toBeCloseTo(0.0, 5);
+      expect(astGame.ship.vy).toEqual(astGame.ship.accelScalar);
+  }));
+
+  it('initAsteroids works as expected', inject([AsteroidsGame], 
+    (astGame: AsteroidsGame) => {
+      let result = astGame.initAsteroids();
+
+      expect(astGame.asteroids.length).toEqual(astGame.seedAsteroidCount);
+      let ast_0 = astGame.asteroids[0];
+
+      expect(ast_0.mesh.position.x).toBeDefined();
+      expect(ast_0.mesh.position.y).toBeDefined();
+
+      expect(ast_0.vx).toBeDefined();
+      expect(ast_0.vy).toBeDefined();
+
+      // validate position is between bounds
+      let boundVal = base.projectionBoundary;
+      expect(ast_0.mesh.position.x).not.toBeLessThan(-boundVal);
+      // expect(ast_0.mesh.position.x).toBeGreaterThanOrEqual(-boundVal);
+      expect(ast_0.mesh.position.x).not.toBeGreaterThan(boundVal);
   }));
 });

@@ -21,9 +21,7 @@ import { Ship } from './inner-games/asteroids/ship';
 // import { AsteroidsGame, AsteroidsGameProvider } from './inner-games/asteroids/asteroids-game';
 import { AsteroidsGame } from './inner-games/asteroids/asteroids-game';
 //import 'dat-gui';
-import { ThreeJsSceneProvider, UtilsService, 
-  // DatGUIProvider
-} from './services/utils.service';
+import { ThreeJsSceneProvider, UtilsService } from './services/utils.service';
 
 @NgModule({
   declarations: [
