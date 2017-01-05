@@ -24,6 +24,8 @@ describe('Service: Ship', () => {
     // expect(ship.theta).toBeDefined();
     expect(ship.thrust).toBeTruthy();
     expect(ship.updatePos).toBeTruthy();
+    expect(ship.mesh.position.z).toEqual(0);
+    expect(ship.tag).toEqual('ship');
   }));
 
   it('thrust works', inject([Ship], (ship: Ship) => {

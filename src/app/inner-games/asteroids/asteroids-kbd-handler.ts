@@ -35,7 +35,7 @@ export class AsteroidsKbdHandler implements KbdHandler {
       // dolly.translateX(moveFactor * this.CAMERA_MOVE_DELTA);
       // ship.mesh.translateX(ship.vx);
       this.ship.vx += this.ship.deltaVx;
-      console.log(`AsteroidsKbdHandler.keyHandler: new vx=${this.ship.vx}`);
+      // console.log(`AsteroidsKbdHandler.keyHandler: new vx=${this.ship.vx}`);
       this.ship.mesh.translateX(this.ship.vx);
       //console.log('this.dolly.postion.x=' + this.dolly.position.x);
       break;
@@ -82,6 +82,7 @@ export class AsteroidsKbdHandler implements KbdHandler {
       // case ' '.charCodeAt(0):
       // case 32:
       case ' '.charCodeAt(0):
+      case 'K'.charCodeAt(0):
         // console.log('you pressed <space>');
         this.asteroidsGame.shipFiredBullet();
       // let bullet = new Bullet();

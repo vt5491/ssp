@@ -20,7 +20,8 @@ export class SspSphereScene implements ISspScene {
 
   init() {
     // Note: scaling up has no effect as everyting is basically "scale invariant"
-    let sphereGeom   = new THREE.SphereGeometry(50, 50, 50);
+    // let sphereGeom   = new THREE.SphereGeometry(50, 50, 50);
+    let sphereGeom   = new THREE.SphereBufferGeometry(50, 50, 50);
 
     // let sphereGeom   = new THREE.SphereGeometry(100, 100, 100);
     let sphereMaterial = new THREE.MeshBasicMaterial({ color: 0xff0080, side: THREE.DoubleSide });

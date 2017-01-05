@@ -8,6 +8,7 @@ import { ThreeJsSceneProvider } from '../../services/utils.service';
 import { BaseService } from '../../services/base.service';
 import { UtilsService } from '../../services/utils.service';
 import { IMainCharacterInfo } from '../../interfaces/main-character-info';
+import { IMoveableGameObject } from '../../interfaces/imoveable-game-object';
 
 @Component({
   // providers: [ThreeJsSceneProvider, Ship]
@@ -57,6 +58,10 @@ export class AsteroidsGame implements InnerGame {
     // this.asteroids[1].x = 1;
     // this.scene.add(this.asteroids[1].mesh);
     this.initAsteroids();
+    // development hack to make asteroid 0 bigger so we can identify it visually
+    // this.asteroids[0].mesh.geometry.
+    this.asteroids[0].mesh.scale.x = 2.0;
+    this.asteroids[0].mesh.geometry.computeBoundingBox();
 
     // this.scene.add(this.ship.lineMesh);
     this.scene.add(this.ship.mesh);
@@ -81,11 +86,11 @@ export class AsteroidsGame implements InnerGame {
 
     let gridXMesh = new THREE.Mesh(gridXGeom, gridMat);
     gridXMesh.position.x = -3.0;
-    gridXMesh.position.z = -10.0;
+    gridXMesh.position.z = 0.0;
 
     let gridYMesh = new THREE.Mesh(gridYGeom, gridMat);
     gridYMesh.position.y = -3.0;
-    gridYMesh.position.z = -10.0;
+    gridYMesh.position.z = 0.0;
 
     this.scene.add(gridXMesh);
     this.scene.add(gridYMesh);
@@ -121,13 +126,6 @@ export class AsteroidsGame implements InnerGame {
       let asteroid = this.asteroids[i];
 
       asteroid.updatePos();
-      // let now = Date.now();
-      // let delta_t = now - this.startTime;
-      // let ratio = delta_t / this.asteroidsDuration;
-      // let posX = 2 * boundVal * ratio;
-      //
-      // asteroid.mesh.position.x =
-      //   ((this.asteroids[i].x + posX + boundVal) % 2.0 * boundVal) - boundVal;
     }
     // update bullets
     // console.log(`AsteroidsGame.updateScene: bullets.length=${this.bullets.length}, asteroidsGame.id=${this.id}`);
@@ -135,36 +133,40 @@ export class AsteroidsGame implements InnerGame {
     this.updateBullets();
     // update ship
 
-
     // translate ship
     this.ship.updatePos();
-    // this.ship.lineMesh.position.x += this.ship.vx / 4.0;
-    // this.ship.mesh.position.x += this.ship.vScalar * Math.cos(this.ship.theta);
-    //
-    // if (this.ship.mesh.position.x > boundVal) {
-    //   this.ship.mesh.position.x = -boundVal;
-    // }
-    //
-    // if (this.ship.mesh.position.x < -boundVal) {
-    //   this.ship.mesh.position.x = boundVal;
-    // }
-    //
-    // // this.ship.mesh.position.y += this.ship.vy / 4.0;
-    // this.ship.mesh.position.y += this.ship.vScalar * Math.sin(this.ship.theta);
-    //
-    // if (this.ship.mesh.position.y > boundVal) {
-    //   this.ship.mesh.position.y = -boundVal;
-    // }
-    //
-    // if (this.ship.mesh.position.y < -boundVal) {
-    //   this.ship.mesh.position.y = boundVal;
-    // }
-
-    // console.log(`AsteroidsGame.updateScene: ship.x=${this.ship.mesh.position.x}, ship.y=${this.ship.mesh.position.y}`);
 
     // rotate ship
-    // this.ship.rotate(this.ship.deltaTheta);
     this.ship.rotate();
+
+    // check for bullet collisions
+    let hitObjects = this.bulletCollisionCheck();
+    //
+    // do beenHit action on each hitObject
+    for (let i = 0; i < hitObjects.length; i++) {
+        // hitObjects[i].vx = 0;
+        // hitObjects[i].vy = 0;
+        let hitObj = hitObjects[0];
+
+        hitObj.collisionHandler();
+
+        switch(hitObj.tag) {
+          case 'asteroid':
+            let splitAst = new Asteroid(this.base, this.utils);
+
+            splitAst.mesh.position.x = hitObj.mesh.position.x;
+            splitAst.mesh.position.y = hitObj.mesh.position.y;
+            splitAst.mesh.position.z = hitObj.mesh.position.z;
+
+            splitAst.vy = -hitObj.vy;
+
+            this.asteroids.push(splitAst);
+
+            this.scene.add(splitAst.mesh);
+
+          break;
+        }
+    }
   };
 
   updateBullets() {
@@ -196,9 +198,15 @@ export class AsteroidsGame implements InnerGame {
     // console.log(`AsteroidsGame.shipFiredBullet: ship.vy=${this.ship.vy},ship.vx=${this.ship.vx}`);
     // console.log(`AsteroidsGame.shipFiredBullet: bullet.vTheta=${bullet.vTheta}`);
 
+    let tmpVec = new THREE.Vector3();
     // initial pos is the same as the ship
     bullet.mesh.position.x = this.ship.mesh.position.x;
+    // bullet.mesh.position.x = this.ship.mesh.geometry.vertices[0].x;
+    // this.ship.mesh.getWorldPosition(tmpVec);
+    // bullet.mesh.position.x = tmpVec.x;
     bullet.mesh.position.y = this.ship.mesh.position.y;
+    // bullet.mesh.position.x = this.ship.mesh.geometry.vertices[0].y;
+    // bullet.mesh.position.y = tmpVec.y;
     // this.ship.geom.vertices[0].x
     // bullet.mesh.position.x = this.ship.geom.vertices[0].x + this.ship.mesh.position.x;
     // bullet.mesh.position.y = this.ship.geom.vertices[0].y + this.ship.mesh.position.y;
@@ -231,6 +239,30 @@ export class AsteroidsGame implements InnerGame {
     return <IMainCharacterInfo>info;
     // return info;
   };
+
+  // loop through all the bullets and see if it's hit any of the game objects
+  // return an array of all objects that have been hit
+  bulletCollisionCheck() : IMoveableGameObject[] {
+    // let collisionObjects = IMoveableGameObject[];
+    // let collisionObjects = IMoveableGameObject[];
+    let collisionObjects = [];
+
+    //loop through all bullets
+    for (let i = 0; i < this.bullets.length; i++) {
+      let b = this.bullets[i];
+      //loop through all asteroids
+      for (let i = 0; i < this.asteroids.length; i++) {
+        let a = this.asteroids [i];
+
+        if (a.collisionTest(b.mesh.position)) {
+          // collisionObjects.push({ obj: a, tag: "asteroid"});
+          collisionObjects.push(a);
+        }
+      }
+    }
+
+    return collisionObjects;
+  }
 
   //getters and setters
   get asteroids(): Asteroid [] {

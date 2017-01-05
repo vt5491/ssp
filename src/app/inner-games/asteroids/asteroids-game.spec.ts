@@ -134,4 +134,34 @@ describe('Class: AsteroidsGame', () => {
       // expect(ast_0.mesh.position.x).toBeGreaterThanOrEqual(-boundVal);
       expect(ast_0.mesh.position.x).not.toBeGreaterThan(boundVal);
   }));
+  
+  it('bulletCollisionCheck works as expected', inject([AsteroidsGame], 
+    (astGame: AsteroidsGame) => {
+      let result = [];
+
+      let b1 = new Bullet( new BaseService());
+      // create a bullet that has the same pos as asteroids[0]
+      let ast_0 = astGame.asteroids[0]
+      b1.mesh.position.x = ast_0.mesh.position.x;
+      b1.mesh.position.y = ast_0.mesh.position.y;
+      b1.mesh.position.z = ast_0.mesh.position.z;
+
+      astGame.bullets.push(b1); 
+
+      let b2 = new Bullet( new BaseService());
+      // create a bullet that has a different pos from asteroids[1]
+      let ast_1 = astGame.asteroids[1]
+      b2.mesh.position.x = ast_1.mesh.position.x + 5;
+      b2.mesh.position.y = ast_1.mesh.position.y;
+      b2.mesh.position.z = ast_1.mesh.position.z;
+
+      astGame.bullets.push(b2); 
+
+      result = astGame.bulletCollisionCheck();
+
+      expect(result.length).toBeGreaterThan(0);
+      expect(result).toContain(ast_0);
+      expect(result).not.toContain(ast_1);
+  }));
+
 });

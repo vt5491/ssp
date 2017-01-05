@@ -200,7 +200,8 @@ export class SspRuntimeService {
 
   initInnerSceneCamera() {
     this.innerSceneCamera = new THREE.PerspectiveCamera(75, this.innerGameWidth / this.innerGameHeight);
-    this.innerSceneCamera.position.z = -5.0;
+    // this.innerSceneCamera.position.z = -5.0;
+    this.innerSceneCamera.position.z = 5.0;
   };
 
   onResize(event) {

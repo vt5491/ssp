@@ -98,6 +98,12 @@ export let ThreeJsSceneProvider = {
   },
 };
 
+export let ThreeJsWebGLRendererProvider = {
+  provide: THREE.WebGLRenderer,
+  useFactory: () => {
+    return new THREE.WebGLRenderer({antialias : true});
+  },
+};
 // experimental
 // export let DatGUIProvider = {
 //   provide: dat.GUI,

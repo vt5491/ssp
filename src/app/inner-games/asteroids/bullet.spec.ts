@@ -22,6 +22,8 @@ describe('Service: Asteroid Bullet', () => {
     expect(bullet.gamePlaneLifeRatio).toBeTruthy();
     expect(Bullet.TTL_MAX).toBeTruthy();
     expect(bullet.ttl).toEqual(Bullet.TTL_MAX);
+    expect(bullet.mesh.position.z).toEqual(0);
+    expect(bullet.tag).toEqual('bullet');
   }));
 
   it('update works', inject([Bullet], (bullet: Bullet) => {

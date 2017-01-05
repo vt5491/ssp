@@ -12,6 +12,7 @@ export class Ship implements IMoveableGameObject {
 
   // _vx : number;
   // _vy : number;
+  tag : string;
   vx : number;
   vy : number;
   deltaVx : number;
@@ -19,6 +20,7 @@ export class Ship implements IMoveableGameObject {
   deltaVel : number;
   deltaTheta : number;
   geom: THREE.Geometry;
+  // geom: THREE.BufferGeometry; //kind of a pain to work with
   // mat : THREE.LineBasicMaterial;
   mat : THREE.MeshBasicMaterial;
   mesh: THREE.Mesh;
@@ -41,6 +43,7 @@ export class Ship implements IMoveableGameObject {
   }
 
   init() {
+    this.tag = 'ship';
     this.vx = 0.0;
     this.vy = 0.0;
     // this.vel = 0.01;
@@ -64,28 +67,14 @@ export class Ship implements IMoveableGameObject {
 
     // create the ship
     this.geom = new THREE.Geometry()
+    // this.geom = new THREE.BufferGeometry()
 
     let scaleX = 0.1;
     let scaleY = 0.1;
     this.geom.vertices.push(new THREE.Vector3(0 * scaleX, 1 * scaleY))
     this.geom.vertices.push(new THREE.Vector3(.5 * scaleX, -1 * scaleY))
     this.geom.vertices.push(new THREE.Vector3(-.5 * scaleX, -1 * scaleY))
-    // this.geom.vertices.push(new THREE.Vector3(0 * scaleX, 1 * scaleY))
 
-    // this.mat = new THREE.LineBasicMaterial({ linewidth: 3 })
-    // this.mat.color = new THREE.Color(80, 255, 20);
-
-    // this.lineMesh = new THREE.Line(this.geom, this.mat);
-    // this.ship.position.x = 2.0
-    // this.lineMesh.position.x = -3
-    // this.lineMesh.position.z = -10
-
-    // this.mesh = this.lineMesh;
-
-    // geom.faces.push(new THREE.Face3(0, 1, 2));
-    // geom.computeFaceNormals();
-
-    // var mesh = new THREE.Mesh(geom, new THREE.MeshNormalMaterial());
     // use a triangle intead of a line group
     this.geom.faces.push(new THREE.Face3(0, 2, 1));
     this.geom.computeFaceNormals();
@@ -96,8 +85,10 @@ export class Ship implements IMoveableGameObject {
 
     // this.mesh.position.x = -3;
     // this.mesh.position.y = 12;
-    this.mesh.position.y = 2;
-    this.mesh.position.z = -10;
+    // this.mesh.position.y = 2;
+    this.mesh.position.y = 0;
+    // this.mesh.position.z = -10;
+    this.mesh.position.z = 0;
     // console.log(`Ship: mesh=${this.mesh}`);
     // let noseGeom = new THREE.CircleGeometry(0.05, 8);
     let noseGeom = new THREE.PlaneGeometry(0.15,0.04);
@@ -152,6 +143,11 @@ export class Ship implements IMoveableGameObject {
     //
     // this.mesh.position.x = shipX;
     // this.mesh.position.y = shipY;
+  }
+
+  collisionHandler() {
+    // this.vx = 0;
+    return true;
   }
 
   //getters and setters

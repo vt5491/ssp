@@ -8,7 +8,6 @@ import { UtilsService } from '../../services/utils.service';
 
 describe('Class: Asteroids', () => {
   beforeEach(() => {
-      console.log(`ut: hello a`);
     TestBed.configureTestingModule({
       providers: [Asteroid, BaseService, UtilsService]
     });
@@ -31,6 +30,11 @@ describe('Class: Asteroids', () => {
     expect(asteroid.updatePos).toBeTruthy();
     expect(asteroid.base).toBeTruthy();
     expect(asteroid.utils).toBeTruthy();
+    expect(asteroid.mesh.position.z).toEqual(0);
+    expect(asteroid.bBox).toBeTruthy();
+    expect(asteroid.width).toBeTruthy();
+    expect(asteroid.height).toBeTruthy();
+    expect(asteroid.tag).toEqual('asteroid');
   }));
 
   it('updatePos should work properly', inject([Asteroid], (asteroid: Asteroid) => {
@@ -50,5 +54,29 @@ describe('Class: Asteroids', () => {
     expect(newPosX).toEqual(initPosX + 1.0);
     expect(newPosY).toEqual(initPosY);
 
+  }));
+
+  it('collisionTest should work properly', inject([Asteroid], (asteroid: Asteroid) => {
+    let result : boolean;
+
+    let ast_x = asteroid.mesh.position.x;
+    let ast_y = asteroid.mesh.position.y;
+    let ast_z = asteroid.mesh.position.z;
+
+    result = asteroid.collisionTest(new THREE.Vector3(ast_x, ast_y, ast_z));
+    expect(result).toEqual(true);
+
+    result = asteroid.collisionTest(new THREE.Vector3(ast_x + 2 * asteroid.width, ast_y, ast_z));
+    expect(result).toEqual(false);
+
+    // let's move the asteroid to a sample game position
+    asteroid.mesh.position.x = 10.0;
+    ast_x = asteroid.mesh.position.x;
+
+    result = asteroid.collisionTest(new THREE.Vector3(ast_x, ast_y, ast_z));
+    expect(result).toEqual(true);
+
+    result = asteroid.collisionTest(new THREE.Vector3(ast_x + asteroid.width * 2, ast_y, ast_z));
+    expect(result).toEqual(false);
   }));
 });

@@ -18,7 +18,9 @@ export class SspCubeScene implements ISspScene {
   }
 
   init() {
-    let cubeGeom   = new THREE.CubeGeometry(50, 50, 50);
+    // let cubeGeom   = new THREE.CubeGeometry(50, 50, 50);
+    // let cubeGeom   = new THREE.BoxGeometry(50, 50, 50);
+    let cubeGeom   = new THREE.BoxBufferGeometry(50, 50, 50);
     let cubeMaterial = new THREE.MeshBasicMaterial({ color: 0xff0080, side: THREE.DoubleSide });
     // let cubeMaterial = new THREE.MeshBasicMaterial({ color: 0xff0080 });
 

@@ -88,8 +88,8 @@ export class TorroidsComponent implements OnInit {
     //   outerScene: "torus"
     // };
     // this sets which option is checked by default
-    this.model.outerScene = 'cube';
-    // this.model.outerScene = 'plane';
+    // this.model.outerScene = 'cube';
+    this.model.outerScene = 'plane';
     this.model.enableCameraTracking = false;
     console.log('TorroidComponent: ctor: _kbdHandlerRouterService=' + this._kbdHandlerRouter);
     // console.log('TorroidComponent: ctor: baseService=' + this.baseService);

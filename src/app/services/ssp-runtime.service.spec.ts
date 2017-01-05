@@ -183,7 +183,8 @@ describe('Service: SspRuntime', () => {
     
     expect(service.initInnerSceneCamera).toBeTruthy();
     expect(service.innerSceneCamera).toBeTruthy();
-    expect(service.innerSceneCamera.position.z).toEqual(-5);
+    // expect(service.innerSceneCamera.position.z).toEqual(-5);
+    expect(service.innerSceneCamera.position.z).toEqual(5);
     // expect((<any>service.offscreenImageBuf).image).toBeTruthy();
     // expect(service.innerGameHeight).toBeTruthy();
     // expect(service.innerGameHeight).toBeGreaterThan(0);

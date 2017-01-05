@@ -6,6 +6,7 @@ export class Bullet {
 
   static TTL_MAX : number = 100;
 
+  tag : string;
   _vx : number;
   _vy : number;
   vScalar : number;
@@ -13,15 +14,16 @@ export class Bullet {
   geom : THREE.CircleBufferGeometry;
   material : THREE.MeshBasicMaterial;
   mesh : THREE.Mesh;
-  // this is the ratio of the (longest) screen dimension a bullet can cover before dieing 
+  // this is the ratio of the (longest) screen dimension a bullet can cover before dieing
   gamePlaneLifeRatio : number;
   ttl : number;
 
-  constructor( private base : BaseService) { 
+  constructor( private base : BaseService) {
     this.init();
   }
 
   init() {
+    this.tag = 'bullet';
     // this.vx = 0.05;
     this.vScalar = 0.03;
     this.vTheta = 0.0;
@@ -31,12 +33,15 @@ export class Bullet {
 
     this.mesh = new THREE.Mesh(this.geom, this.material);
     this.mesh.position.x = -3.0;
-    this.mesh.position.z = -11.0;
+    // this.mesh.position.z = -11.0;
+    // this.mesh.position.z = -10.0;
+    this.mesh.position.z = 0.0;
 
     // a bullet can cover half the longest canvas dimension before terminating
     this.gamePlaneLifeRatio = 0.5;
 
     this.ttl = Bullet.TTL_MAX;
+
   }
 
   // update the bullet's position, and keep track of life cycle events
@@ -46,7 +51,7 @@ export class Bullet {
     this.mesh.position.y += this.vScalar * Math.sin(this.vTheta);
 
     let boundVal = this.base.projectionBoundary;
-    
+
     if (this.mesh.position.x > boundVal) {
       this.mesh.position.x = -boundVal;
     }
@@ -69,6 +74,11 @@ export class Bullet {
 
     // }
   }
+
+  collisionHandler() : boolean {
+    return true;
+  }
+
   //getters and setters
   get vx(): number {
     return this.vScalar * Math.cos(this.vTheta);
