@@ -6,6 +6,7 @@ import { TestBed, async, inject } from '@angular/core/testing';
 import { AsteroidsGame } from './asteroids-game';
 import { Ship } from './ship';
 import { Bullet } from './bullet';
+import { Asteroid } from './asteroid';
 import { ThreeJsSceneProvider } from '../../services/utils.service';
 import { BaseService } from '../../services/base.service';
 import { UtilsService } from '../../services/utils.service';
@@ -162,6 +163,19 @@ describe('Class: AsteroidsGame', () => {
       expect(result.length).toBeGreaterThan(0);
       expect(result).toContain(ast_0);
       expect(result).not.toContain(ast_1);
+  }));
+
+  it('removeAsteroid works as expected', inject([AsteroidsGame, BaseService, UtilsService], 
+    (astGame: AsteroidsGame, base : BaseService, utils : UtilsService) => {
+      // astGame.asteroids.push(new Asteroid(base, utils));
+      // astGame.asteroids.push(new Asteroid(base, utils));
+      // astGame.asteroids.push(new Asteroid(base, utils));
+
+      expect(astGame.asteroids.length).toEqual(astGame.seedAsteroidCount);
+
+      astGame.removeAsteroid(2, astGame.asteroids[2]);
+
+      expect(astGame.asteroids.length).toEqual(astGame.seedAsteroidCount - 1);
   }));
 
 });

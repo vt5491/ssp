@@ -1,6 +1,7 @@
 ///<reference path="../../../typings/index.d.ts" />
 import { Injectable, Injector } from '@angular/core';
 import { IMoveableGameObject } from '../interfaces/imoveable-game-object';
+import { ParmsService } from './parms.service';
 // import * as _ from 'lodash';
 // import {GUI} from 'dat.GUI';
 // import {dat} from 'dat-gui/vendor/dat.gui';
@@ -26,7 +27,7 @@ export class UtilsService {
     // this.datGUI = this.injector.get(dat.GUI);
     this.datGUI = new dat.GUI();
     // this.addControls();
-    console.log(`UtilsService.cotr: datGUI=${this.datGUI}}`);
+    // console.log(`UtilsService.cotr: datGUI=${this.datGUI}}`);
 
     this.parms = {}; 
   }
@@ -102,6 +103,13 @@ export let ThreeJsWebGLRendererProvider = {
   provide: THREE.WebGLRenderer,
   useFactory: () => {
     return new THREE.WebGLRenderer({antialias : true});
+  },
+};
+
+export let EmptyParmsServiceProvider = {
+  provide: ParmsService,
+  useFactory: () => {
+    return new ParmsService({});
   },
 };
 // experimental

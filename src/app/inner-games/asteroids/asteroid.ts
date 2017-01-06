@@ -1,8 +1,10 @@
 ///<reference path="../../../../typings/index.d.ts" />
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { IMoveableGameObject } from "../../interfaces/imoveable-game-object";
 import { BaseService } from '../../services/base.service';
 import { UtilsService } from '../../services/utils.service';
+import { EmptyParmsServiceProvider } from '../../services/utils.service';
+import { ParmsService } from '../../services/parms.service';
 
 @Injectable()
 export class Asteroid implements IMoveableGameObject {
@@ -11,28 +13,54 @@ export class Asteroid implements IMoveableGameObject {
   x  : number;
   vx : number;
   vy : number;
-  width: number;
+  _width: number;
   height: number;
+  DEFAULT_WIDTH = 0.2;
+  DEFAULT_HEIGHT = 0.4;
+  // make the asteroid smaller by this amount as it progresses through its lifecycle
+  LIFECYLE_SCALE_FACTOR = 0.67;
   geom : THREE.PlaneBufferGeometry;
   mat : THREE.MeshBasicMaterial;
   mesh: THREE.Mesh;
   vScalar: number = 0.004;
   bBox : THREE.Box3;
+  lifeCycleStage: number;
+  parms : Object;
 
+  // @Component({
+  //   providers: [EmptyParmsServiceProvider],
+  // })
   constructor (
     private _base : BaseService,
-    private _utils : UtilsService
+    private _utils : UtilsService,
+    // private _parms? : Object
+    private _parmsService? : ParmsService
+    // private _parmsService? : EmptyParmsServiceProvider
+    // private _parmsService? : {provide: ParmsService, useFactory: () => {return new ParmsService({});}}
+    // private injector : Injector
   ) {
     this.x = 0.0;
     this.vx = 0.003;
+    console.log(`parmsSerice=${this.parmsService}`);
+    if (this.parmsService !== undefined) {
+      this.parms = this.parmsService.parms;
+      console.log(`parms=${this.parms}`);
+    }
+    else {
+      this.parms = {};
+    }
 
-    this.width = 0.2;
-    this.height = 0.4;
+    // this.width = this.parms['width'] || this.DEFAULT_WIDTH;
+    // this.height = this.parms['height'] || this.DEFAULT_HEIGHT;
 
     this.init();
   };
 
   init() {
+    this.width = this.parms['width'] || this.DEFAULT_WIDTH;
+    this.height = this.parms['height'] || this.DEFAULT_HEIGHT;
+    // console.log(`Asteroid.init: width=${this.width}, height=${this.height}`);
+
     this.tag = 'asteroid';
     // this.geom = new THREE.PlaneBufferGeometry(0.2, 0.4);
     this.geom = new THREE.PlaneBufferGeometry(this.width, this.height);
@@ -49,6 +77,8 @@ export class Asteroid implements IMoveableGameObject {
     // it's important that all the x,y,z positions be set to zero for bBox to work properly
     // redundant to geom.boundingBox?
     this.bBox = new THREE.Box3().setFromObject(this.mesh);
+
+    this.lifeCycleStage = 0;
     // console.log(`containsPoint=${this.bBox.containsPoint(new THREE.Vector3(-3.3, 0, 0))}`);
   };
 
@@ -84,9 +114,45 @@ export class Asteroid implements IMoveableGameObject {
   }
 
   collisionHandler() {
-    this.vx = -this.vx;
+    // this.vx = -this.vx;
+    this.parms['width'] = this.width * this.LIFECYLE_SCALE_FACTOR;
+    this.parms['height'] = this.height * this.LIFECYLE_SCALE_FACTOR;
+    let vx = this.vx;
+    let vy = this.vy;
+    let posX = this.mesh.position.x;
+    let posY = this.mesh.position.y;
+    let posZ = this.mesh.position.z;
 
-    return true;
+    //TODO: break init into a static and dynamic init
+    this.init();
+
+    this.vx = vx;
+    this.vy = vy;
+    this.mesh.position.x = posX;
+    this.mesh.position.y = posY;
+    this.mesh.position.y = posZ;
+
+    // return true;
+    // return new Asteroid(this.base, this.utils);
+    // let splitAst = this.clone();
+    // var obj2:any=Object.assign({},obj1);
+    // let splitAst : Asteroid = Object.assign({} , this);
+    // splitAst.vy = -this.vy
+
+    let splitAst = new Asteroid(
+      this.base,
+      this.utils,
+      new ParmsService({width : this.width, height : this.height})
+    );
+
+    splitAst.mesh.position.x = this.mesh.position.x;
+    splitAst.mesh.position.y = this.mesh.position.y;
+    splitAst.mesh.position.z = this.mesh.position.z;
+
+    splitAst.vx =  this.vx;
+    splitAst.vy = -this.vy;
+
+    return [this, splitAst];
   }
 
   //getters and setters
@@ -96,9 +162,17 @@ export class Asteroid implements IMoveableGameObject {
   get utils(): UtilsService {
     return this._utils;
   };
+  get parmsService(): ParmsService {
+    return this._parmsService;
+  };
 
-  // get vx() : number {
-  //   return this._vx;
-  // }
+  get width(): number {
+    return this._width;
+  };
+  set width(w : number) {
+    this._width = w;
+    // this.geom.w
+    // this.geom.
+  };
 
 }

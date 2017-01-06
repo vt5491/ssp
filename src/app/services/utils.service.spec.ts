@@ -3,12 +3,14 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { BaseService  } from './base.service';
 import { UtilsService  } from './utils.service';
+import { EmptyParmsServiceProvider  } from './utils.service';
+import { ParmsService  } from './parms.service';
 import { Asteroid } from '../inner-games/asteroids/asteroid';
 
 describe('Service: Utils', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [UtilsService, BaseService, Asteroid]
+      providers: [UtilsService, BaseService, Asteroid, EmptyParmsServiceProvider]
     });
   });
 
