@@ -3,14 +3,23 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { BaseService  } from './base.service';
 import { UtilsService  } from './utils.service';
-import { EmptyParmsServiceProvider  } from './utils.service';
-import { ParmsService  } from './parms.service';
+// import { EmptyParmsServiceProvider  } from './utils.service';
+import { AsteroidNoParmsProvider  } from './utils.service';
+// import { ParmsService  } from './parms.service';
 import { Asteroid } from '../inner-games/asteroids/asteroid';
 
 describe('Service: Utils', () => {
+  let AsteroidNoParmsProvider = {
+    provide: Asteroid,
+    useFactory: (base, utils) => {
+      return new Asteroid(base, utils, {});
+    },
+    deps: [BaseService, UtilsService]
+  }
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [UtilsService, BaseService, Asteroid, EmptyParmsServiceProvider]
+      providers: [UtilsService, BaseService, AsteroidNoParmsProvider]
     });
   });
 
@@ -22,7 +31,8 @@ describe('Service: Utils', () => {
     expect(service.updatePos).toBeTruthy();
   }));
 
-  it('should updatePos works', inject([UtilsService, Asteroid], (service: UtilsService, asteroid : Asteroid) => {
+  it('should updatePos works', inject([UtilsService, Asteroid], 
+    (service: UtilsService, asteroid : Asteroid) => {
     // we test with an asteroid, but it should work with any mesh object using
     // vx and vy.
     asteroid.vx = 1.0;

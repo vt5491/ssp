@@ -2,10 +2,11 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async, inject } from '@angular/core/testing';
+import { Injector } from '@angular/core';
 import { Asteroid } from './asteroid';
 import { BaseService } from '../../services/base.service';
-import { UtilsService } from '../../services/utils.service';
-import { ParmsService } from '../../services/parms.service';
+import { UtilsService, AsteroidNoParmsProvider } from '../../services/utils.service';
+// import { ParmsService } from '../../services/parms.service';
 
 describe('Class: Asteroids', () => {
 
@@ -15,12 +16,19 @@ describe('Class: Asteroids', () => {
   //     return new Object();
   //   },
   // };
+  // let asteroidsNoParmsProvider = {
+  //   provide: Asteroid,
+  //   useFactory: (base, utils) => {
+  //     return new Asteroid(base, utils, { });
+  //   },
+  //   deps: [BaseService, UtilsService]
+  // }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       // providers: [Asteroid, BaseService, UtilsService, ObjectService]
       // providers: [Asteroid, BaseService, UtilsService, ParmsService]
-      providers: [Asteroid, BaseService, UtilsService]
+      providers: [AsteroidNoParmsProvider, BaseService, UtilsService]
     });
   });
 
@@ -28,7 +36,7 @@ describe('Class: Asteroids', () => {
     (base: BaseService, utils : UtilsService) => {
     // let asteroid = new Asteroid(base, utils, <any> new Object());
     // note how we do not pass the parmsService
-    let asteroid = new Asteroid(base, utils); 
+    let asteroid = new Asteroid(base, utils, {}); 
     // let asteroid = new Asteroid(base, utils, objectService.object);
     console.log(`ut: hello b`);
 
@@ -59,22 +67,80 @@ describe('Class: Asteroids', () => {
 // block has to be different
 describe ('Class: Asteroids with parms', () => {
 
-  let parmsServiceProvider = {
-    provide : ParmsService,
-    useFactory : () => {
-      return new ParmsService({width : 1, height : 2})
-    }
+  // let parmsServiceProvider = {
+  //   provide : ParmsService,
+  //   useFactory : () => {
+  //     return new ParmsService({width : 1, height : 2})
+  //   }
+  // }
+
+  // let noParms = true;
+
+  // let asteroidsProvider = {
+  //   provide: Asteroid,
+  //   useFactory: (base, utils, noParms) => {
+  //     if (noParms) {
+  //       return () => {
+  //         return new Asteroid(base, utils, {});
+  //       }
+  //     }
+  //     else {
+  //       return () => {
+  //         return new Asteroid(base, utils, {width : 1, height : 2});
+  //       }
+  //     }
+  //   },
+  //   deps: [BaseService, UtilsService]
+  // }
+  // this.noParms = true;
+
+  // let asteroidsProvider = {
+  //   provide: Asteroid,
+  //   useFactory: (base, utils) => {
+  //     return (noParms) => {
+  //       console.log(`noParms=${noParms}`);
+        
+  //       if (noParms) {
+  //         return new Asteroid(base, utils, {});
+  //       }
+  //       else {
+  //         return new Asteroid(base, utils, {width : 1, height : 2});
+  //       }
+  //     }
+  //   },
+  //   deps: [BaseService, UtilsService]
+  // }
+
+  let asteroidsWithParmsProvider = {
+    provide: Asteroid,
+    useFactory: (base, utils) => {
+      return new Asteroid(base, utils, { width: 1, height: 2 });
+    },
+    deps: [BaseService, UtilsService]
   }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [Asteroid, BaseService, UtilsService, parmsServiceProvider]
+      // providers: [Asteroid, BaseService, UtilsService, parmsServiceProvider]
+      // providers: [asteroidsProvider, BaseService, UtilsService, parmsServiceProvider, Injector]
+      providers: [asteroidsWithParmsProvider, BaseService, UtilsService, Injector]
       // providers: [Asteroid, BaseService, UtilsService]
     });
   });
 
   it('ctor with parms should work properly', inject([Asteroid], (asteroid : Asteroid) => {
+  // fit('ctor with parms should work properly', inject([BaseService, UtilsService, Injector], 
+  // (base : BaseService, utils: UtilsService, injector : Injector) => {
+    // let noParms = false;
+    // // let asteroid = new (injector.get(Asteroid));
+    // let asteroid = (injector.get(Asteroid))();
+    // console.log(`ut: asteroid=${asteroid}`);
+    
     expect(Object.keys(asteroid.parms).length).toEqual(2);
+
+    // noParms = true;
+    // let asteroid2 = (injector.get(Asteroid))();
+    // expect(Object.keys(asteroid2.parms).length).toEqual(0);
   }));
 
   it('updatePos should work properly', inject([Asteroid], (asteroid: Asteroid) => {
@@ -121,12 +187,14 @@ describe ('Class: Asteroids with parms', () => {
   }));
 
   it('collisionHandler should work properly', inject([Asteroid], (asteroid: Asteroid) => {
+    asteroid.vy = 1;
     let result = asteroid.collisionHandler();
 
-    expect(asteroid.width).toEqual(1 * asteroid.LIFECYLE_SCALE_FACTOR);
+    expect(result[0].width).toEqual(1 * asteroid.LIFECYLE_SCALE_FACTOR);
 
-    expect(result.tag).toEqual('asteroid');
-    expect(result.vy).toEqual(-asteroid.vy);
+    expect(result[0].tag).toEqual('asteroid');
+    expect(result[1].vy).toEqual(-asteroid.vy);
+    // expect(result[0].vy).toEqual(0);
 
   }));
 });

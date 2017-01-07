@@ -18,12 +18,15 @@ import { AsteroidsKbdHandler } from './inner-games/asteroids/asteroids-kbd-handl
 import { ToroutComponent } from './torout/torout.component';
 import { HomeComponent } from './home/home.component';
 import { Ship } from './inner-games/asteroids/ship';
+import { Asteroid } from './inner-games/asteroids/asteroid';
 // import { AsteroidsGame, AsteroidsGameProvider } from './inner-games/asteroids/asteroids-game';
 import { AsteroidsGame } from './inner-games/asteroids/asteroids-game';
 //import 'dat-gui';
 import { ThreeJsSceneProvider, UtilsService, 
-  ThreeJsWebGLRendererProvider, EmptyParmsServiceProvider } from './services/utils.service';
-import { ParmsService } from './services/parms.service';
+  ThreeJsWebGLRendererProvider, 
+  // EmptyParmsServiceProvider 
+} from './services/utils.service';
+// import { ParmsService } from './services/parms.service';
 
 @NgModule({
   declarations: [
@@ -62,15 +65,21 @@ import { ParmsService } from './services/parms.service';
     ThreeJsWebGLRendererProvider,
     //ParmsService,
     //EmptyParmsServiceProvider,
-    {
-        provide: ParmsService,
-        useFactory: () => {
-              return new ParmsService({});
+    // {
+    //     provide: ParmsService,
+    //     useFactory: () => {
+    //           return new ParmsService({});
                 
-        }
-    }
+    //     }
+    // },
     // {provide: dat.GUI, useClass: dat.GUI}
     // DatGUIProvider
+    { provide: Asteroid,
+      useFactory : (base, utils) => {
+        return new Asteroid(base, utils, {});
+      },
+     deps: [BaseService, UtilsService]
+    }
   ],
   bootstrap: [AppComponent]
 })

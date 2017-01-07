@@ -1,7 +1,9 @@
 ///<reference path="../../../typings/index.d.ts" />
 import { Injectable, Injector } from '@angular/core';
 import { IMoveableGameObject } from '../interfaces/imoveable-game-object';
-import { ParmsService } from './parms.service';
+// import { ParmsService } from './parms.service';
+import { BaseService } from './base.service';
+import { Asteroid } from '../inner-games/asteroids/asteroid';
 // import * as _ from 'lodash';
 // import {GUI} from 'dat.GUI';
 // import {dat} from 'dat-gui/vendor/dat.gui';
@@ -106,12 +108,20 @@ export let ThreeJsWebGLRendererProvider = {
   },
 };
 
-export let EmptyParmsServiceProvider = {
-  provide: ParmsService,
-  useFactory: () => {
-    return new ParmsService({});
-  },
-};
+// export let EmptyParmsServiceProvider = {
+//   provide: ParmsService,
+//   useFactory: () => {
+//     return new ParmsService({});
+//   },
+// };
+
+export let AsteroidNoParmsProvider = {
+    provide: Asteroid,
+    useFactory: (base, utils) => {
+      return new Asteroid(base, utils, {});
+    },
+    deps: [BaseService, UtilsService]
+  }
 // experimental
 // export let DatGUIProvider = {
 //   provide: dat.GUI,

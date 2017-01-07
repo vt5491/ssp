@@ -50,13 +50,15 @@ export class Ship implements IMoveableGameObject {
     // this.vScalar = 0.01;
     //  this controls how fast the ship goes
     this.vScalar = 0.002;
-    this.accelScalar = 0.0004;
+    // this.accelScalar = 0.0004;
+    this.accelScalar = 0.0006;
 
     this.deltaVx = 0.001;
     this.deltaVy = 0.001;
     // this.deltaVel = 0.0005;
     this.deltaVel = 0.0001;
-    this.deltaTheta = 5.0 * this.base.ONE_DEG;
+    // this.deltaTheta = 5.0 * this.base.ONE_DEG;
+    this.deltaTheta = 7.0 * this.base.ONE_DEG;
 
     // this makes it go in the y-dir
     // this.vTheta = this.base.ONE_DEG * 90.0;
@@ -117,32 +119,6 @@ export class Ship implements IMoveableGameObject {
   updatePos() {
     // console.log(`---> in new updatPos`);
     this.utils.updatePos(this, this.base.projectionBoundary);
-    // let shipX = this.mesh.position.x;
-    // let shipY = this.mesh.position.y;
-    //
-    // let boundVal = this.base.projectionBoundary;
-    //
-    // shipX += this.vx;
-    // shipY += this.vy;
-    //
-    // if (shipX > boundVal) {
-    //   shipX = -boundVal;
-    // }
-    //
-    // if (shipX < -boundVal) {
-    //   shipX = boundVal;
-    // }
-    //
-    // if (shipY > boundVal) {
-    //   shipY = -boundVal;
-    // }
-    //
-    // if (shipY < -boundVal) {
-    //   shipY = boundVal;
-    // }
-    //
-    // this.mesh.position.x = shipX;
-    // this.mesh.position.y = shipY;
   }
 
   collisionHandler() {
@@ -157,21 +133,4 @@ export class Ship implements IMoveableGameObject {
   get utils(): UtilsService {
     return this._utils;
   };
-
-  // get vx(): number {
-  //   return this.vScalar * Math.cos(this.vTheta);
-  // }
-  // set vx( newVx: number) {
-  //   this.vTheta = Math.atan( this.vy / newVx);
-  //   this.vScalar = Math.sqrt(newVx * newVx + this.vy * this.vy);
-  // }
-  //
-  // get vy(): number {
-  //   return this.vScalar * Math.sin(this.vTheta);
-  // }
-  // set vy( newVy: number) {
-  //   this.vTheta = Math.atan( newVy / this.vx);
-  //   this.vScalar = Math.sqrt(this.vx * this.vx + newVy * newVy);
-  // }
-
 }

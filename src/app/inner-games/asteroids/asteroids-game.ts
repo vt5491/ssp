@@ -7,7 +7,7 @@ import { InnerGame } from '../../interfaces/inner-game';
 import { ThreeJsSceneProvider } from '../../services/utils.service';
 import { BaseService } from '../../services/base.service';
 import { UtilsService } from '../../services/utils.service';
-import { ParmsService } from '../../services/parms.service';
+// import { ParmsService } from '../../services/parms.service';
 import { IMainCharacterInfo } from '../../interfaces/main-character-info';
 import { IMoveableGameObject } from '../../interfaces/imoveable-game-object';
 
@@ -71,7 +71,7 @@ export class AsteroidsGame implements InnerGame {
 
   initAsteroids() {
     for (let i = 0; i < this.seedAsteroidCount; i++) {
-      let asteroid = new Asteroid(this.base, this.utils);
+      let asteroid = new Asteroid(this.base, this.utils, {});
 
       // set position between projection bounds
       let boundVal = this.base.projectionBoundary;
@@ -87,6 +87,8 @@ export class AsteroidsGame implements InnerGame {
 
       this.asteroids[i] = asteroid;
 
+      // save mesh id in the parent asteroid obj, to aid in deleting later.
+      asteroid.three_id = asteroid.mesh.id;
       this.scene.add(asteroid.mesh);
     }
   }
@@ -114,7 +116,9 @@ export class AsteroidsGame implements InnerGame {
     //
     // do beenHit action on each hitObject
     for (let i = 0; i < hitObjects.length; i++) {
-        let hitObj = hitObjects[0];
+        // let hitObj = hitObjects[0];
+        let hitObj = hitObjects[i]['obj'];
+        let hitIdx = hitObjects[i]['idx'];
 
         hitObj.collisionHandler();
 
@@ -122,6 +126,17 @@ export class AsteroidsGame implements InnerGame {
           case 'asteroid':
             let splitAsts : Asteroid[];
             splitAsts = (<Asteroid>hitObj).collisionHandler();
+
+            var selectedObject = this.scene.getObjectById((<Asteroid>hitObj).three_id);
+            this.scene.remove( selectedObject );
+            this.removeAsteroid(hitIdx, hitObj);
+
+            for( let k=0; k < splitAsts.length; k++) {
+              this.asteroids.push(splitAsts[k]);
+              this.scene.add(splitAsts[k].mesh);
+            }
+
+            console.log(`AsteroidsGame.updateScene: asteroid count=${this.asteroids.length}`);
             // // create a new! smaller asteroid
             // // let newWidth = (<Asteroid>hitObj).DEFAULT_WIDTH / 1.5;
             // // let newHeight = (<Asteroid>hitObj).DEFAULT_HEIGHT / 1.5;
@@ -144,13 +159,9 @@ export class AsteroidsGame implements InnerGame {
             // splitAst.vy = -hitObj.vy;
 
 
-            this.scene.remove((<Asteroid>hitObj).mesh);
-            for( let k=0; k < splitAsts.length; k++) {
-              this.asteroids.push(splitAsts[k]);
-              this.scene.add(splitAsts[k].mesh);
-            }
-
-            console.log(`AsteroidsGame.updateScene: asteroid count=${this.asteroids.length}`);
+            // this.scene.remove((<Asteroid>hitObj).mesh);
+            // var selectedObject = scene.getObjectByName(object.name);
+            // var selectedObject = this.scene.getObjectById((<Asteroid>hitObj).mesh.id);
 
           break;
         }
@@ -222,7 +233,10 @@ export class AsteroidsGame implements InnerGame {
 
   // loop through all the bullets and see if it's hit any of the game objects
   // return an array of all objects that have been hit
-  bulletCollisionCheck() : IMoveableGameObject[] {
+  // bulletCollisionCheck() : IMoveableGameObject[] {
+  // bulletCollisionCheck() : {[idx : string] : number,  [obj : string] :IMoveableGameObject}[] {
+  bulletCollisionCheck() : any[] {
+    // { [id: string] : SimpleLayer }
     let collisionObjects = [];
 
     //loop through all bullets
@@ -233,7 +247,8 @@ export class AsteroidsGame implements InnerGame {
         let a = this.asteroids [j];
 
         if (a.collisionTest(b.mesh.position)) {
-          collisionObjects.push(a);
+          // collisionObjects.push(a);
+          collisionObjects.push({ 'idx' : j, 'obj' : a});
 
           // and remove the bullet since it's "spent"
           // this.bullets.splice(i, 1);
@@ -242,6 +257,8 @@ export class AsteroidsGame implements InnerGame {
       }
     }
 
+    //TODO: return the index of the asteroid as well.
+    // return it as object, not an array.
     return collisionObjects;
   }
 
