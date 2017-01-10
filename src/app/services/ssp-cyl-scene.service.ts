@@ -27,7 +27,7 @@ export class SspCylSceneService implements ISspScene {
 
   init() {
     let cylGeom   = new THREE.CylinderBufferGeometry(this.radius, this.radius, 80, 50);
-    let cylMaterial = new THREE.MeshBasicMaterial({ color: 0xff0080, wireframe: false });
+    let cylMaterial = new THREE.MeshBasicMaterial({ color: 0xff0080, wireframe: false, side: THREE.DoubleSide });
 
     this.cylMesh = new THREE.Mesh(cylGeom, cylMaterial);
     this.cylMesh.name = "abe";
