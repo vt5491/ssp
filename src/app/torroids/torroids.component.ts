@@ -69,6 +69,7 @@ export class TorroidsComponent implements OnInit {
   //TODO create an official interface for this type
   // innerGame : any;
   innerGame : InnerGame;
+  gPad : Gamepad;
 
   constructor(
     private el: ElementRef,
@@ -127,6 +128,16 @@ export class TorroidsComponent implements OnInit {
       this.kbdEventHandler(event);
       // console.log('Element clicked');
     });
+
+    // temp add some gamepad support here, until we can be sure enough to move
+    // to its own module
+    window.addEventListener("gamepadconnected", function (e : any) {
+      console.log("Gamepad connected at index %d: %s. %d buttons, %d axes.",
+        e.gamepad.index, e.gamepad.id,
+        e.gamepad.buttons.length, e.gamepad.axes.length);
+      this.gPad = navigator.getGamepads()[e.gamepad.index];
+    });
+
 
     // // add a GridHelper
     // let gridHelper = new THREE.GridHelper( 9, 9 );

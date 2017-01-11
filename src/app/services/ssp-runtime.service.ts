@@ -3,6 +3,7 @@ import { VRSceneService, VRSceneServiceProvider } from '../services/vr-scene.ser
 import { ISspScene} from '../interfaces/ssp-scene';
 import { SspCylSceneService } from './ssp-cyl-scene.service';
 import { InnerGame } from '../interfaces/inner-game';
+import { AsteroidsGame } from '../inner-games/asteroids/asteroids-game';
 import { WebGLRenderTargetProvider } from './utils.service';
 import { IMainCharacterInfo } from '../interfaces/main-character-info';
 import { CameraKbdHandlerService } from './camera-kbd-handler.service';
@@ -98,20 +99,48 @@ export class SspRuntimeService {
     this.offscreenImageBuf.needsUpdate = true; //need this
     this.outerSspScene.sspMaterial.map = this.offscreenImageBuf;
 
-    this.outerVrScene.vrControls.update();
-    if (!(<any>this.outerVrScene.vrEffect).isPresenting) {
+    if (this.outerVrScene.vrControls) {
+      this.outerVrScene.vrControls.update();
     }
-    else {
-      if( !this.isPresenting) {
-      // have to get rid of orbitControls once in full vr mode, as it seems
-      // to intercept the key presses.
-        this.isPresenting = true;
-        console.log(`SspRuntime.mainloop: now disposing of orbitControls`);
-        this.outerVrScene.orbitControls.dispose();
+
+    if (this.outerVrScene.vrEffect) {
+      if (!(<any>this.outerVrScene.vrEffect).isPresenting) {
+      }
+      else {
+        if (!this.isPresenting) {
+          // have to get rid of orbitControls once in full vr mode, as it seems
+          // to intercept the key presses.
+          this.isPresenting = true;
+          console.log(`SspRuntime.mainloop: now disposing of orbitControls`);
+          this.outerVrScene.orbitControls.dispose();
+        }
       }
     }
 
     this.outerVrScene.webVrManager.render(this.outerVrScene.scene, this.outerVrScene.camera);
+
+    // gpad support
+    // var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []);
+    var gPads = navigator.getGamepads ? navigator.getGamepads() :  [];
+
+    if (gPads) {
+      var gp = gPads[0];
+
+      if (gp) {
+        if (this.buttonPressed(gp.buttons[0])) {
+          // b--;
+          console.log(`SspRuntime.mainLoop: gPad button 0 pressed`);
+          (<AsteroidsGame>this.innerGame).shipThrust();
+
+        } else if (this.buttonPressed(gp.buttons[2])) {
+          // b++;
+          console.log(`SspRuntime.mainLoop: gPad button 2 pressed`);
+          (<any>this.innerGame).shipFiredBullet();
+        }
+        // else if ()
+        (<AsteroidsGame>this.innerGame).ship.theta = gp.axes[0] * Math.PI;
+      }
+    }
 
     this.utils.stats.end();
   }
@@ -137,6 +166,13 @@ export class SspRuntimeService {
     console.log(`SspRuntimeService.onResize: now handling resize event`);
     this.initOffscreenImageBuf();
     this.initInnerSceneCamera();
+  }
+
+  buttonPressed(b) {
+    if (typeof (b) == "object") {
+      return b.pressed;
+    }
+    return b == 1.0;
   }
 
   // Getters and Setters

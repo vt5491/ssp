@@ -119,7 +119,7 @@ export class Asteroid implements IMoveableGameObject {
   collisionHandler() {
     // this.vx = -this.vx;
     let result = [];
-    console.log(`Asteroid.collisionHandler: lifeCycleStage=${this.lifeCycleStage}`);
+    // console.log(`Asteroid.collisionHandler: lifeCycleStage=${this.lifeCycleStage}`);
     if (this.lifeCycleStage < 2) {
       // this.parms['width'] = this.width * this.LIFECYLE_SCALE_FACTOR;
       // this.parms['height'] = this.height * this.LIFECYLE_SCALE_FACTOR;

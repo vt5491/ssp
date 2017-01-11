@@ -11,9 +11,6 @@ import VRControls = THREE.VRControls;
 import VREffect = THREE.VREffect;
 import { WebGLCanvasComponent} from '../directives/webgl-canvas/webgl-canvas.component';
 
-// @Component ({ 
-// });
-
 @Injectable()
 export class VRSceneService {
   scene: Scene;
@@ -21,6 +18,9 @@ export class VRSceneService {
   dolly: Object3D;
   vrControls: VRControls;
   vrEffect: VREffect;
+  //TODO: rename this to something like "renderer" since it can either
+  // be a WebVRManager or a simple WebGLRenderer depending on if the user is running
+  // a webVR-enabled browser or not
   webVrManager;
   sphere: Mesh;
   cube: Mesh;
@@ -28,11 +28,6 @@ export class VRSceneService {
   orbitControls : THREE.OrbitControls;
   // webGLRenderer: THREE.WebGLRenderer;
 
-  // constructor() { }
-  // constructor(public vrScene: VRScene, public vrRenderer: VRRenderer) {
-  // };
-
-  // constructor(width, height, webGLCanvasComponent: WebGLCanvasComponent) {
   //TODO: width, height not needed here
   constructor(width, height, private _webGLRenderer: THREE.WebGLRenderer) {
     // shouldn't have to do this, but..
@@ -40,8 +35,6 @@ export class VRSceneService {
     // console.log(`VrScene.ctor: glRenderer.guid=${glRenderer.guid}`)
     // Note: setting the size here doesn't have any effect as it's overridden
     // in torroids.component anyway (?) 
-    // this.webGLRenderer.setSize(window.innerWidth, window.innerHeight);
-    //this.webGLRenderer.setSize(2048, 2048);
     console.log(`->VrSceneSerivce.ctor: webGLRenderer.width=${this.webGLRenderer.getSize().width},width=${this.webGLRenderer.getSize().height}`);
     
     this.scene = new THREE.Scene;
@@ -65,6 +58,14 @@ export class VRSceneService {
       this.vrEffect = new THREE.VREffect(this.webGLRenderer);
       this.vrEffect.setSize(width, height);
       this.webVrManager = new (<any>window).WebVRManager(this.webGLRenderer, this.vrEffect);
+    }
+    else {
+      // get a standard renderer
+      // this.webVrManager = new THREE.WebGLRenderer();
+      this.webVrManager = this.webGLRenderer;
+      this.webVrManager.setPixelRatio(window.devicePixelRatio);
+      // this.webVrManager.setSize(window.innerWidth, window.innerHeight);
+      this.webVrManager.setSize(width, height);
     }
 
     // apply orbitControls to the camera as well

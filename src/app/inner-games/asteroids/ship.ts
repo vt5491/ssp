@@ -58,7 +58,7 @@ export class Ship implements IMoveableGameObject {
     // this.deltaVel = 0.0005;
     this.deltaVel = 0.0001;
     // this.deltaTheta = 5.0 * this.base.ONE_DEG;
-    this.deltaTheta = 7.0 * this.base.ONE_DEG;
+    this.deltaTheta = 10.0 * this.base.ONE_DEG;
 
     // this makes it go in the y-dir
     // this.vTheta = this.base.ONE_DEG * 90.0;

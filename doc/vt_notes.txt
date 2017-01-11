@@ -4,6 +4,10 @@
 a) you may need to do "npm install" or "typings install dt~dat-gui --global"
 to get any updated non-git based artifacts.
 
+2017-01-09--> or you can just do a "typings install".  Unfortunately, this will overlay the
+customized ssp/typings/globals/jasmine/index.d.ts, so you might want to make a
+backup of that before runnint it
+
 b) the dat.gui module under node_modules uses "exports" and for some reason, is not avaiable.
 
 edit file "/c/vtstuff/github/ssp/node_modules/dat-gui/vendor/dat.gui.js" and change at line 15:
