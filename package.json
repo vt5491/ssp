@@ -20,6 +20,7 @@
     "@angular/platform-browser": "~2.1.0",
     "@angular/platform-browser-dynamic": "~2.1.0",
     "@angular/router": "~3.1.0",
+    "@types/es6-promise": "0.0.32",
     "@types/node": "^6.0.46",
     "angular-cli": "1.0.0-beta.19-3",
     "core-js": "^2.4.1",

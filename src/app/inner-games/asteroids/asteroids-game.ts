@@ -25,6 +25,8 @@ export class AsteroidsGame implements InnerGame {
   BOUND_VAL = 3.79;
   // seedAsteroidCount : number = 4;
   seedAsteroidCount : number = 12;
+  private _gpad : Gamepad;
+  private _lastGpadTimestamp : number = 0;
 
   constructor(
     private _ship : Ship,
@@ -37,6 +39,14 @@ export class AsteroidsGame implements InnerGame {
     this._scene = this.injector.get(THREE.Scene);
     // this.asteroids.push( new Asteroid());
     this.base.projectionBoundary = this.BOUND_VAL;
+
+    // get the gamepad controller, if any
+    // this.gpad = _utils.getGamepadConnectedPromise();
+    // let gpadPromise = _utils.getGamepadConnectedPromise();
+    // gpadPromise.then( (res) => {
+    //   console.log(`AsteroidsGame.gpadPromise.then: res=${res}`);
+    //   this.gpad = <Gamepad>res;
+    // })
 
     this.initScene();
   }
@@ -90,12 +100,61 @@ export class AsteroidsGame implements InnerGame {
       // save mesh id in the parent asteroid obj, to aid in deleting later.
       asteroid.three_id = asteroid.mesh.id;
       this.scene.add(asteroid.mesh);
+
+      // se
     }
+  }
+
+  buttonPressed(b) {
+    if (typeof (b) == "object") {
+      return b.pressed;
+    }
+    return b == 1.0;
   }
 
   updateScene() {
     // 3.7 is a little short. 3.8 is a little long
     let boundVal = this.BOUND_VAL;
+
+    // read gamepad
+    if (this.gpad) {
+      // if (this.buttonPressed(this.gpad.buttons[0])) {
+      if (this.gpad.buttons[0].pressed) {
+        console.log(`AsteroidsGame.updateScene-1: gPad button 0 pressed`);
+        // (<AsteroidsGame>this.innerGame).shipThrust();
+      }
+
+      console.log(`gpad.axes=${this.gpad.axes[0]}`);
+    }
+
+    var gPads = navigator.getGamepads ? navigator.getGamepads() : [];
+
+    if (gPads) {
+      var gpad = gPads[0];
+
+      // if (gpad) {
+      //   console.log(`Date.now=${Date.now()}, 
+      //     this.lastTs=${this.lastGpadTimestamp}, 
+      //     delta=${Date.now() - this.lastGpadTimestamp}}`);
+      // }
+
+      if (gpad && Date.now() - this.lastGpadTimestamp > 30) {
+        if (gpad.buttons[0].pressed) {
+          console.log(`AsteroidsGame.updateScene-2: gPad button 0 pressed`);
+          this.shipFiredBullet();
+          // this.lastGpadTimestamp = gpad.timestamp;
+          this.lastGpadTimestamp = Date.now();
+        } 
+        else if (gpad.buttons[2].pressed) {
+          console.log(`AsteroidsGame.updateScene: gPad button 2 pressed`);
+          this.shipThrust();
+          // this.lastGpadTimestamp = gpad.timestamp;
+          this.lastGpadTimestamp = Date.now();
+        }
+        // (<AsteroidsGame>this.innerGame).ship.theta = gp.axes[0] * Math.PI;
+      }
+    }
+
     // update asteroids
     for (let i = 0; i < this.asteroids.length; i++) {
       let asteroid = this.asteroids[i];
@@ -280,5 +339,21 @@ export class AsteroidsGame implements InnerGame {
   };
   get utils(): UtilsService {
     return this._utils;
+  };
+
+  get gpad(): Gamepad {
+    return this._gpad;
+  };
+
+  set gpad(gp : Gamepad) {
+    this._gpad = gp;
+  };
+
+  get lastGpadTimestamp(): number {
+    return this._lastGpadTimestamp;
+  };
+
+  set lastGpadTimestamp(gp : number) {
+    this._lastGpadTimestamp = gp;
   };
 }

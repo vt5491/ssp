@@ -119,28 +119,28 @@ export class SspRuntimeService {
 
     this.outerVrScene.webVrManager.render(this.outerVrScene.scene, this.outerVrScene.camera);
 
-    // gpad support
-    // var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []);
-    var gPads = navigator.getGamepads ? navigator.getGamepads() :  [];
+    // // gpad support
+    // // var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []);
+    // var gPads = navigator.getGamepads ? navigator.getGamepads() :  [];
 
-    if (gPads) {
-      var gp = gPads[0];
+    // if (gPads) {
+    //   var gp = gPads[0];
 
-      if (gp) {
-        if (this.buttonPressed(gp.buttons[0])) {
-          // b--;
-          console.log(`SspRuntime.mainLoop: gPad button 0 pressed`);
-          (<AsteroidsGame>this.innerGame).shipThrust();
+    //   if (gp) {
+    //     if (this.buttonPressed(gp.buttons[0])) {
+    //       // b--;
+    //       console.log(`SspRuntime.mainLoop: gPad button 0 pressed`);
+    //       (<AsteroidsGame>this.innerGame).shipThrust();
 
-        } else if (this.buttonPressed(gp.buttons[2])) {
-          // b++;
-          console.log(`SspRuntime.mainLoop: gPad button 2 pressed`);
-          (<any>this.innerGame).shipFiredBullet();
-        }
-        // else if ()
-        (<AsteroidsGame>this.innerGame).ship.theta = gp.axes[0] * Math.PI;
-      }
-    }
+    //     } else if (this.buttonPressed(gp.buttons[2])) {
+    //       // b++;
+    //       console.log(`SspRuntime.mainLoop: gPad button 2 pressed`);
+    //       (<any>this.innerGame).shipFiredBullet();
+    //     }
+    //     // else if ()
+    //     (<AsteroidsGame>this.innerGame).ship.theta = gp.axes[0] * Math.PI;
+    //   }
+    // }
 
     this.utils.stats.end();
   }
@@ -168,12 +168,12 @@ export class SspRuntimeService {
     this.initInnerSceneCamera();
   }
 
-  buttonPressed(b) {
-    if (typeof (b) == "object") {
-      return b.pressed;
-    }
-    return b == 1.0;
-  }
+  // buttonPressed(b) {
+  //   if (typeof (b) == "object") {
+  //     return b.pressed;
+  //   }
+  //   return b == 1.0;
+  // }
 
   // Getters and Setters
   get offscreenBuffer(): THREE.WebGLRenderTarget {

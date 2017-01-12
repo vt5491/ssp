@@ -8,7 +8,7 @@ import { AsteroidNoParmsProvider  } from './utils.service';
 // import { ParmsService  } from './parms.service';
 import { Asteroid } from '../inner-games/asteroids/asteroid';
 
-describe('Service: Utils', () => {
+fdescribe('Service: Utils', () => {
   let AsteroidNoParmsProvider = {
     provide: Asteroid,
     useFactory: (base, utils) => {
@@ -50,4 +50,35 @@ describe('Service: Utils', () => {
     expect(newPosX).toEqual(initPosX + 1.0);
     expect(newPosY).toEqual(initPosY + 0.0);
   }));
+
+  fit('should getGamepadConnectedPromise works', inject([UtilsService], (service: UtilsService) => {
+    // mock navigator.getGamepads to return a gamepad objet
+    let origFunc = navigator.getGamepads;
+
+    navigator.getGamepads = () => {
+      let result = [];
+      let gp : Gamepad = new Gamepad();
+
+      result.push(gp);
+
+      return result;
+    }
+
+    let p = service.getGamepadConnectedPromise();
+
+    // p.then(console.log(`hi from p.then`));
+    // p.then((res) => {console.log(`hi from p.then, res={res}`)});
+    // p.then(() => {});
+    // p.then();
+
+    // let gpe = new GamepadEvent('gamepadconnected');
+    // let gpe = new GamepadEvent();
+    // gpe.gamepad = new Gamepad();
+    // window.dispatchEvent(gpe);
+    // let result = service.getGamePad();
+
+    // expect(<any>result instanceof Gamepad).toBe(true);
+    navigator.getGamepads = origFunc;
+  }));
+
 });

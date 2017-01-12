@@ -1,4 +1,4 @@
-/// <reference path="../../../typings/index.d.ts" />
+// <reference path="../../../typings/index.d.ts" />
 import { Component, OnInit, ElementRef, Inject, ViewChild, Injectable, Renderer, Injector } from '@angular/core';
 import { WebGLCanvasComponent } from '../directives/webgl-canvas/webgl-canvas.component';
 import { VRSceneService, VRSceneServiceProvider } from '../services/vr-scene.service';
@@ -131,12 +131,12 @@ export class TorroidsComponent implements OnInit {
 
     // temp add some gamepad support here, until we can be sure enough to move
     // to its own module
-    window.addEventListener("gamepadconnected", function (e : any) {
-      console.log("Gamepad connected at index %d: %s. %d buttons, %d axes.",
-        e.gamepad.index, e.gamepad.id,
-        e.gamepad.buttons.length, e.gamepad.axes.length);
-      this.gPad = navigator.getGamepads()[e.gamepad.index];
-    });
+    // window.addEventListener("gamepadconnected", function (e : any) {
+    //   console.log("Gamepad connected at index %d: %s. %d buttons, %d axes.",
+    //     e.gamepad.index, e.gamepad.id,
+    //     e.gamepad.buttons.length, e.gamepad.axes.length);
+    //   this.gPad = navigator.getGamepads()[e.gamepad.index];
+    // });
 
 
     // // add a GridHelper

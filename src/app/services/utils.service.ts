@@ -1,4 +1,5 @@
 ///<reference path="../../../typings/index.d.ts" />
+///<reference path="../../../node_modules/es6-promise/es6-promise.d.ts" />
 import { Injectable, Injector } from '@angular/core';
 import { IMoveableGameObject } from '../interfaces/imoveable-game-object';
 // import { ParmsService } from './parms.service';
@@ -82,6 +83,34 @@ export class UtilsService {
 
     moveableGameObject.mesh.position.x = meshX;
     moveableGameObject.mesh.position.y = meshY;
+  }
+
+  getGamepad() {
+
+  }
+
+  // this is the template function for getting gamepad Object.  It's up to
+  // the caller to wrap this in a cluser so the gpad object is set locally
+  // initGamepadConnectedListener(cb : () => boolean) {
+  // initGamepadConnectedListener(cb : () => boolean) {
+
+  // }
+  // getGamepadConnectedPromise(cb : () => boolean) {
+
+  // Example of how to call this function
+  // let gpadPromise = _utils.getGamepadConnectedPromise();
+  // gpadPromise.then( (res) => {
+  //   console.log(`AsteroidsGame.gpadPromise.then: res=${res}`);
+  //   this.gpad = <Gamepad>res;
+  // })
+  getGamepadConnectedPromise() {
+    return new Promise((resolve, reject) => {
+      window.addEventListener("gamepadconnected", function (e : any) {
+        console.log(`Gamepad connected at index${e.gamepad.index}`);
+        // this.gPad = navigator.getGamepads()[e.gamepad.index];
+        resolve(navigator.getGamepads()[e.gamepad.index]);
+      });
+    });
   }
 }
 
