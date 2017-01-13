@@ -8,7 +8,7 @@ import { AsteroidNoParmsProvider  } from './utils.service';
 // import { ParmsService  } from './parms.service';
 import { Asteroid } from '../inner-games/asteroids/asteroid';
 
-fdescribe('Service: Utils', () => {
+describe('Service: Utils', () => {
   let AsteroidNoParmsProvider = {
     provide: Asteroid,
     useFactory: (base, utils) => {
@@ -51,7 +51,7 @@ fdescribe('Service: Utils', () => {
     expect(newPosY).toEqual(initPosY + 0.0);
   }));
 
-  fit('should getGamepadConnectedPromise works', inject([UtilsService], (service: UtilsService) => {
+  it('should getGamepadConnectedPromise works', inject([UtilsService], (service: UtilsService) => {
     // mock navigator.getGamepads to return a gamepad objet
     let origFunc = navigator.getGamepads;
 

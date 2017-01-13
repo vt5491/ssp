@@ -1,3 +1,4 @@
+
 /// <reference path="../../../typings/index.d.ts" />
 /* tslint:disable:no-unused-variable */
 
@@ -26,5 +27,9 @@ describe('Service: Base', () => {
   it('should have a boundVal value', inject([BaseService], (service: BaseService) => {
     service.boundVal = 7.0;
     expect(service.boundVal).toEqual(7.0);
+  }));
+
+  it('should have CAMERA_MOVE_DELTA set', inject([BaseService], (service: BaseService) => {
+    expect(service.CAMERA_MOVE_DELTA).toBeTruthy();
   }));
 });

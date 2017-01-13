@@ -6,8 +6,8 @@ import { UtilsService } from './utils.service';
 
 @Injectable()
 export class CameraKbdHandlerService implements KbdHandler {
-  CAMERA_MOVE_DELTA : number = 1.2;
-  CAMERA_ROT_DELTA : number = 5;
+  // CAMERA_MOVE_DELTA : number = 1.2;
+  // CAMERA_ROT_DELTA : number = 5;
 
   _name : string = 'cameraKbdHandler';
   // Note: we can't rely on DI to get this for us, as, in the most general
@@ -21,60 +21,51 @@ export class CameraKbdHandlerService implements KbdHandler {
     this.name = 'cameraKbdHandler';
   }
 
-  // keyEventHandler (event: KeyboardEvent, dolly: THREE.Object3D) {
   keyEventHandler (event: KeyboardEvent) {
-    // console.log(`CameraKbdHandlerService.keyHandler: entered`);
-    // console.log(`CameraKbdHandlerService.keyHandler: event=${event}, dolly=${this.dolly}`);
     // event.preventDefault();
 
     let moveFactor = 1.0;
     switch( event.keyCode) {
       case 'W'.charCodeAt(0):
-        this.dolly.translateZ(moveFactor * -this.CAMERA_MOVE_DELTA);
-        this.deltaZ -= moveFactor * this.CAMERA_MOVE_DELTA;
+        this.dolly.translateZ(moveFactor * -this.base.CAMERA_MOVE_DELTA);
+        this.deltaZ -= moveFactor * this.base.CAMERA_MOVE_DELTA;
       break;
 
       case 'S'.charCodeAt(0):
-        this.dolly.translateZ(moveFactor * this.CAMERA_MOVE_DELTA);
-        this.deltaZ += moveFactor * this.CAMERA_MOVE_DELTA;
+        this.dolly.translateZ(moveFactor * this.base.CAMERA_MOVE_DELTA);
+        this.deltaZ += moveFactor * this.base.CAMERA_MOVE_DELTA;
       break;
 
       case 'D'.charCodeAt(0):
-        this.dolly.translateX(moveFactor * this.CAMERA_MOVE_DELTA);
-        this.deltaX += moveFactor * this.CAMERA_MOVE_DELTA;
+        this.dolly.translateX(moveFactor * this.base.CAMERA_MOVE_DELTA);
+        this.deltaX += moveFactor * this.base.CAMERA_MOVE_DELTA;
       break;
 
       case 'A'.charCodeAt(0):
-        this.dolly.translateX(moveFactor * -this.CAMERA_MOVE_DELTA);
-        this.deltaX -= moveFactor * this.CAMERA_MOVE_DELTA;
+        this.dolly.translateX(moveFactor * -this.base.CAMERA_MOVE_DELTA);
+        this.deltaX -= moveFactor * this.base.CAMERA_MOVE_DELTA;
       break;
 
       case 'P'.charCodeAt(0):
-        this.dolly.translateY(moveFactor * this.CAMERA_MOVE_DELTA);
-        this.deltaY += moveFactor * this.CAMERA_MOVE_DELTA;
+        this.dolly.translateY(moveFactor * this.base.CAMERA_MOVE_DELTA);
+        this.deltaY += moveFactor * this.base.CAMERA_MOVE_DELTA;
       break;
 
       case 'N'.charCodeAt(0):
-        this.dolly.translateY(moveFactor * -this.CAMERA_MOVE_DELTA);
-        this.deltaY -= moveFactor * this.CAMERA_MOVE_DELTA;
+        this.dolly.translateY(moveFactor * -this.base.CAMERA_MOVE_DELTA);
+        this.deltaY -= moveFactor * this.base.CAMERA_MOVE_DELTA;
       break;
 
       case 'Q'.charCodeAt(0):
-        var tmpQuat = (new THREE.Quaternion()).setFromAxisAngle( new THREE.Vector3(0,1,0), this.base.ONE_DEG * this.CAMERA_ROT_DELTA);
+        var tmpQuat = (new THREE.Quaternion()).setFromAxisAngle( new THREE.Vector3(0,1,0), this.base.ONE_DEG * this.base.CAMERA_ROT_DELTA);
         this.dolly.quaternion.multiply(tmpQuat);
       break;
 
       case 'E'.charCodeAt(0):
-        var tmpQuat = (new THREE.Quaternion()).setFromAxisAngle( new THREE.Vector3(0,1,0), this.base.ONE_DEG * -this.CAMERA_ROT_DELTA);
+        var tmpQuat = (new THREE.Quaternion()).setFromAxisAngle( new THREE.Vector3(0,1,0), this.base.ONE_DEG * -this.base.CAMERA_ROT_DELTA);
         this.dolly.quaternion.multiply(tmpQuat);
       break;
 
-      // // ctrl-t : toggle camera tracking
-      // case 'T'.charCodeAt(0):
-      //   if (event.ctrlKey) {
-      //     this.utils.parms.enableCameraTracking = !this.utils.parms.enableCameraTracking;
-      //   }
-      // break;
       case 'Z'.charCodeAt(0):
         this.utils.parms.enableCameraTracking = !this.utils.parms.enableCameraTracking;
       break;
@@ -82,9 +73,6 @@ export class CameraKbdHandlerService implements KbdHandler {
   }
 
   // // Getters and Setters
-  // get sspTorusSceneService(): SspTorusSceneService {
-  //   return this._sspTorusSceneService;
-  // };
   get name() {
     return this._name;
   }

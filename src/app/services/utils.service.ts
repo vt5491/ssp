@@ -112,6 +112,16 @@ export class UtilsService {
       });
     });
   }
+
+  // apply a deadzone to a gamepad axis value
+  applyDeadzone(axisValue: number, threshold: number) {
+    let percentage = (Math.abs(axisValue) - threshold) / (1 - threshold);
+
+    if (percentage < 0)
+      percentage = 0;
+
+    return percentage * (axisValue > 0 ? 1 : -1);
+  }
 }
 
 // here's where we define the providers for things that don't have their own native

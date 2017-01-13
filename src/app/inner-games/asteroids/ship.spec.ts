@@ -29,6 +29,9 @@ describe('Service: Ship', () => {
   }));
 
   it('thrust works', inject([Ship], (ship: Ship) => {
+    // set VX_MAX high so we don't get wraparound
+    ship.VX_MAX = 20;
+    ship.VY_MAX = 20;
     // 0 deg
     initShip_0(ship);
 
@@ -70,6 +73,35 @@ describe('Service: Ship', () => {
 
     expect(ship.vx).toBeCloseTo(11.0);
     expect(ship.vy).toBeCloseTo(10.0);
+  }));
+
+  it('thrust with throttleFactor works', inject([Ship], (ship: Ship) => {
+    ship.VX_MAX = 5;
+    ship.VY_MAX = 5;
+    // 0 deg
+    initShip_0(ship);
+
+    ship.thrust(0.5);
+
+    expect(ship.vx).toBeCloseTo(0.5);
+    expect(ship.vy).toBeCloseTo(0.0);
+
+    // test max vel
+    ship.VX_MAX = 0.1;
+    ship.VY_MAX = 0.1;
+    initShip_0(ship);
+
+    ship.thrust(0.5);
+
+    expect(ship.vx).toBeCloseTo(0.1);
+    expect(ship.vy).toBeCloseTo(0.0);
+
+    initShip_180(ship);
+
+    ship.thrust(0.5);
+
+    expect(ship.vx).toBeCloseTo(-0.1);
+    expect(ship.vy).toBeCloseTo(0.0);
   }));
 
   it('updatePos works', inject([Ship], (ship: Ship) => {

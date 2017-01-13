@@ -8,6 +8,7 @@ import { WebGLRenderTargetProvider } from './utils.service';
 import { IMainCharacterInfo } from '../interfaces/main-character-info';
 import { CameraKbdHandlerService } from './camera-kbd-handler.service';
 import { UtilsService } from './utils.service';
+import { BaseService } from './base.service';
 
 @Injectable()
 @Component({
@@ -23,13 +24,15 @@ export class SspRuntimeService {
   isPresenting : boolean;
   innerGameWidth : number;
   innerGameHeight : number;
+  gpadFirstPressHandled: boolean[];
 
   constructor(
     public outerSspScene: ISspScene, 
     private _offscreenBuffer : THREE.WebGLRenderTarget,
     public innerGame: InnerGame,
     public cameraKbdHandler : CameraKbdHandlerService,
-    private _utils : UtilsService
+    private _utils : UtilsService,
+    private _base : BaseService
     ) { 
       this.outerVrScene = this.outerSspScene.vrScene;
 
@@ -45,6 +48,14 @@ export class SspRuntimeService {
 
       this.initInnerSceneCamera();
 
+      this.gpadFirstPressHandled = [];
+      for (let i = 0; i <= 16; i++) {
+        // this.gpadFirstPressHandled.push(false);
+        this.gpadFirstPressHandled[i] = false;
+      }
+      // console.log(`SspRuntime.ctor: this.base=${this.base}`);
+      // console.log(`SspRuntime.ctor: this.utils=${this.utils}`);
+      
   }
 
   generateDataTexture(width, height, color) {
@@ -62,6 +73,7 @@ export class SspRuntimeService {
       .prototype.mainLoop.bind(this));
 
     this.utils.stats.begin();
+    this.gamepadHandler();
     // update the innerGame
     (<any>this.innerGame).updateScene();
 
@@ -119,29 +131,6 @@ export class SspRuntimeService {
 
     this.outerVrScene.webVrManager.render(this.outerVrScene.scene, this.outerVrScene.camera);
 
-    // // gpad support
-    // // var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []);
-    // var gPads = navigator.getGamepads ? navigator.getGamepads() :  [];
-
-    // if (gPads) {
-    //   var gp = gPads[0];
-
-    //   if (gp) {
-    //     if (this.buttonPressed(gp.buttons[0])) {
-    //       // b--;
-    //       console.log(`SspRuntime.mainLoop: gPad button 0 pressed`);
-    //       (<AsteroidsGame>this.innerGame).shipThrust();
-
-    //     } else if (this.buttonPressed(gp.buttons[2])) {
-    //       // b++;
-    //       console.log(`SspRuntime.mainLoop: gPad button 2 pressed`);
-    //       (<any>this.innerGame).shipFiredBullet();
-    //     }
-    //     // else if ()
-    //     (<AsteroidsGame>this.innerGame).ship.theta = gp.axes[0] * Math.PI;
-    //   }
-    // }
-
     this.utils.stats.end();
   }
 
@@ -174,6 +163,71 @@ export class SspRuntimeService {
   //   }
   //   return b == 1.0;
   // }
+    gamepadHandler() : void {
+    // handle any gamepad events
+    var gPads = navigator.getGamepads ? navigator.getGamepads() : [];
+
+    if (gPads) {
+      var gpad = gPads[0];
+       
+      if (gpad) {
+        if (gpad.buttons[0].pressed && !this.gpadFirstPressHandled[0]) {
+          console.log(`SspRuntime.gamepadHandler: gPad button 0 pressed`);
+          this.gpadFirstPressHandled[0] = true;
+
+          (<AsteroidsGame>this.innerGame).shipFiredBullet();
+        } 
+        else if (!gpad.buttons[0].pressed) {
+          this.gpadFirstPressHandled[0] = false;
+        }
+
+        if (gpad.buttons[2].pressed) {
+          console.log(`SspRuntime.gamepadHandler: gPad button 2 pressed`);
+          // scale down the thrust factor by 1/30 since the accel is tuned
+          // for the keyboard and kbd events only fire at approx. 1/30 the rate
+          // of animationFrame rates.
+          (<AsteroidsGame>this.innerGame).shipThrust( 1 / 120);
+        }
+
+        // this.ship.theta = gpad.axes[0] * Math.PI;
+        // this.ship.theta = this.utils.applyDeadzone(gpad.axes[0], 0.25) * Math.PI;
+        let shipRotateAxisValue= this.utils.applyDeadzone(gpad.axes[0], 0.25);
+
+        if (shipRotateAxisValue < 0) {
+          (<AsteroidsGame>this.innerGame).ship.theta += (<AsteroidsGame>this.innerGame).ship.deltaTheta * (1/3);
+        }
+        else if (shipRotateAxisValue > 0) {
+          (<AsteroidsGame>this.innerGame).ship.theta -= (<AsteroidsGame>this.innerGame).ship.deltaTheta * (1 / 3);
+        }
+
+        // camera movement
+        let moveFactor = 1 / 5;
+        if (gpad.buttons[15].pressed && !this.gpadFirstPressHandled[15]) {
+          console.log(`SspRuntime.gamepadHandler: gPad button 15 pressed`);
+          // this.gpadFirstPressHandled[15] = true;
+
+          this.outerVrScene.dolly.translateX(moveFactor * -this.base.CAMERA_MOVE_DELTA);
+          // this.deltaX -= moveFactor * this.base.CAMERA_MOVE_DELTA;
+        } 
+        // else if (!gpad.buttons[15].pressed) {
+        //   this.gpadFirstPressHandled[15] = false;
+        // }
+
+        if (gpad.buttons[14].pressed && !this.gpadFirstPressHandled[14]) {
+          console.log(`SspRuntime.gamepadHandler: gPad button 14 pressed`);
+          // this.gpadFirstPressHandled[14] = true;
+
+          this.outerVrScene.dolly.translateX(moveFactor * this.base.CAMERA_MOVE_DELTA);
+          // this.deltaX -= moveFactor * this.base.CAMERA_MOVE_DELTA;
+        } 
+        // else if (!gpad.buttons[14].pressed) {
+        //   this.gpadFirstPressHandled[14] = false;
+        // }
+      }
+
+    }
+  }
+
 
   // Getters and Setters
   get offscreenBuffer(): THREE.WebGLRenderTarget {
@@ -182,5 +236,8 @@ export class SspRuntimeService {
 
   get utils(): UtilsService {
     return this._utils;
+  };
+  get base(): BaseService {
+    return this._base;
   };
 }

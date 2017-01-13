@@ -17,6 +17,9 @@ export class Ship implements IMoveableGameObject {
   vy : number;
   deltaVx : number;
   deltaVy : number;
+  private V_MAX : number = 0.03;
+  private _VX_MAX : number = this.V_MAX;
+  private _VY_MAX : number = this.V_MAX;
   deltaVel : number;
   deltaTheta : number;
   geom: THREE.Geometry;
@@ -51,7 +54,8 @@ export class Ship implements IMoveableGameObject {
     //  this controls how fast the ship goes
     this.vScalar = 0.002;
     // this.accelScalar = 0.0004;
-    this.accelScalar = 0.0006;
+    // this.accelScalar = 0.0006;
+    this.accelScalar = 0.0003;
 
     this.deltaVx = 0.001;
     this.deltaVy = 0.001;
@@ -111,9 +115,26 @@ export class Ship implements IMoveableGameObject {
     this.thetaLast = this.theta;
   };
 
-  thrust() {
-    this.vx += this.accelScalar * Math.cos(this.theta);
-    this.vy += this.accelScalar * Math.sin(this.theta);
+  thrust(throttleFactor : number = 1.0) {
+    this.vx += this.accelScalar * throttleFactor * Math.cos(this.theta);
+    this.vy += this.accelScalar * throttleFactor * Math.sin(this.theta);
+
+    // limit to max velocity
+    // this.vx = Math.min(this.vx, this.VX_MAX);
+    // this.vy = Math.min(this.vy, this.VY_MAX);
+    if (this.vx > this.VX_MAX) {
+      this.vx = this.VX_MAX;
+    }
+    else if (this.vx < -this.VX_MAX) {
+      this.vx = -this.VX_MAX;
+    }
+
+    if (this.vy > this.VY_MAX) {
+      this.vy = this.VY_MAX;
+    }
+    else if (this.vy < -this.VY_MAX) {
+      this.vy = -this.VY_MAX;
+    }
   };
 
   updatePos() {
@@ -133,4 +154,19 @@ export class Ship implements IMoveableGameObject {
   get utils(): UtilsService {
     return this._utils;
   };
+
+  public get VX_MAX() : number {
+    return this._VX_MAX;
+  }
+  public set VX_MAX(v : number) {
+    this._VX_MAX = v;
+  }
+  
+  public get VY_MAX() : number {
+    return this._VY_MAX;
+  }
+  public set VY_MAX(v : number) {
+    this._VY_MAX = v;
+  }
+   
 }

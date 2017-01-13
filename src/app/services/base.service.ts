@@ -8,6 +8,8 @@ export class BaseService {
   // one to go with and get rid of the other (probably keep projectionBoundary)
   projectionBoundary : number;
   private _boundVal : number;
+  CAMERA_MOVE_DELTA : number = 1.2;
+  CAMERA_ROT_DELTA : number = 5;
 
   constructor() { 
     this.init();

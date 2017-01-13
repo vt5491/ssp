@@ -21,20 +21,14 @@ describe('Service: SspRuntime', () => {
   // provider.  So it's up to everyone who needs to instantiate an SspRuntime
   // to provide their own.  Thus, we have to provide a provider suitable for 
   // this test suite.
-      // this.sspRuntime = new SspRuntimeService(
-      // this.sspScene,
-      // this.injector.get(THREE.WebGLRenderTarget),
-      // this.innerGame,
-      // this.injector.get(CameraKbdHandlerService),
-      // this.injector.get(UtilsService)
-      // );
 
   let SspRuntimeServiceFactory = (
     sspPlaneScene : ISspScene, 
     webGlRenderTarget : THREE.WebGLRenderTarget,
     innerGame : InnerGame,
     cameraKbdHandler : CameraKbdHandlerService,
-    utils : UtilsService
+    utils : UtilsService,
+    base : BaseService
     ) => {
     //   console.log(`sspPlaneScene=${sspPlaneScene},
     //   webglRenderTarget=${webGlRenderTarget},
@@ -44,7 +38,7 @@ describe('Service: SspRuntime', () => {
     //  ` );
       
     return new SspRuntimeService(
-      sspPlaneScene, webGlRenderTarget, innerGame, cameraKbdHandler, utils);
+      sspPlaneScene, webGlRenderTarget, innerGame, cameraKbdHandler, utils, base);
   };
 
   let SspRuntimeServiceProvider = {
@@ -55,31 +49,19 @@ describe('Service: SspRuntime', () => {
       THREE.WebGLRenderTarget, 
       AsteroidsGame,
       CameraKbdHandlerService, 
-      UtilsService]
+      UtilsService,
+      BaseService]
   }
-  // let dummyInnerGame : InnerGame = {}; 
-  // let mockVRSceneService : VRSceneService;
   //TODO: this provider is now in utils.sevice, so pull from there instead
   let webglRenderTargetProvider = {
     provide: THREE.WebGLRenderTarget,
     useFactory: () => { 
       return new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight, { minFilter: THREE.LinearFilter, magFilter: THREE.NearestFilter } )
     },
-  // deps: [VRRenderer]
-  // deps: [WebGLCanvasComponent]
   }
 
   let SspSceneServiceProvider = {
-    // provide: SspSceneService,
-    // provide: ISspScene,
     useFactory: (vrSceneService) => {
-      // console.log(`now in SspSceneServiceProvider`);
-      // let o = new SspSceneService( 
-      // let o = new SspPlaneSceneService( 
-      //   new VRSceneService(window.innerWidth, window.innerHeight,
-      //     // new THREE.WebGLRenderer()
-      //     vrSceneService
-      //     ));
 
         let o = new SspPlaneSceneService(window.innerWidth, window.innerHeight,
           vrSceneService )
@@ -90,7 +72,6 @@ describe('Service: SspRuntime', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      // providers: [SspRuntimeService, VRSceneServiceProvider, AsteroidsGame]
       providers: [ 
         SspRuntimeServiceProvider, 
         VRSceneServiceProvider, WebGLRenderTargetProvider, AsteroidsGame,
@@ -116,60 +97,33 @@ describe('Service: SspRuntime', () => {
     this.mockSspSceneService.vrSceneService = this.mockVRSceneService;
     this.mockSspSceneService.offscreenImageBuf = {};
     this.mockSspSceneService.offscreenImageBuf.needsUpdate = false;
-
-    // mock out document functions
-    // document.getElementById = function (id : string) : HTMLElement {
-      // document.appendChild()
-
   });
 
-// get error:
-// Error: Can't resolve all parameters for SspRuntimeService: (VRSceneService, ?).
-  // it('should ...', inject([SspRuntimeService], (service: SspRuntimeService) => {
-  // it('should ...', inject([SspRuntimeService, VRSceneService], 
-  // it('should ctor works', inject([SspSceneService, THREE.WebGLRenderTarget, CameraKbdHandlerService], 
-  //   (sspSceneService : SspSceneService, webglRenderTarget: THREE.WebGLRenderTarget, cameraKbdHandler : CameraKbdHandlerService,
-  // it('should ctor works', inject([SspSceneServiceProvider, 
   it('should ctor works', inject([ SspPlaneSceneService,
-    THREE.WebGLRenderTarget, CameraKbdHandlerService, VRSceneService, UtilsService], 
+    THREE.WebGLRenderTarget, CameraKbdHandlerService, VRSceneService, 
+    UtilsService, BaseService], 
     (sspSceneService : ISspScene, 
      webglRenderTarget: THREE.WebGLRenderTarget, 
      cameraKbdHandler : CameraKbdHandlerService,
      vrSceneService : VRSceneService,
-     utils : UtilsService
-    //  service = new SspRuntimeService(vrSceneService, asteroidsGame)) => {
-    //  service = new SspRuntimeService(
-    //    sspSceneService, 
-    //    webglRenderTarget, 
-    //    this.innerGame,
-    //     cameraKbdHandler 
+     utils : UtilsService,
+     base : BaseService
        ) => {
       let service = new SspRuntimeService(
         sspSceneService,
         webglRenderTarget,
         this.innerGame,
-        cameraKbdHandler, utils);
+        cameraKbdHandler, utils, base);
       expect(service).toBeTruthy();
       expect(service.offscreenImageBuf.image.data).toBeTruthy();
       expect(service.utils).toBeTruthy();
+      expect(service.base).toBeTruthy();
       expect(service.initOffscreenImageBuf).toBeTruthy();
       expect(service.onResize).toBeTruthy();
   }));
 
-  // it ('mainLoop works', inject([VRSceneService, InnerGame], vrSceneService :VRSceneService,  ))
-  // skip this test until I can figure out how to mock better
-  // fit('mainLoop works', inject([SspSceneService, THREE.WebGLRenderTarget], 
-  //   (sspSceneService : SspSceneService, webglRenderTarget : THREE.WebGLRenderTarget,
-  //   //  service = new SspRuntimeService(vrSceneService, asteroidsGame)) => {
-  //    service = new SspRuntimeService(this.mockSspSceneService, webglRenderTarget, this.innerGame)) => {
-  //      spyOn(this.innerGame, 'updateScene');
-  //      service.mainLoop();
-  //      expect(this.innerGame.updateScene).toHaveBeenCalled();
-  // }));
   it('initOffscreenImageBuf should work', inject([SspRuntimeService], (service: SspRuntimeService) => {
     service.initOffscreenImageBuf();
-    // console.log(`ut: offscreenImageBuf=${service.offscreenImageBuf}`);
-    // console.log(`ut: offscreenImageBuf.image=${service.offscreenImageBuf.image}`);
     
     expect((<any>service.offscreenImageBuf).image).toBeTruthy();
     expect(service.innerGameHeight).toBeTruthy();
@@ -178,17 +132,12 @@ describe('Service: SspRuntime', () => {
     expect(service.innerGameWidth).toBeGreaterThan(0);
   }));
 
+
   it('initInnerSceneCamera should work', inject([SspRuntimeService], (service: SspRuntimeService) => {
     service.initInnerSceneCamera();
     
     expect(service.initInnerSceneCamera).toBeTruthy();
     expect(service.innerSceneCamera).toBeTruthy();
-    // expect(service.innerSceneCamera.position.z).toEqual(-5);
     expect(service.innerSceneCamera.position.z).toEqual(5);
-    // expect((<any>service.offscreenImageBuf).image).toBeTruthy();
-    // expect(service.innerGameHeight).toBeTruthy();
-    // expect(service.innerGameHeight).toBeGreaterThan(0);
-    // expect(service.innerGameWidth).toBeTruthy();
-    // expect(service.innerGameWidth).toBeGreaterThan(0);
   }));
 });
