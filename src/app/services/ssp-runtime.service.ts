@@ -108,8 +108,8 @@ export class SspRuntimeService {
 
     // }
 
-    this.offscreenImageBuf.needsUpdate = true; //need this
-    this.outerSspScene.sspMaterial.map = this.offscreenImageBuf;
+    //vt this.offscreenImageBuf.needsUpdate = true; //need this
+    //vt this.outerSspScene.sspMaterial.map = this.offscreenImageBuf;
 
     if (this.outerVrScene.vrControls) {
       this.outerVrScene.vrControls.update();
@@ -172,7 +172,7 @@ export class SspRuntimeService {
        
       if (gpad) {
         if (gpad.buttons[0].pressed && !this.gpadFirstPressHandled[0]) {
-          console.log(`SspRuntime.gamepadHandler: gPad button 0 pressed`);
+          // console.log(`SspRuntime.gamepadHandler: gPad button 0 pressed`);
           this.gpadFirstPressHandled[0] = true;
 
           (<AsteroidsGame>this.innerGame).shipFiredBullet();
@@ -182,7 +182,7 @@ export class SspRuntimeService {
         }
 
         if (gpad.buttons[2].pressed) {
-          console.log(`SspRuntime.gamepadHandler: gPad button 2 pressed`);
+          // console.log(`SspRuntime.gamepadHandler: gPad button 2 pressed`);
           // scale down the thrust factor by 1/30 since the accel is tuned
           // for the keyboard and kbd events only fire at approx. 1/30 the rate
           // of animationFrame rates.
@@ -202,29 +202,53 @@ export class SspRuntimeService {
 
         // camera movement
         let moveFactor = 1 / 5;
-        if (gpad.buttons[15].pressed && !this.gpadFirstPressHandled[15]) {
-          console.log(`SspRuntime.gamepadHandler: gPad button 15 pressed`);
-          // this.gpadFirstPressHandled[15] = true;
-
-          this.outerVrScene.dolly.translateX(moveFactor * -this.base.CAMERA_MOVE_DELTA);
-          // this.deltaX -= moveFactor * this.base.CAMERA_MOVE_DELTA;
+        let rotFactor = 1 / 16;
+        if (gpad.buttons[12].pressed && !gpad.buttons[1].pressed) {
+          this.outerVrScene.dolly.translateZ(moveFactor * -this.base.CAMERA_MOVE_DELTA);
+          // this.outerVrScene.dolly.position.z += moveFactor * -this.base.CAMERA_MOVE_DELTA;
         } 
-        // else if (!gpad.buttons[15].pressed) {
-        //   this.gpadFirstPressHandled[15] = false;
-        // }
+        else if (gpad.buttons[13].pressed && !gpad.buttons[1].pressed) {
+          this.outerVrScene.dolly.translateZ(moveFactor * this.base.CAMERA_MOVE_DELTA);
+          // this.outerVrScene.dolly.position.z += moveFactor * this.base.CAMERA_MOVE_DELTA;
+        } 
 
-        if (gpad.buttons[14].pressed && !this.gpadFirstPressHandled[14]) {
-          console.log(`SspRuntime.gamepadHandler: gPad button 14 pressed`);
-          // this.gpadFirstPressHandled[14] = true;
-
+        if (gpad.buttons[15].pressed && !gpad.buttons[1].pressed) {
           this.outerVrScene.dolly.translateX(moveFactor * this.base.CAMERA_MOVE_DELTA);
-          // this.deltaX -= moveFactor * this.base.CAMERA_MOVE_DELTA;
+          // this.outerVrScene.dolly.position.x += moveFactor * this.base.CAMERA_MOVE_DELTA;
         } 
-        // else if (!gpad.buttons[14].pressed) {
-        //   this.gpadFirstPressHandled[14] = false;
-        // }
-      }
+        else if (gpad.buttons[14].pressed && !gpad.buttons[1].pressed) {
+          this.outerVrScene.dolly.translateX(moveFactor * -this.base.CAMERA_MOVE_DELTA);
+          // this.outerVrScene.dolly.position.x += moveFactor * -this.base.CAMERA_MOVE_DELTA;
+        } 
 
+        if (gpad.buttons[1].pressed && gpad.buttons[12].pressed) {
+          // console.log(`SspRuntime.gamepadHandler: combo buttons 1 and 12 pressed`);
+          this.outerVrScene.dolly.translateY(moveFactor * this.base.CAMERA_MOVE_DELTA);
+        } 
+        else if (gpad.buttons[1].pressed && gpad.buttons[13].pressed) {
+          // console.log(`SspRuntime.gamepadHandler: combo buttons 1 and 13 pressed`);
+          this.outerVrScene.dolly.translateY(moveFactor * -this.base.CAMERA_MOVE_DELTA);
+        } 
+
+        if (gpad.buttons[1].pressed && gpad.buttons[15].pressed) {
+          var tmpQuat = (new THREE.Quaternion()).setFromAxisAngle(new THREE.Vector3(0, 1, 0), rotFactor * this.base.ONE_DEG * this.base.CAMERA_ROT_DELTA);
+          this.outerVrScene.dolly.quaternion.multiply(tmpQuat);
+        } 
+        else if (gpad.buttons[1].pressed && gpad.buttons[14].pressed) {
+          var tmpQuat = (new THREE.Quaternion()).setFromAxisAngle(new THREE.Vector3(0, 1, 0), rotFactor * this.base.ONE_DEG * -this.base.CAMERA_ROT_DELTA);
+          this.outerVrScene.dolly.quaternion.multiply(tmpQuat);
+        } 
+
+        // camera track
+        if (gpad.buttons[3].pressed && !this.gpadFirstPressHandled[3]) {
+          console.log(`SspRuntime.gamepadHandler:button 3 pressed`);
+          this.utils.parms.enableCameraTracking = !this.utils.parms.enableCameraTracking;
+          this.gpadFirstPressHandled[3] = true;
+        } 
+        else if (!gpad.buttons[3].pressed) {
+          this.gpadFirstPressHandled[3] = false;
+        }
+      }
     }
   }
 

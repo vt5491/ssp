@@ -1,22 +1,13 @@
 <router-outlet></router-outlet>
-Torroids.
-<!-- <div class='container' id='webgl-container'  (click)='kbdEventHandler($event)' (keydown)='kbdEventHandler($event)' uabindex="1"> -->
+<div id="header">
+  Loopy Surface Surfers
+</div>
+
 <div class='container' id='webgl-container' (window:resize)="onResize($event)">
-  <!-- original canvas<br/>
-  <canvas width="100" height="100" id="scene-view" (keydown)='kbdEventHandler($event)' ></canvas> -->
+</div>
+<div id="scene-select">
   <span [hidden]="hideSpan1" id='outer-scene-select'>
   <label>Select Outer Scene:<br/></label>
-  <!-- <input type="radio" [(ngModel)]="{checked: model.outerScene == 'torus'}" -->
-  <!-- <input type="radio" [(ngModel)]="torus"
-    (ngModelChange)="model.outerScene='torus'"
-    name="outerScene"
-    value="torus"
-    tabindex="1"
-    dhecked="checked">torus<br/> -->
-    <!-- <input name="options" type="radio" [(ngModel)]="options" [value]="1"
-       [checked]="options==1" />torus<br/>
-    <input name="options" type="radio" [(ngModel)]="options" [value]="2"
-       [checked]="options==2" />cyl<br/> -->
     <input name="outerScene" type="radio" [(ngModel)]="model.outerScene" value="torus"
        [checked]="model.outerScene==torus" />torus<br/>
     <input name="outerScene" type="radio" [(ngModel)]="model.outerScene" value="cyl"
@@ -29,24 +20,23 @@ Torroids.
        [checked]="model.outerScene==pyramid" />pyramid<br/>
     <input name="outerScene" type="radio" [(ngModel)]="model.outerScene" value="sphere"
        [checked]="model.outerScene==sphere" />sphere<br/>
-  <!-- <input type="radio" [(ngModel)]="{checked: model.outerScene == 'cyl'}" -->
-  <!-- <input type="radio" [(ngModel)]="cyl"
-   (ngModelChange)="model.OuterScene='cyl'"
-   name="outerScene"
-   value="cyl"
-   tabindex="2"
-   dhecked="checked">Cyl<br/> -->
+    <br/>
+ </span>
+</div>
+<div id='config-div'>
+  <!--<p></p> -->
+  <label><br/>Game Configuration:</label><br/>
+  <span id='config'>
   <label><input type="checkbox" id="cbox1"
     [(ngModel)]="model.enableCameraTracking" value="camera_tracking_on"
     [checked]="model.enableCameraTracking==true">Enable Camera Tracking</label><br>
- </span>
+  <label><input type="checkbox" id="cbox2"
+    [(ngModel)]="model.enableGridHelpers" value="grid_helpers_on"
+    [checked]="model.enableGridHelpers==true">Enable Grid Helpers</label><br>
+  </span>
+</div>
+<div>
   <p>
     <button (click)="startButtonClick(input, $event)">Start Game</button>
   <br/><br/>
-  <!--webgl-canvas<br/>
-  <app-webgl-canvas></app-webgl-canvas> -->
-  <!-- <p>
-    <button (click)="debugButtonClick(input, $event)">debug info</button>
-  <br/><br/> -->
-
 </div>

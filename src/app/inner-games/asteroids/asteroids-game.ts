@@ -187,7 +187,7 @@ export class AsteroidsGame implements InnerGame {
               this.scene.add(splitAsts[k].mesh);
             }
 
-            console.log(`AsteroidsGame.updateScene: asteroid count=${this.asteroids.length}`);
+            // console.log(`AsteroidsGame.updateScene: asteroid count=${this.asteroids.length}`);
 
           break;
         }

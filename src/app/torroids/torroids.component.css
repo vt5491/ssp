@@ -1,8 +1,27 @@
-/*canvas {*/
 #scene-view {
   border: 1px solid;
 }
 
+#scene-select {
+  background-color: lightgray 
+}
+
 #outer-scene-select  {
   font-size: medium; 
+  /*margin-bottom: 100px;*/
+  border-bottom-width: 20px;
+
+}
+
+#config  {
+  font-size: medium; 
+}
+
+#config-div {
+  font-size: medium; 
+  background-color: silver;
+}
+
+#header {
+  background-color: gray;
 }

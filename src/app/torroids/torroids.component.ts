@@ -59,8 +59,9 @@ export class TorroidsComponent implements OnInit {
     )
   {
     //console.log(`TorroidComponent.ctor: entered`);
-    this.model.outerScene = 'plane';
+    this.model.outerScene = 'cyl';
     this.model.enableCameraTracking = false;
+    this.model.enableGridHelpers = true;
     console.log('TorroidComponent: ctor: _kbdHandlerRouterService=' + this._kbdHandlerRouter);
     this.innerGame = this.injector.get(AsteroidsGame);
     let control = new function() {
@@ -86,20 +87,22 @@ export class TorroidsComponent implements OnInit {
       this.kbdEventHandler(event);
     });
 
-    let gridHelper_xy = new THREE.GridHelper(100, 20);
-    gridHelper_xy.rotateX(this.base.ONE_DEG * 90.0);
-    this.sspScene.vrScene.scene.add(gridHelper_xy);
+    if (this.utils.parms.enableGridHelpers) {
+      let gridHelper_xy = new THREE.GridHelper(100, 20);
+      gridHelper_xy.rotateX(this.base.ONE_DEG * 90.0);
+      this.sspScene.vrScene.scene.add(gridHelper_xy);
 
-    let gridHelper_xz = new THREE.GridHelper(100, 20);
-    gridHelper_xz.rotateX(this.base.ONE_DEG * 0.0);
-    this.sspScene.vrScene.scene.add(gridHelper_xz);
+      let gridHelper_xz = new THREE.GridHelper(100, 20);
+      gridHelper_xz.rotateX(this.base.ONE_DEG * 0.0);
+      this.sspScene.vrScene.scene.add(gridHelper_xz);
 
-    let gridHelper_yz = new THREE.GridHelper(100, 20);
-    gridHelper_yz.rotateZ(this.base.ONE_DEG * 90.0);
-    // this.sspScene.vrScene.scene.add(gridHelper_yz);
+      let gridHelper_yz = new THREE.GridHelper(100, 20);
+      gridHelper_yz.rotateZ(this.base.ONE_DEG * 90.0);
+      // this.sspScene.vrScene.scene.add(gridHelper_yz);
 
-    let axisHelper = new THREE.AxisHelper( 10 );
-    this.sspScene.vrScene.scene.add( axisHelper );
+      let axisHelper = new THREE.AxisHelper(10);
+      this.sspScene.vrScene.scene.add(axisHelper);
+    }
 
     webglRendererCanvas.focus();
     document.getElementById('webgl-renderer-canvas').focus();
@@ -120,6 +123,7 @@ export class TorroidsComponent implements OnInit {
     console.log('TorroidsComponent.startGame: entered');
 
     this.utils.parms.enableCameraTracking = this.model.enableCameraTracking;
+    this.utils.parms.enableGridHelpers = this.model.enableGridHelpers;
     // this.innerGame = this.injector.get(AsteroidsMainService);
 
     switch (this.model.outerScene) {
