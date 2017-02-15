@@ -61,20 +61,47 @@ export class SspCylSceneService implements ISspScene {
     //   // }
     // );
     // var texture = new THREE.ImageUtils.loadTexture("images/test_COL.jpg");
-    let texture = new THREE.TextureLoader().load( "assets/coke-label.jpg" );
-    console.log(`SspCylSceneService.init: texture=${texture}`);
-    
-    let cylMaterial = new THREE.MeshBasicMaterial(
-      { color: 0xff0080, wireframe: false, side: THREE.DoubleSide, map: texture });
+    let cokeTexture = new THREE.TextureLoader().load( "assets/coke-label.jpg" );
+    let brickTexture = new THREE.TextureLoader().load( "assets/bricks.jpg" );
+    console.log(`SspCylSceneService.init: texture=${cokeTexture}`);
 
+    let cylMaterial = new THREE.MeshBasicMaterial(
+      { color: 0xff0080, wireframe: false, side: THREE.DoubleSide,
+        // map: texture
+      });
+
+    //vt add
+    let vertShader = document.getElementById('vertex_shh').innerHTML;
+    let fragShader = document.getElementById('fragment_shh').innerHTML;
+
+    let attributes = {};
+    let uniforms = {
+      tOne: { type: "t", value: brickTexture },
+      tSec: { type: "t", value: cokeTexture }
+    };
+    let material_shh = new THREE.ShaderMaterial({
+      uniforms: uniforms,
+      vertexShader: vertShader,
+      fragmentShader: fragShader
+    });
+    // material_shh.map = true;
+    //vt end
     this.cylMesh = new THREE.Mesh(cylGeom, cylMaterial);
+    // this.cylMesh = new THREE.Mesh(cylGeom, material_shh);
     this.cylMesh.name = "abe";
+    //vt add
+    // this.cylMesh.dynamic = true;
+    //vt end
     this.vrScene.scene.add(this.cylMesh);
 
     // assign to the api level var 'sspSurface', so other components using this
     // component know what to draw on.
     this.sspSurface = this.cylMesh;
     this.sspMaterial = cylMaterial;
+    // this.sspMaterial = material_shh as any;
+    //vt add
+    // this.sspGeometry = cylGeom;
+    //vt end
 
     this.tag = 'cyl';
   };
@@ -82,7 +109,7 @@ export class SspCylSceneService implements ISspScene {
   // move the outer camera such that it tracks the position of the mainCharacter
   // of the inner game
   outerCameraTrack(
-    avatarInfo: IMainCharacterInfo, 
+    avatarInfo: IMainCharacterInfo,
     outerVrScene: VRSceneService,
     cameraKbdHandler: CameraKbdHandlerService ) {
 
@@ -96,13 +123,13 @@ export class SspCylSceneService implements ISspScene {
 
     outerVrScene.dolly.setRotationFromQuaternion(trackingInfo.rotQuat);
   };
-  // return camera tracking coordinates given a position from the 
+  // return camera tracking coordinates given a position from the
   // inner game.  The coords are normalized to a unit circle (or distance)
   // and then scaled up by the client.
   getNormalizedTrackingCoords(innerX: number, innerY: number, innerZ: number, boundVal: number): Object {
     let result = <any>{};
 
-    let theta = (Math.PI / boundVal) * innerX; 
+    let theta = (Math.PI / boundVal) * innerX;
     theta += Math.PI;
 
     result.x = Math.sin(theta);

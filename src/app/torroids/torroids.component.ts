@@ -73,6 +73,8 @@ export class TorroidsComponent implements OnInit {
 
   ngOnInit() {
     console.log('TorroidsComponent.ngOnInit: entered');
+    console.log(`fragment_shh=${document.getElementById('fragment_shh')}`);
+    console.log(`webgl-container=${document.getElementById('webgl-container')}`);
   }
 
   initOuterScene() {

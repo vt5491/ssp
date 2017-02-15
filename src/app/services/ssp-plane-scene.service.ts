@@ -18,7 +18,7 @@ export class SspPlaneSceneService implements ISspScene {
   init() {
     let planeGeom   = new THREE.PlaneGeometry(50, 50);
     // let planeGeom   = new THREE.PlaneGeometry(100, 100);
-    // let planeMaterial = new THREE.MeshBasicMaterial({ color: 0xff0080, side: THREE.DoubleSide });
+    let planeMaterial = new THREE.MeshBasicMaterial({ color: 0xff0080, side: THREE.DoubleSide });
     // 8000ff makes the plane blue..the same color as the outer scene sky, but the
     // foreground objects are black.
     // let planeMaterial = new THREE.MeshBasicMaterial({ color: 0x8000ff, side: THREE.DoubleSide });
@@ -30,8 +30,8 @@ export class SspPlaneSceneService implements ISspScene {
     //aabbcc : aa-> the ship..how red it is, bb-> asteroids..how green ,cc-> the plane.. how blue
     // let planeMaterial = new THREE.MeshBasicMaterial({ color: 0xff8080, side: THREE.DoubleSide });
     // dark blue plan, green asteroids, yellow ship
-    let planeMaterial = new THREE.MeshBasicMaterial({ color: 0xffff80, side: THREE.DoubleSide });
-    
+    // let planeMaterial = new THREE.MeshBasicMaterial({ color: 0xffff80, side: THREE.DoubleSide });
+
 
     this.planeMesh = new THREE.Mesh(planeGeom, planeMaterial);
     this.planeMesh.name = "abc";
@@ -49,9 +49,9 @@ export class SspPlaneSceneService implements ISspScene {
     // this.vrSceneService.scene.add(gridHelper);
   };
 
-  outerCameraTrack(avatarInfo: IMainCharacterInfo, 
+  outerCameraTrack(avatarInfo: IMainCharacterInfo,
     outerVrScene: VRSceneService,
-    cameraKbdHandler: CameraKbdHandlerService 
+    cameraKbdHandler: CameraKbdHandlerService
     ) {
     outerVrScene.dolly.position.x = (<any>avatarInfo.pos).x * 6.0 + cameraKbdHandler.deltaX;
     outerVrScene.dolly.position.y = (<any>avatarInfo.pos).y * 6.0 + cameraKbdHandler.deltaY;

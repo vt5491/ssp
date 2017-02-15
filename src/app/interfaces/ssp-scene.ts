@@ -11,12 +11,15 @@ export interface ISspScene {
   // used to create the mesh
   // actually, no its used by ssp-runtime.service to do image projection
   sspMaterial : THREE.MeshBasicMaterial;
+  //vt add
+  // sspGeometry : THREE.Geometry;
+  //vt end
   tag : string;
 
   // keyEventHandler(event : KeyboardEvent);
   outerCameraTrack(
-    avatarInfo: IMainCharacterInfo, 
+    avatarInfo: IMainCharacterInfo,
     outerVrScene: VRSceneService,
-    cameraKbdHandler: CameraKbdHandlerService 
+    cameraKbdHandler: CameraKbdHandlerService
     );
 }

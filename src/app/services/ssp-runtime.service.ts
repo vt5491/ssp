@@ -25,15 +25,18 @@ export class SspRuntimeService {
   innerGameWidth : number;
   innerGameHeight : number;
   gpadFirstPressHandled: boolean[];
+  //vt add
+  cokeTexture: THREE.Texture;
+  //vt end
 
   constructor(
-    public outerSspScene: ISspScene, 
+    public outerSspScene: ISspScene,
     private _offscreenBuffer : THREE.WebGLRenderTarget,
     public innerGame: InnerGame,
     public cameraKbdHandler : CameraKbdHandlerService,
     private _utils : UtilsService,
     private _base : BaseService
-    ) { 
+    ) {
       this.outerVrScene = this.outerSspScene.vrScene;
 
       this.webGLRenderer = this.outerVrScene.webGLRenderer;
@@ -45,6 +48,9 @@ export class SspRuntimeService {
       console.log(`gl_webGLRenderer=${this.webGLRenderer}`);
 
       this.initOffscreenImageBuf();
+      //vt add
+      // this.outerSspScene.sspMaterial.map = this.offscreenImageBuf;
+      //vt end
 
       this.initInnerSceneCamera();
 
@@ -55,7 +61,9 @@ export class SspRuntimeService {
       }
       // console.log(`SspRuntime.ctor: this.base=${this.base}`);
       // console.log(`SspRuntime.ctor: this.utils=${this.utils}`);
-      
+      //vt add
+      this.cokeTexture = new THREE.TextureLoader().load( "assets/coke-label.jpg" );
+      //vt end
   }
 
   generateDataTexture(width, height, color) {
@@ -108,8 +116,48 @@ export class SspRuntimeService {
 
     // }
 
-    //vt this.offscreenImageBuf.needsUpdate = true; //need this
-    //vt this.outerSspScene.sspMaterial.map = this.offscreenImageBuf;
+    // comment out these two lines if doing the coke texture
+    // this.offscreenImageBuf.needsUpdate = true; //need this
+    // this.outerSspScene.sspMaterial.map = this.offscreenImageBuf;//note: done in ctor now
+    //vt add
+    let vertShader = document.getElementById('vertex_shh').innerHTML;
+    let fragShader = document.getElementById('fragment_shh').innerHTML;
+
+    let attributes = {};
+    let uniforms = {
+      // tOne: { type: "t", value: THREE.ImageUtils.loadTexture( "cover.png" ) },
+      tOne: { type: "t", value: this.cokeTexture },
+      // tOne: { type: "t", value: this.offscreenImageBuf },
+      // tSec: { type: "t", value: THREE.ImageUtils.loadTexture( "grass.jpg" ) }
+      // tSec: { type: "t", value: this.offscreenImageBuf.texture }
+      tSec: { type: "t", value: this.offscreenImageBuf }
+      // tSec: { type: "t", value: this.cokeTexture }
+    };
+
+    let defines = {};
+    defines[ "USE_MAP" ] = "";
+
+    let material_shh = new THREE.ShaderMaterial({
+      uniforms: uniforms,
+      // attributes: attributes,
+      defines     : defines,
+      vertexShader: vertShader,
+      fragmentShader: fragShader
+    });
+    // material_shh.map = true;
+    material_shh.map = this.offscreenImageBuf;
+
+    this.offscreenImageBuf.needsUpdate = true; //need this
+    // this.outerSspScene.sspMaterial.map = this.offscreenImageBuf;
+    // this.outerSspScene.sspMaterial = material_shh as any;
+    // this.outerSspScene.sspMaterial.needsUpdate = true;
+    this.outerSspScene.sspMaterial.map = material_shh.map as any;
+    // this.outerSspScene.sspMaterial.map = material_shh as any;//gets runtime error
+    // material_shh.
+    // this.outerSspScene.sspMaterial.map = this.offscreenImageBuf;
+    // this.outerSspScene.sspSurface = new THREE.Mesh(this.outerSspScene.sspGeometry, material_shh)
+    this.outerSspScene.sspMaterial.map.needsUpdate = true;
+    //vt end
 
     if (this.outerVrScene.vrControls) {
       this.outerVrScene.vrControls.update();
@@ -169,14 +217,14 @@ export class SspRuntimeService {
 
     if (gPads) {
       var gpad = gPads[0];
-       
+
       if (gpad) {
         if (gpad.buttons[0].pressed && !this.gpadFirstPressHandled[0]) {
           // console.log(`SspRuntime.gamepadHandler: gPad button 0 pressed`);
           this.gpadFirstPressHandled[0] = true;
 
           (<AsteroidsGame>this.innerGame).shipFiredBullet();
-        } 
+        }
         else if (!gpad.buttons[0].pressed) {
           this.gpadFirstPressHandled[0] = false;
         }
@@ -206,45 +254,45 @@ export class SspRuntimeService {
         if (gpad.buttons[12].pressed && !gpad.buttons[1].pressed) {
           this.outerVrScene.dolly.translateZ(moveFactor * -this.base.CAMERA_MOVE_DELTA);
           // this.outerVrScene.dolly.position.z += moveFactor * -this.base.CAMERA_MOVE_DELTA;
-        } 
+        }
         else if (gpad.buttons[13].pressed && !gpad.buttons[1].pressed) {
           this.outerVrScene.dolly.translateZ(moveFactor * this.base.CAMERA_MOVE_DELTA);
           // this.outerVrScene.dolly.position.z += moveFactor * this.base.CAMERA_MOVE_DELTA;
-        } 
+        }
 
         if (gpad.buttons[15].pressed && !gpad.buttons[1].pressed) {
           this.outerVrScene.dolly.translateX(moveFactor * this.base.CAMERA_MOVE_DELTA);
           // this.outerVrScene.dolly.position.x += moveFactor * this.base.CAMERA_MOVE_DELTA;
-        } 
+        }
         else if (gpad.buttons[14].pressed && !gpad.buttons[1].pressed) {
           this.outerVrScene.dolly.translateX(moveFactor * -this.base.CAMERA_MOVE_DELTA);
           // this.outerVrScene.dolly.position.x += moveFactor * -this.base.CAMERA_MOVE_DELTA;
-        } 
+        }
 
         if (gpad.buttons[1].pressed && gpad.buttons[12].pressed) {
           // console.log(`SspRuntime.gamepadHandler: combo buttons 1 and 12 pressed`);
           this.outerVrScene.dolly.translateY(moveFactor * this.base.CAMERA_MOVE_DELTA);
-        } 
+        }
         else if (gpad.buttons[1].pressed && gpad.buttons[13].pressed) {
           // console.log(`SspRuntime.gamepadHandler: combo buttons 1 and 13 pressed`);
           this.outerVrScene.dolly.translateY(moveFactor * -this.base.CAMERA_MOVE_DELTA);
-        } 
+        }
 
         if (gpad.buttons[1].pressed && gpad.buttons[15].pressed) {
           var tmpQuat = (new THREE.Quaternion()).setFromAxisAngle(new THREE.Vector3(0, 1, 0), rotFactor * this.base.ONE_DEG * this.base.CAMERA_ROT_DELTA);
           this.outerVrScene.dolly.quaternion.multiply(tmpQuat);
-        } 
+        }
         else if (gpad.buttons[1].pressed && gpad.buttons[14].pressed) {
           var tmpQuat = (new THREE.Quaternion()).setFromAxisAngle(new THREE.Vector3(0, 1, 0), rotFactor * this.base.ONE_DEG * -this.base.CAMERA_ROT_DELTA);
           this.outerVrScene.dolly.quaternion.multiply(tmpQuat);
-        } 
+        }
 
         // camera track
         if (gpad.buttons[3].pressed && !this.gpadFirstPressHandled[3]) {
           console.log(`SspRuntime.gamepadHandler:button 3 pressed`);
           this.utils.parms.enableCameraTracking = !this.utils.parms.enableCameraTracking;
           this.gpadFirstPressHandled[3] = true;
-        } 
+        }
         else if (!gpad.buttons[3].pressed) {
           this.gpadFirstPressHandled[3] = false;
         }
