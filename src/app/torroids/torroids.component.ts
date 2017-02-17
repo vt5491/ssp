@@ -177,8 +177,11 @@ export class TorroidsComponent implements OnInit {
     this.initOuterScene();
 
     this.utils.addStats();
-
-    this.sspRuntime.mainLoop();
+    //vt add
+    console.log("TorroidsComponent: now sleeping for 3s before kicking off mainLoop");
+    setTimeout( () => {this.sspRuntime.mainLoop()}, 3000);
+    //vt end
+    //this.sspRuntime.mainLoop();
   }
 
   kbdEventHandler($event) {

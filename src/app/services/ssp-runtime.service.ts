@@ -27,6 +27,7 @@ export class SspRuntimeService {
   gpadFirstPressHandled: boolean[];
   //vt add
   cokeTexture: THREE.Texture;
+  brickTexture: THREE.Texture;
   //vt end
 
   constructor(
@@ -40,7 +41,8 @@ export class SspRuntimeService {
       this.outerVrScene = this.outerSspScene.vrScene;
 
       this.webGLRenderer = this.outerVrScene.webGLRenderer;
-      this.webGLRenderer.setClearColor(0x1313f3, 1.0);
+      // this.webGLRenderer.setClearColor(0x1313f3, 1.0);
+      this.webGLRenderer.setClearColor(0x000020, 1.0);
       this.webGLRenderer.domElement.id = 'webGLRenderer';
       document.body.appendChild( this.webGLRenderer.domElement );
 
@@ -63,6 +65,7 @@ export class SspRuntimeService {
       // console.log(`SspRuntime.ctor: this.utils=${this.utils}`);
       //vt add
       this.cokeTexture = new THREE.TextureLoader().load( "assets/coke-label.jpg" );
+      this.brickTexture = new THREE.TextureLoader().load( "assets/bricks.jpg" );
       //vt end
   }
 
@@ -120,43 +123,54 @@ export class SspRuntimeService {
     // this.offscreenImageBuf.needsUpdate = true; //need this
     // this.outerSspScene.sspMaterial.map = this.offscreenImageBuf;//note: done in ctor now
     //vt add
-    let vertShader = document.getElementById('vertex_shh').innerHTML;
-    let fragShader = document.getElementById('fragment_shh').innerHTML;
+    // let vertShader = document.getElementById('vertex_shh').innerHTML;
+    // let fragShader = document.getElementById('fragment_shh').innerHTML;
+    let vertShader = document.getElementById('simple-vertex-shader').innerHTML;
+    let fragShader = document.getElementById('simple-fragment-shader').innerHTML;
 
     let attributes = {};
     let uniforms = {
       // tOne: { type: "t", value: THREE.ImageUtils.loadTexture( "cover.png" ) },
-      tOne: { type: "t", value: this.cokeTexture },
+      t1: { type: "t", value: this.cokeTexture },
       // tOne: { type: "t", value: this.offscreenImageBuf },
       // tSec: { type: "t", value: THREE.ImageUtils.loadTexture( "grass.jpg" ) }
       // tSec: { type: "t", value: this.offscreenImageBuf.texture }
-      tSec: { type: "t", value: this.offscreenImageBuf }
+      t2: { type: "t", value: this.offscreenImageBuf }
       // tSec: { type: "t", value: this.cokeTexture }
     };
 
     let defines = {};
     defines[ "USE_MAP" ] = "";
 
-    let material_shh = new THREE.ShaderMaterial({
+    let material_shader = new THREE.ShaderMaterial({
       uniforms: uniforms,
       // attributes: attributes,
       defines     : defines,
       vertexShader: vertShader,
       fragmentShader: fragShader
     });
+    // material_shh
     // material_shh.map = true;
-    material_shh.map = this.offscreenImageBuf;
+    // material_shh.map = this.offscreenImageBuf;
 
     this.offscreenImageBuf.needsUpdate = true; //need this
     // this.outerSspScene.sspMaterial.map = this.offscreenImageBuf;
-    // this.outerSspScene.sspMaterial = material_shh as any;
-    // this.outerSspScene.sspMaterial.needsUpdate = true;
-    this.outerSspScene.sspMaterial.map = material_shh.map as any;
+    // this.outerSspScene.sspMaterial = material_shh as any; //needed?
+    // (this.outerSspScene as any).can.material.map = this.brickTexture.image;
+    // (this.outerSspScene as any).can.material.map = this.brickTexture;
+    // (this.outerSspScene as any).can.material.needsUpdate = true;
+    // (this.outerSspScene as any).cylMesh.needsUpdate = true;
+    // material_shh.needsUpdate = true;//dont need
+    // this.outerSspScene.sspMaterial.needsUpdate = true;//dont need
+    // (this.outerSspScene as any).cylMesh.material = material_shh;
+    this.outerSspScene.sspSurface.material = material_shader;
+    // (this.outerSspScene as any).cylMesh.needsUpdate = true;
+    // this.outerSspScene.sspMaterial.map = material_shh.map as any;
     // this.outerSspScene.sspMaterial.map = material_shh as any;//gets runtime error
     // material_shh.
     // this.outerSspScene.sspMaterial.map = this.offscreenImageBuf;
     // this.outerSspScene.sspSurface = new THREE.Mesh(this.outerSspScene.sspGeometry, material_shh)
-    this.outerSspScene.sspMaterial.map.needsUpdate = true;
+    // this.outerSspScene.sspMaterial.map.needsUpdate = true;
     //vt end
 
     if (this.outerVrScene.vrControls) {

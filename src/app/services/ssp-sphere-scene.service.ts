@@ -10,6 +10,7 @@ export class SspSphereScene implements ISspScene {
   sphereMesh: THREE.Mesh;
   sspSurface : THREE.Mesh;
   sspMaterial : THREE.MeshBasicMaterial;
+  sspMesh : THREE.Mesh;
   tag : string;
 
 
@@ -39,9 +40,9 @@ export class SspSphereScene implements ISspScene {
 
   };
 
-  outerCameraTrack(avatarInfo: IMainCharacterInfo, 
+  outerCameraTrack(avatarInfo: IMainCharacterInfo,
     outerVrScene: VRSceneService,
-    cameraKbdHandler: CameraKbdHandlerService 
+    cameraKbdHandler: CameraKbdHandlerService
     ) {};
     // Getters and Setters
   // get vrSceneService(): VRSceneService {

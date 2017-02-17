@@ -18,38 +18,38 @@
   <!--<script src="assets/js/dat.gui.js"></script> -->
   <!--<script src="app/libs/gamepad.js"></script>  -->
   <!-- for shader code see:  http://stackoverflow.com/questions/16287547/multiple-transparent-textures-on-the-same-mesh-face-in-three-js -->
-  <script id="vertex_shh" type="x-shader/x-vertex">
-    varying vec2 vUv;
+  <!-- <script id="vertex_shh" src="assets/glsl/simple-vertex-shader.glsl" type="x-shader/x-vertex">
+  <script id="fragment_shh" src="assets/glsl/simple-fragment-shader.glsl" type="x-shader/x-fragment"> -->
+  <script id="simple-vertex-shader" type="x-shader/x-vertex">
+  varying vec2 vUv;
 
-    void main()
-    {
-      vUv = uv;
-      vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
-      gl_Position = projectionMatrix * mvPosition;
-    }
+  void main()
+  {
+    vUv = uv;
+    vec4 mvPosition = modelViewMatrix * vec4( position, 1.0  );
+    gl_Position = projectionMatrix * mvPosition;
+  }
   </script>
+  <script id="simple-fragment-shader" type="x-shader/x-fragment">
+  #ifdef GL_ES
+  precision highp float;
+  #endif
 
-  <script id="fragment_shh" type="x-shader/x-fragment">
-    #ifdef GL_ES
-    precision highp float;
-    #endif
+  uniform sampler2D t1;
+  uniform sampler2D t2;
 
-    uniform sampler2D tOne;
-    uniform sampler2D tSec;
+  varying vec2 vUv;
 
-    varying vec2 vUv;
-
-    void main(void)
-    {
-      vec3 c;
-      vec4 Ca = texture2D(tOne, vUv);
-      vec4 Cb = texture2D(tSec, vUv);
-      // c = Ca.rgb * Ca.a + Cb.rgb * Cb.a * (1.0 - Ca.a);
-      c = Ca.rgb + Cb.rgb;
-      gl_FragColor= vec4(c, 1.0);
-    }
+  void main(void)
+  {
+    vec3 c;
+    vec4 Ca = texture2D(t1, vUv);
+    vec4 Cb = texture2D(t2, vUv);
+    // c = Ca.rgb * Ca.a + Cb.rgb * Cb.a * (1.0 - Ca.a);
+    c = Ca.rgb + Cb.rgb;
+    gl_FragColor= vec4(c, 1.0);
+  }
   </script>
-
   <!--vt end -->
 </head>
 <body>

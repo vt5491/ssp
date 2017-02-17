@@ -10,6 +10,7 @@ export class SspCubeScene implements ISspScene {
   cubeMesh: THREE.Mesh;
   sspSurface : THREE.Mesh;
   sspMaterial : THREE.MeshBasicMaterial;
+  sspMesh : THREE.Mesh;
   tag : string;
 
   constructor(width, height, public vrScene : VRSceneService) {
@@ -151,17 +152,17 @@ export class SspCubeScene implements ISspScene {
     geo.faceVertexUvs[0][0] = [faceuv[0], faceuv[1], faceuv[2]];
     geo.faceVertexUvs[0][1] = [faceuv[0], faceuv[2], faceuv[3]];
     geo.faceVertexUvs[0][2] = [faceuv[4], faceuv[5], faceuv[6]];
-    geo.faceVertexUvs[0][3] = [faceuv[4], faceuv[6], faceuv[7]];       
+    geo.faceVertexUvs[0][3] = [faceuv[4], faceuv[6], faceuv[7]];
 
     geo.faceVertexUvs[0][4] = [faceuv[0], faceuv[1], faceuv[2]];
     geo.faceVertexUvs[0][5] = [faceuv[0], faceuv[2], faceuv[3]];
     geo.faceVertexUvs[0][6] = [faceuv[4], faceuv[5], faceuv[6]];
-    geo.faceVertexUvs[0][7] = [faceuv[4], faceuv[6], faceuv[7]];       
+    geo.faceVertexUvs[0][7] = [faceuv[4], faceuv[6], faceuv[7]];
 
     geo.faceVertexUvs[0][8] = [faceuv[0], faceuv[1], faceuv[2]];
     geo.faceVertexUvs[0][9] = [faceuv[0], faceuv[2], faceuv[3]];
     geo.faceVertexUvs[0][10] = [faceuv[4], faceuv[5], faceuv[6]];
-    geo.faceVertexUvs[0][11] = [faceuv[4], faceuv[6], faceuv[7]];       
+    geo.faceVertexUvs[0][11] = [faceuv[4], faceuv[6], faceuv[7]];
     geo.faceVertexUvs[0][12] = [faceuv[1], faceuv[0], faceuv[3]];
 
     geo.faceVertexUvs[0][13] = [faceuv[0], faceuv[2], faceuv[3]];
@@ -234,9 +235,9 @@ export class SspCubeScene implements ISspScene {
     });
   };
 
-  outerCameraTrack(avatarInfo: IMainCharacterInfo, 
+  outerCameraTrack(avatarInfo: IMainCharacterInfo,
     outerVrScene: VRSceneService,
-    cameraKbdHandler: CameraKbdHandlerService 
+    cameraKbdHandler: CameraKbdHandlerService
     ) {};
     // Getters and Setters
   // get vrSceneService(): VRSceneService {

@@ -19,6 +19,7 @@ export class SspTorusSceneService implements ISspScene {
   torusMesh : THREE.Mesh;
   sspSurface : THREE.Mesh;
   sspMaterial : THREE.MeshBasicMaterial;
+  sspMesh : THREE.Mesh;
   tag : string;
   torusRadius : number;
   tubeRadius : number
@@ -34,17 +35,17 @@ export class SspTorusSceneService implements ISspScene {
   // constructor(width, height, webGLRenderer: THREE.WebGLRenderer) {
   // constructor(width, height, private _vrSceneService: VRSceneService) {
   constructor(
-    width, 
-    height, 
-    public vrScene: VRSceneService, 
+    width,
+    height,
+    public vrScene: VRSceneService,
     private _utils : UtilsService,
-    torusRadius?, 
+    torusRadius?,
     tubeRadius?) {
     // super();
     console.log(`SspTorusSceneService.ctor: entered`);
 
-    this.torusRadius = torusRadius || this.DEFAULT_TORUS_RADIUS; 
-    this.tubeRadius = tubeRadius || this.DEFAULT_TUBE_RADIUS; 
+    this.torusRadius = torusRadius || this.DEFAULT_TORUS_RADIUS;
+    this.tubeRadius = tubeRadius || this.DEFAULT_TUBE_RADIUS;
     this.cameraRadius = this.tubeRadius * this.DEFAULT_CAMERA_RADIUS_MULTIPLIER;
     this.init();
   }
@@ -76,7 +77,7 @@ export class SspTorusSceneService implements ISspScene {
 
     // this.vrScene.scene.add(this.hotSpot);
     //setup the "2-arm" parent-child cluster for the camera tracking.
-    // see plunker https://plnkr.co/edit/BsxsDnvJFJhOamLidf1b?p=info 
+    // see plunker https://plnkr.co/edit/BsxsDnvJFJhOamLidf1b?p=info
     this.torusArm = new THREE.Object3D();
     this.tubeArm = new THREE.Object3D();
     this.tubeArm.position.x = this.torusRadius;
@@ -99,10 +100,10 @@ export class SspTorusSceneService implements ISspScene {
     this.lastTubeAngle = 0.0 * Math.PI / 1.0;
   }
 
-  outerCameraTrack(avatarInfo: IMainCharacterInfo, 
+  outerCameraTrack(avatarInfo: IMainCharacterInfo,
     outerVrScene: VRSceneService,
-    cameraKbdHandler: CameraKbdHandlerService 
-    ) 
+    cameraKbdHandler: CameraKbdHandlerService
+    )
   {
     // var torusAngle = 7.0 * Math.PI / 4.0;
     //TODO: parameterize this
@@ -117,10 +118,10 @@ export class SspTorusSceneService implements ISspScene {
     this.torusArm.rotateOnAxis(torusAxis, torusAngle - this.lastTorusAngle);
     // this.torusArm.setRotationFromAxisAngle(torusAxis, torusAngle);
 
-    let tubeAngle = (Math.PI / boundVal) * innerY;  
+    let tubeAngle = (Math.PI / boundVal) * innerY;
     tubeAngle += Math.PI;
     // let tubeAngle2 = tubeAngle + Math.PI / 2.0;
-    // let perpVector 
+    // let perpVector
     // let tubeAxis = new THREE.Vector3(Math.cos(tubeAngle), Math.sin(tubeAngle), 0);
     // works
     let tubeAxis = new THREE.Vector3(Math.cos(torusAngle + Math.PI / 2.0), Math.sin(torusAngle + Math.PI / 2.0), 0);
@@ -136,9 +137,9 @@ export class SspTorusSceneService implements ISspScene {
     this.lastTubeAngle = tubeAngle;
   };
 
-  outerCameraTrack_old(avatarInfo: IMainCharacterInfo, 
+  outerCameraTrack_old(avatarInfo: IMainCharacterInfo,
     outerVrScene: VRSceneService,
-    cameraKbdHandler: CameraKbdHandlerService 
+    cameraKbdHandler: CameraKbdHandlerService
     ) {
       let trackingInfo: any = this.getNormalizedTrackingCoords(avatarInfo.pos['x'], avatarInfo.pos['y'], avatarInfo.pos['z'], 4.0);
 
@@ -218,8 +219,8 @@ export class SspTorusSceneService implements ISspScene {
   getNormalizedTrackingCoords(innerX: number, innerY: number, innerZ: number, boundVal: number): Object {
     let result = <any>{};
 
-    let torusTheta = (Math.PI / boundVal) * innerX; 
-    let tubeTheta = (Math.PI / boundVal) * innerY; 
+    let torusTheta = (Math.PI / boundVal) * innerX;
+    let tubeTheta = (Math.PI / boundVal) * innerY;
     tubeTheta += Math.PI / 2.0;
     torusTheta += Math.PI / 1.0;
     result.torusTheta = torusTheta;

@@ -10,6 +10,7 @@ export class SspPyramidScene implements ISspScene {
   pyramidMesh: THREE.Mesh;
   sspSurface : THREE.Mesh;
   sspMaterial : THREE.MeshBasicMaterial;
+  sspMesh : THREE.Mesh;
   tag : string;
 
   constructor(width, height, public vrScene : VRSceneService) {
@@ -36,9 +37,9 @@ export class SspPyramidScene implements ISspScene {
 
   };
 
-  outerCameraTrack(avatarInfo: IMainCharacterInfo, 
+  outerCameraTrack(avatarInfo: IMainCharacterInfo,
     outerVrScene: VRSceneService,
-    cameraKbdHandler: CameraKbdHandlerService 
+    cameraKbdHandler: CameraKbdHandlerService
     ) {};
     // Getters and Setters
   // get vrSceneService(): VRSceneService {

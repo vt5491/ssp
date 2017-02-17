@@ -9,6 +9,7 @@ export class SspPlaneSceneService implements ISspScene {
   planeMesh: THREE.Mesh;
   sspSurface : THREE.Mesh;
   sspMaterial : THREE.MeshBasicMaterial;
+  sspMesh : THREE.Mesh;
   tag : string;
 
   constructor(width, height, public vrScene : VRSceneService) {

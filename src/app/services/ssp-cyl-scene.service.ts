@@ -9,6 +9,8 @@ export class SspCylSceneService implements ISspScene {
   cylMesh : THREE.Mesh;
   sspSurface : THREE.Mesh;
   sspMaterial : THREE.MeshBasicMaterial;
+  sspMesh : THREE.Mesh;
+  can : THREE.Mesh;
   //TODO: add this to ISspScene
   tag : string;
   radius : number;
@@ -61,9 +63,45 @@ export class SspCylSceneService implements ISspScene {
     //   // }
     // );
     // var texture = new THREE.ImageUtils.loadTexture("images/test_COL.jpg");
-    let cokeTexture = new THREE.TextureLoader().load( "assets/coke-label.jpg" );
-    let brickTexture = new THREE.TextureLoader().load( "assets/bricks.jpg" );
+  //vt add
+  // instantiate a loader
+  var loader = new THREE.JSONLoader();
+
+  // load a resource
+  loader.load(
+  	// resource URL
+  	'../../assets/models/vt_can.json',
+  	// Function when resource is loaded
+  	// function ( geometry, materials ) {
+  	( geometry, materials ) => {
+      console.log("SspCylSceneService.load: now loading can")
+  		// var material = new THREE.MultiMaterial( materials );
+      // let brickTexture = new THREE.TextureLoader().load( "assets/bricks.jpg" );
+      // let cokeTexture = new THREE.TextureLoader().load( "assets/coke-label.jpg" );
+    let cokeTexture = new THREE.TextureLoader().load( "../../assets/coke-label.jpg" );
+      // let brickTexture = new THREE.TextureLoader().load( "../../assets/bricks.jpg" );
+      let brickTexture = new THREE.TextureLoader().load( "/assets/bricks.jpg" );
+      // let canMaterial =  new THREE.MultiMaterial( materials );//no good
+      let canMaterial = new THREE.MeshBasicMaterial(
+        {color: 0x008080,
+         wireframe: false,
+         map: brickTexture
+       })
+      // canMaterial.map = brickTexture;
+      let cangeometry   = new THREE.CylinderBufferGeometry(this.radius, this.radius, 80, 50);// works
+  		this.can = new THREE.Mesh( cangeometry, canMaterial );//work
+  		// this.can = new THREE.Mesh( geometry, canMaterial );//no work
+      // this.can.scale.set(15, 25, 15);
+      // this.can.scale.set(10, 10, 10);
+      this.can.name = "can";
+      this.can.position.x = 60.0;
+  		// scene.add( object );
+      this.vrScene.scene.add(this.can);
+  //vt end
+    // let cokeTexture = new THREE.TextureLoader().load( "assets/coke-label.jpg" );
+    // let cokeTexture = new THREE.TextureLoader().load( "../../assets/coke-label.jpg" );
     console.log(`SspCylSceneService.init: texture=${cokeTexture}`);
+      // canMaterial.map = cokeTexture;
 
     let cylMaterial = new THREE.MeshBasicMaterial(
       { color: 0xff0080, wireframe: false, side: THREE.DoubleSide,
@@ -71,19 +109,19 @@ export class SspCylSceneService implements ISspScene {
       });
 
     //vt add
-    let vertShader = document.getElementById('vertex_shh').innerHTML;
-    let fragShader = document.getElementById('fragment_shh').innerHTML;
-
-    let attributes = {};
-    let uniforms = {
-      tOne: { type: "t", value: brickTexture },
-      tSec: { type: "t", value: cokeTexture }
-    };
-    let material_shh = new THREE.ShaderMaterial({
-      uniforms: uniforms,
-      vertexShader: vertShader,
-      fragmentShader: fragShader
-    });
+    // let vertShader = document.getElementById('vertex_shh').innerHTML;
+    // let fragShader = document.getElementById('fragment_shh').innerHTML;
+    //
+    // let attributes = {};
+    // let uniforms = {
+    //   tOne: { type: "t", value: brickTexture },
+    //   tSec: { type: "t", value: cokeTexture }
+    // };
+    // let material_shh = new THREE.ShaderMaterial({
+    //   uniforms: uniforms,
+    //   vertexShader: vertShader,
+    //   fragmentShader: fragShader
+    // });
     // material_shh.map = true;
     //vt end
     this.cylMesh = new THREE.Mesh(cylGeom, cylMaterial);
@@ -98,12 +136,16 @@ export class SspCylSceneService implements ISspScene {
     // component know what to draw on.
     this.sspSurface = this.cylMesh;
     this.sspMaterial = cylMaterial;
+    this.sspMesh = this.cylMesh;
     // this.sspMaterial = material_shh as any;
     //vt add
     // this.sspGeometry = cylGeom;
     //vt end
 
     this.tag = 'cyl';
+    //vt add
+  }); // end the load func
+    //vt end
   };
 
   // move the outer camera such that it tracks the position of the mainCharacter

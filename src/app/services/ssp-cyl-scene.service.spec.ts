@@ -11,7 +11,7 @@ import { CameraKbdHandlerService } from './camera-kbd-handler.service';
 describe('Service: SspCylScene', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [SspCylSceneProvider, VRSceneServiceProvider, 
+      providers: [SspCylSceneProvider, VRSceneServiceProvider,
       BaseService, CameraKbdHandlerService, UtilsService]
     });
   });
@@ -22,7 +22,7 @@ describe('Service: SspCylScene', () => {
     expect(service.radius).toEqual(service.DEFAULT_RADIUS);
   }));
 
-  // it('should allow overrides of the radius', inject([VRSceneServiceProvider, THREE.WebGLRenderer], 
+  // it('should allow overrides of the radius', inject([VRSceneServiceProvider, THREE.WebGLRenderer],
   // (vrScene: VRSceneService),   => {
   //   let service = new SspCylSceneService(100, 100, vrScene, 10);
   //   expect(service).toBeTruthy();
@@ -30,7 +30,7 @@ describe('Service: SspCylScene', () => {
   //   expect(service.radius).toEqual(10);
   // }));
 
-  it('should ...', inject([VRSceneService], 
+  it('should ...', inject([VRSceneService],
     (vrScene: VRSceneService ) => {
       let service = new SspCylSceneService(100, 100, vrScene, 10);
     expect(service).toBeTruthy();
@@ -38,7 +38,7 @@ describe('Service: SspCylScene', () => {
     expect(service.radius).toEqual(10);
   }));
 
-  it('getNormalizedTrackingCoords works properly', 
+  it('getNormalizedTrackingCoords works properly',
     inject([SspCylSceneService, BaseService], (service: SspCylSceneService, base :BaseService) => {
     // inner values at the 'home' position
     let innerX = 0.0, innerY = 0.0, innerZ = 0.0;
@@ -82,9 +82,9 @@ describe('Service: SspCylScene', () => {
   }));
 
   it('outerCameraTrack works properly',
-    inject([SspCylSceneService, BaseService, VRSceneService, CameraKbdHandlerService], 
+    inject([SspCylSceneService, BaseService, VRSceneService, CameraKbdHandlerService],
       (service: SspCylSceneService, base: BaseService,
-       vrSceneService : VRSceneService, cameraKbdHandler : CameraKbdHandlerService 
+       vrSceneService : VRSceneService, cameraKbdHandler : CameraKbdHandlerService
       ) => {
 
       let avatarInfo = <any>{};
