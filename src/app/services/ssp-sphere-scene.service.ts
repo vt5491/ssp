@@ -20,6 +20,8 @@ export class SspSphereScene implements ISspScene {
   }
 
   init() {
+    this.getSphereMesh();
+    /*
     // Note: scaling up has no effect as everyting is basically "scale invariant"
     // let sphereGeom   = new THREE.SphereGeometry(50, 50, 50);
     let sphereGeom   = new THREE.SphereBufferGeometry(50, 50, 50);
@@ -37,8 +39,30 @@ export class SspSphereScene implements ISspScene {
     this.sspMaterial = sphereMaterial;
 
     this.tag = 'sphere';
-
+    */
   };
+
+  getSphereMesh() {
+    var loader = new THREE.JSONLoader();
+
+    loader.load(
+      '../../assets/models/pool_ball.json',
+      ( geometry, materials ) => {
+        let poolBallMaterial = new THREE.MeshBasicMaterial(
+          {color: 0x008080,
+           wireframe: false,
+         })
+        this.sphereMesh = new THREE.Mesh( geometry, poolBallMaterial );
+        this.sphereMesh.scale.set(50,50,50);
+
+        this.vrScene.scene.add(this.sphereMesh);
+
+        // assign to the api level var 'sspSurface', so other components using this
+        // component know what to draw on.
+        this.sspSurface = this.sphereMesh;
+        this.sspMaterial = poolBallMaterial;
+      })
+  }
 
   outerCameraTrack(avatarInfo: IMainCharacterInfo,
     outerVrScene: VRSceneService,

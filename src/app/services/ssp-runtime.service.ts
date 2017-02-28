@@ -28,6 +28,7 @@ export class SspRuntimeService {
   //vt add
   cokeTexture: THREE.Texture;
   brickTexture: THREE.Texture;
+  poolBallTexture: THREE.Texture;
   //vt end
 
   constructor(
@@ -66,6 +67,7 @@ export class SspRuntimeService {
       //vt add
       this.cokeTexture = new THREE.TextureLoader().load( "assets/coke-label.jpg" );
       this.brickTexture = new THREE.TextureLoader().load( "assets/bricks.jpg" );
+      this.poolBallTexture = new THREE.TextureLoader().load( "assets/two_ball.jpg" );
       //vt end
   }
 
@@ -130,13 +132,9 @@ export class SspRuntimeService {
 
     let attributes = {};
     let uniforms = {
-      // tOne: { type: "t", value: THREE.ImageUtils.loadTexture( "cover.png" ) },
-      t1: { type: "t", value: this.cokeTexture },
-      // tOne: { type: "t", value: this.offscreenImageBuf },
-      // tSec: { type: "t", value: THREE.ImageUtils.loadTexture( "grass.jpg" ) }
-      // tSec: { type: "t", value: this.offscreenImageBuf.texture }
+      // t1: { type: "t", value: this.cokeTexture },
+      t1: { type: "t", value: this.poolBallTexture },
       t2: { type: "t", value: this.offscreenImageBuf }
-      // tSec: { type: "t", value: this.cokeTexture }
     };
 
     let defines = {};
@@ -158,6 +156,8 @@ export class SspRuntimeService {
     // this.outerSspScene.sspMaterial = material_shh as any; //needed?
     // (this.outerSspScene as any).can.material.map = this.brickTexture.image;
     // (this.outerSspScene as any).can.material.map = this.brickTexture;
+    //following line roughly works
+    // (this.outerSspScene as any).can.material.map = this.offscreenImageBuf;
     // (this.outerSspScene as any).can.material.needsUpdate = true;
     // (this.outerSspScene as any).cylMesh.needsUpdate = true;
     // material_shh.needsUpdate = true;//dont need

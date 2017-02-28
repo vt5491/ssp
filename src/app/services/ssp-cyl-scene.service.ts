@@ -70,7 +70,7 @@ export class SspCylSceneService implements ISspScene {
   // load a resource
   loader.load(
   	// resource URL
-  	'../../assets/models/vt_can.json',
+  	'../../assets/models/vt_can_5.json',
   	// Function when resource is loaded
   	// function ( geometry, materials ) {
   	( geometry, materials ) => {
@@ -79,16 +79,18 @@ export class SspCylSceneService implements ISspScene {
       // let brickTexture = new THREE.TextureLoader().load( "assets/bricks.jpg" );
       // let cokeTexture = new THREE.TextureLoader().load( "assets/coke-label.jpg" );
     let cokeTexture = new THREE.TextureLoader().load( "../../assets/coke-label.jpg" );
-      // let brickTexture = new THREE.TextureLoader().load( "../../assets/bricks.jpg" );
-      let brickTexture = new THREE.TextureLoader().load( "/assets/bricks.jpg" );
+      let brickTexture = new THREE.TextureLoader().load( "../../assets/bricks.jpg" );
+      // let brickTexture = new THREE.TextureLoader().load( "/assets/bricks.jpg" );
       // let canMaterial =  new THREE.MultiMaterial( materials );//no good
       let canMaterial = new THREE.MeshBasicMaterial(
         {color: 0x008080,
          wireframe: false,
-         map: brickTexture
+        //  map: brickTexture
+         map: cokeTexture
        })
       // canMaterial.map = brickTexture;
-      let cangeometry   = new THREE.CylinderBufferGeometry(this.radius, this.radius, 80, 50);// works
+      // let cangeometry   = new THREE.CylinderBufferGeometry(this.radius, this.radius, 80, 50);// works
+      let cangeometry   = geometry;
   		this.can = new THREE.Mesh( cangeometry, canMaterial );//work
   		// this.can = new THREE.Mesh( geometry, canMaterial );//no work
       // this.can.scale.set(15, 25, 15);
