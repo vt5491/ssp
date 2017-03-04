@@ -59,7 +59,8 @@ export class TorroidsComponent implements OnInit {
     )
   {
     //console.log(`TorroidComponent.ctor: entered`);
-    this.model.outerScene = 'cyl';
+    // this.model.outerScene = 'cyl';
+    this.model.outerScene = 'pyramid';
     this.model.enableCameraTracking = false;
     this.model.enableGridHelpers = true;
     console.log('TorroidComponent: ctor: _kbdHandlerRouterService=' + this._kbdHandlerRouter);
@@ -179,7 +180,7 @@ export class TorroidsComponent implements OnInit {
     this.utils.addStats();
     //vt add
     console.log("TorroidsComponent: now sleeping for 3s before kicking off mainLoop");
-    setTimeout( () => {this.sspRuntime.mainLoop()}, 3000);
+    setTimeout( () => {this.sspRuntime.mainLoop()}, 5000);
     //vt end
     //this.sspRuntime.mainLoop();
   }
