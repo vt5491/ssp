@@ -246,6 +246,8 @@ export class SspCubeScene implements ISspScene {
   // set vrSceneService(theVrSceneService: VRSceneService) {
   //   this._vrSceneService = theVrSceneService;
   // }
+
+  // return new Promise();
 }
 
 let SspCubeSceneFactory = (vrSceneService: VRSceneService) => {

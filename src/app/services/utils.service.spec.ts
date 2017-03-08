@@ -17,6 +17,26 @@ describe('Service: Utils', () => {
     deps: [BaseService, UtilsService]
   }
 
+  let fakeJsonLoad = function(fn, cb) {
+    if (fn === 'myPath/abc.json') {
+      let scene = new THREE.Scene();
+      let cubeGeom = new THREE.BoxGeometry(2,2,2);
+      let cubeMat = new THREE.MeshBasicMaterial({color: 0xffffff});
+      let cubeMesh = new THREE.Mesh(cubeGeom, cubeMat);
+      cubeMesh.name = 'cube';
+      scene.add(cubeMesh);
+      let sphereGeom = new THREE.SphereGeometry(5);
+      let sphereMat = new THREE.MeshBasicMaterial({color: 0x808080});
+      let sphereMesh = new THREE.Mesh(sphereGeom, sphereMat);
+      sphereMesh.name = 'sphere';
+      scene.add(sphereMesh);
+
+      // call the callback
+      cb(scene);
+    }
+
+  }
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [UtilsService, BaseService, AsteroidNoParmsProvider]
@@ -31,7 +51,7 @@ describe('Service: Utils', () => {
     expect(service.updatePos).toBeTruthy();
   }));
 
-  it('should updatePos works', inject([UtilsService, Asteroid], 
+  it('should updatePos works', inject([UtilsService, Asteroid],
     (service: UtilsService, asteroid : Asteroid) => {
     // we test with an asteroid, but it should work with any mesh object using
     // vx and vy.
@@ -81,4 +101,27 @@ describe('Service: Utils', () => {
     navigator.getGamepads = origFunc;
   }));
 
+  fit('should load a three.json model properly', inject([UtilsService],
+    (utils: UtilsService) => {
+      // spyOn(THREE.ObjectLoader.prototype, "load").call(fakeJsonLoad);
+      let scene = new THREE.Scene();
+      let sspSurface: THREE.Mesh;
+      let sspMaterial: THREE.Material;
+      // debugger;
+
+      THREE.ObjectLoader.prototype.load = fakeJsonLoad;
+      let loadPromise: Promise<string> = utils.loadJsonModel(
+        'myPath/abc.json', scene, 'cube', sspSurface, sspMaterial);
+
+      expect(loadPromise).toBeTruthy();
+
+      loadPromise.then((status) => {
+        console.log(`status=${status}`);
+        // debugger;
+        expect(status).toEqual("loaded");
+        expect(scene.children.length).toEqual(2);
+        expect(sspSurface.name).toEqual('cube'); 
+        expect(sspMaterial).toBeTruthy();
+      })
+    }));
 });

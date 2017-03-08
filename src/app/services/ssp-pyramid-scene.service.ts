@@ -5,51 +5,62 @@ import { ISspScene} from '../interfaces/ssp-scene';
 import { IMainCharacterInfo } from '../interfaces/main-character-info';
 import { CameraKbdHandlerService } from './camera-kbd-handler.service';
 import {BaseService} from './base.service';
+import {UtilsService} from './utils.service';
 // declare var THREE.OBJLoader: any;
 
 @Injectable()
 export class SspPyramidScene implements ISspScene {
   pyramidMesh: THREE.Mesh;
-  sspSurface : THREE.Mesh;
-  sspMaterial : THREE.MeshBasicMaterial;
+  public sspSurface : THREE.Mesh;
+  public sspMaterial : THREE.MeshBasicMaterial;
   sspMesh : THREE.Mesh;
   tag : string;
-  base: BaseService;
+  // base: BaseService;
+  // utils: UtilsService;
 
-  constructor(width, height, public vrScene : VRSceneService) {
-    console.log(`SspPyramidSceneService.ctor: entered`);
+  constructor(width, height, public vrScene : VRSceneService, 
+    public base: BaseService, public utils: UtilsService) {
+    console.log(`SspPyramidSceneService.constructor: entered`);
     //this.init();
-    this.base = new BaseService();
+    // this.base = new BaseService();
     // this.initScene();
+    this.sspSurface = new THREE.Mesh();
+    this.sspMaterial = new THREE.MeshBasicMaterial();
+
     var light = new THREE.AmbientLight( 0x404040 ); // soft white light
     this.vrScene.scene.add( light );
 
     // this.initScene2();
-    this.initScene3();
+    // this.initScene3();
+    // this.initScene();
   }
 
+//   init() {
+// //     var geometry = new THREE.CylinderGeometry( 1, TILE_SIZE*3, TILE_SIZE*3, 4 );
+// // var material = new THREE.MeshBasicMaterial( {color: 0xffff00 , wireframe:true} );
+//     let pyramidGeom   = new THREE.CylinderGeometry(1, 50, 50, 4);
+//     let pyramidMaterial = new THREE.MeshBasicMaterial({ color: 0xff0080  });
+
+
+//     this.pyramidMesh = new THREE.Mesh(pyramidGeom, pyramidMaterial);
+//     // this.planeMesh.rotateX(Base.ONE_DEG * 90.0);
+//     this.vrScene.scene.add(this.pyramidMesh);
+
+//     // assign to the api level var 'sspSurface', so other components using this
+//     // component know what to draw on.
+//     this.sspSurface = this.pyramidMesh;
+//     this.sspMaterial = pyramidMaterial;
+
+//     this.tag = 'pyramid';
+//   };
+
+  // initScene() {
   init() {
-//     var geometry = new THREE.CylinderGeometry( 1, TILE_SIZE*3, TILE_SIZE*3, 4 );
-// var material = new THREE.MeshBasicMaterial( {color: 0xffff00 , wireframe:true} );
-    let pyramidGeom   = new THREE.CylinderGeometry(1, 50, 50, 4);
-    let pyramidMaterial = new THREE.MeshBasicMaterial({ color: 0xff0080  });
+    return this.utils.loadJsonModel( '../../assets/models/luxorPyramidScene.json', 
+    this.vrScene.scene, 'Pyramid', this.sspSurface, this.sspMaterial);
+  }
 
-
-    this.pyramidMesh = new THREE.Mesh(pyramidGeom, pyramidMaterial);
-    // this.planeMesh.rotateX(Base.ONE_DEG * 90.0);
-    this.vrScene.scene.add(this.pyramidMesh);
-
-    // assign to the api level var 'sspSurface', so other components using this
-    // component know what to draw on.
-    this.sspSurface = this.pyramidMesh;
-    this.sspMaterial = pyramidMaterial;
-
-    this.tag = 'pyramid';
-
-
-  };
-
-  initScene() {
+  initScene1() {
       // var loader = new THREE.JSONLoader();
       var loader = new THREE.ObjectLoader();
 
@@ -204,16 +215,21 @@ export class SspPyramidScene implements ISspScene {
   // }
 }
 
-let SspPyramidSceneFactory = (vrSceneService: VRSceneService) => {
+// let SspPyramidSceneFactory = (vrSceneService: VRSceneService) => {
+let SspPyramidSceneFactory = (vrSceneService: VRSceneService, 
+  base: BaseService, utils: UtilsService) => {
   // console.log(`SspCylSceneFactor.ctor: entered`);
   var width = window.innerWidth
   var height = window.innerHeight
 
-  return new SspPyramidScene(window.innerWidth, window.innerHeight, vrSceneService);
+  // return new SspPyramidScene(window.innerWidth, window.innerHeight, vrSceneService);
+  return new SspPyramidScene(window.innerWidth, window.innerHeight, 
+    vrSceneService, base, utils);
 };
 
 export let SspPyramidSceneProvider = {
   provide: SspPyramidScene,
   useFactory: SspPyramidSceneFactory,
-  deps: [VRSceneService]
+  // deps: [VRSceneService]
+  deps: [VRSceneService, BaseService, UtilsService]
 }

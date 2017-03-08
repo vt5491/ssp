@@ -23,4 +23,7 @@ export interface ISspScene {
     outerVrScene: VRSceneService,
     cameraKbdHandler: CameraKbdHandlerService
     );
+
+  //  init() : Promise<string>;
+   init() : any; 
 }

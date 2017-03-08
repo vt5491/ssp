@@ -22,7 +22,10 @@ module.exports = function (config) {
       './node_modules/webvr-boilerplate/build/webvr-manager.js',
       './node_modules/dat-gui/vendor/dat.gui.js',
       './node_modules/stats-js/build/stats.min.js',
-      './node_modules/three/examples/js/controls/OrbitControls.js'
+      './node_modules/three/examples/js/controls/OrbitControls.js',
+      './node_modules/three/examples/js/loaders/OBJLoader.js',
+      './node_modules/three/examples/js/loaders/MTLLoader.js',
+      './node_modules/es6-shim/es6-shim.js'
     ],
     preprocessors: {
       './src/test.ts': ['angular-cli']

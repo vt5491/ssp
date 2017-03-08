@@ -122,6 +122,41 @@ export class UtilsService {
 
     return percentage * (axisValue > 0 ? 1 : -1);
   }
+
+  loadJsonModel(fp, scene, sspName, sspSurface, sspMaterial) {
+    console.log(`Utils.loadJsonModel: fp=${fp}`);
+
+    var loader = new THREE.ObjectLoader();
+    // debugger;
+
+    var promise = new Promise((resolve, reject) => {
+      loader.load(
+        fp,
+        (blenderScene) => {
+          console.log(`blenderScene.children.length=${blenderScene.children.length}`);
+
+          for (var i = 0; i < blenderScene.children.length; i++) {
+            var blenderMesh : THREE.Mesh = blenderScene.children[i] as THREE.Mesh;
+            // Note: bug in three.js if you directly refer to the loaded mesh.  When you add to the
+            // scene it will delete *some other* element from the blenderScene.children array.
+            // So we have to manually create our mesh and copy in the blenderScene's child geometry
+            // and material
+            var mesh = new THREE.Mesh(blenderMesh.geometry as THREE.BufferGeometry, blenderMesh.material);
+            // debugger;
+            mesh.name = blenderMesh.name;
+            // mesh.scale.set(25, 25, 25);
+            if (mesh.name === sspName) {
+              sspSurface = mesh;
+              sspMaterial = mesh.material;
+            }
+            scene.add(mesh);
+          }
+          resolve("loaded");
+        })
+    });
+
+    return promise
+  }
 }
 
 // here's where we define the providers for things that don't have their own native

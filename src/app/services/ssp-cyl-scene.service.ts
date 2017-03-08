@@ -25,48 +25,11 @@ export class SspCylSceneService implements ISspScene {
 
   init() {
     let cylGeom   = new THREE.CylinderBufferGeometry(this.radius, this.radius, 80, 50);
-    // let texture = THREE.ImageUtils.loadTexture('assets/coke-label.jpg');
-      // instantiate a loader
-    // let loader = new THREE.TextureLoader();
-
-    // // load a resource
-    // loader.load(
-    //   // resource URL
-    //   'assets/coke-label.jpg',
-    //   // Function when resource is loaded
-    //   (texture) => {
-    //     // do something with the texture
-    //     // var material = new THREE.MeshBasicMaterial({
-    //     //   map: texture
-    //     let cylMaterial = new THREE.MeshBasicMaterial(
-    //       { color: 0xff0080, wireframe: false, side: THREE.DoubleSide, map: texture });
-
-    //     this.cylMesh = new THREE.Mesh(cylGeom, cylMaterial);
-    //     this.cylMesh.name = "abe";
-    //     this.vrScene.scene.add(this.cylMesh);
-
-    //     // assign to the api level var 'sspSurface', so other components using this
-    //     // component know what to draw on.
-    //     this.sspSurface = this.cylMesh;
-    //     this.sspMaterial = cylMaterial;
-
-    //     this.tag = 'cyl';
-    //     // });
-    //   }
-    //   // // Function called when download progresses
-    //   // function (xhr) {
-    //   //   console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-    //   // },
-    //   // // Function called when download errors
-    //   // function (xhr) {
-    //   //   console.log('An error happened');
-    //   // }
-    // );
-    // var texture = new THREE.ImageUtils.loadTexture("images/test_COL.jpg");
   //vt add
   // instantiate a loader
   var loader = new THREE.JSONLoader();
 
+  // return
   // load a resource
   loader.load(
   	// resource URL
@@ -110,28 +73,8 @@ export class SspCylSceneService implements ISspScene {
         // map: texture
       });
 
-    //vt add
-    // let vertShader = document.getElementById('vertex_shh').innerHTML;
-    // let fragShader = document.getElementById('fragment_shh').innerHTML;
-    //
-    // let attributes = {};
-    // let uniforms = {
-    //   tOne: { type: "t", value: brickTexture },
-    //   tSec: { type: "t", value: cokeTexture }
-    // };
-    // let material_shh = new THREE.ShaderMaterial({
-    //   uniforms: uniforms,
-    //   vertexShader: vertShader,
-    //   fragmentShader: fragShader
-    // });
-    // material_shh.map = true;
-    //vt end
     this.cylMesh = new THREE.Mesh(cylGeom, cylMaterial);
-    // this.cylMesh = new THREE.Mesh(cylGeom, material_shh);
     this.cylMesh.name = "abe";
-    //vt add
-    // this.cylMesh.dynamic = true;
-    //vt end
     this.vrScene.scene.add(this.cylMesh);
 
     // assign to the api level var 'sspSurface', so other components using this
@@ -139,10 +82,6 @@ export class SspCylSceneService implements ISspScene {
     this.sspSurface = this.cylMesh;
     this.sspMaterial = cylMaterial;
     this.sspMesh = this.cylMesh;
-    // this.sspMaterial = material_shh as any;
-    //vt add
-    // this.sspGeometry = cylGeom;
-    //vt end
 
     this.tag = 'cyl';
     //vt add

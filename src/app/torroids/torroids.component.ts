@@ -180,7 +180,8 @@ export class TorroidsComponent implements OnInit {
     this.utils.addStats();
     //vt add
     console.log("TorroidsComponent: now sleeping for 3s before kicking off mainLoop");
-    setTimeout( () => {this.sspRuntime.mainLoop()}, 5000);
+    // setTimeout( () => {this.sspRuntime.mainLoop()}, 3000);
+    this.sspScene.init().then( () => {this.sspRuntime.mainLoop()});
     //vt end
     //this.sspRuntime.mainLoop();
   }
