@@ -123,7 +123,16 @@ export class UtilsService {
     return percentage * (axisValue > 0 ? 1 : -1);
   }
 
-  loadJsonModel(fp, scene, sspName, sspSurface, sspMaterial) {
+  // Because the sspSurface and sspMaterial variables will be nested two functions
+  // deep at the time they are updated, we can't rely on simple pass by reference 
+  // to update them properl.
+  // (empirically determined during testing).  Thus we have to pass closure functions
+  // that update them instead:
+  // example:
+  //   let sspSurfaceUpdateFn = (newMesh) => {
+  //   sspSurface = newMesh;
+  // };
+  loadJsonModel(fp, scene, sspName, sspSurfaceUpdateFn, sspMaterialUpdateFn) {
     console.log(`Utils.loadJsonModel: fp=${fp}`);
 
     var loader = new THREE.ObjectLoader();
@@ -146,8 +155,12 @@ export class UtilsService {
             mesh.name = blenderMesh.name;
             // mesh.scale.set(25, 25, 25);
             if (mesh.name === sspName) {
-              sspSurface = mesh;
-              sspMaterial = mesh.material;
+              // mesh.rotateX(-Math.PI / 2.0);
+              // sspSurface.$parent = mesh;
+              sspSurfaceUpdateFn(mesh);
+              // sspSurface.name = 'vt was here';
+              // sspMaterial = mesh.material;
+              sspMaterialUpdateFn(mesh.material);
             }
             scene.add(mesh);
           }
@@ -157,6 +170,42 @@ export class UtilsService {
 
     return promise
   }
+
+  loadTexture (fp) {
+    let promise = new Promise((resolve, reject) => {
+      console.log(`Utils: point a`);
+      
+      let loader = new THREE.TextureLoader();
+      // debugger;
+      loader.load(fp, (texture) => {
+        console.log(`Utils: point b, texture=${texture}`);
+        resolve(texture);
+      })
+    })
+
+    return promise;
+  }
+
+  // sspSurfaceUpdateFn(newMesh) {
+  //   console.log('SspCylScene.init: now in sspSurfaceUpdateFn');
+  //   this.sspSurface = newMesh;
+  // };
+
+  // sspMaterialUpdateFn (newMaterial) => {
+  //   console.log('SspCylScene.init: now in sspMaterialUpdateFn');
+  //   this.sspMaterial = newMaterial;
+  // };
+  // sspSurfaceUpdateFn = (newMesh) => {
+  sspSurfaceUpdateFn = function(newMesh) {
+    console.log('SspCylScene.init: now in sspSurfaceUpdateFn');
+    this.sspSurface = newMesh;
+  };
+
+  sspMaterialUpdateFn = function(newMaterial) {
+    console.log('SspCylScene.init: now in sspMaterialUpdateFn');
+    this.sspMaterial = newMaterial;
+  };
+
 }
 
 // here's where we define the providers for things that don't have their own native

@@ -3,6 +3,8 @@ import { VRSceneService, VRSceneServiceProvider } from './vr-scene.service';
 import { ISspScene} from '../interfaces/ssp-scene';
 import { IMainCharacterInfo } from '../interfaces/main-character-info';
 import { CameraKbdHandlerService } from './camera-kbd-handler.service';
+import {BaseService} from './base.service';
+import {UtilsService} from './utils.service';
 
 @Injectable()
 export class SspCylSceneService implements ISspScene {
@@ -16,14 +18,32 @@ export class SspCylSceneService implements ISspScene {
   radius : number;
   DEFAULT_RADIUS = 25;
 
-  constructor(width, height, public vrScene: VRSceneService, radius? : number) {
+  constructor(width, height, public vrScene: VRSceneService, 
+    public base: BaseService, public utils: UtilsService,
+    radius? : number) {
     console.log(`SspCylSceneService.ctor: entered`);
     this.radius = radius || this.DEFAULT_RADIUS;
 
     this.init();
   }
 
-  init() {
+  init () {
+    // let sspSurfaceUpdateFn = (newMesh) => {
+    //   console.log('SspCylScene.init: now in sspSurfaceUpdateFn');
+    //   this.sspSurface = newMesh;
+    // };
+    // let sspMaterialUpdateFn = (newMaterial) => {
+    //   console.log('SspCylScene.init: now in sspMaterialUpdateFn');
+    //   this.sspMaterial = newMaterial;
+    // };
+    let sspSurfaceUpdateFn = this.utils.sspSurfaceUpdateFn.bind(this);
+    let sspMaterialUpdateFn = this.utils.sspMaterialUpdateFn.bind(this);
+    // let sspMaterialUpdateFn = this.utils.sspMaterialUpdateFn;
+
+    return this.utils.loadJsonModel( '../../assets/models/vt_can_5_scene.json', 
+    this.vrScene.scene, 'Cylinder', sspSurfaceUpdateFn, sspMaterialUpdateFn); 
+  }
+  init2() {
     let cylGeom   = new THREE.CylinderBufferGeometry(this.radius, this.radius, 80, 50);
   //vt add
   // instantiate a loader
@@ -135,15 +155,17 @@ export class SspCylSceneService implements ISspScene {
 }
 
 
-let SspCylSceneFactory = (vrSceneService: VRSceneService) => {
+let SspCylSceneFactory = (vrSceneService: VRSceneService,
+  base: BaseService, utils: UtilsService) => {
   var width = window.innerWidth
   var height = window.innerHeight
 
-  return new SspCylSceneService(window.innerWidth, window.innerHeight, vrSceneService);
+  return new SspCylSceneService(window.innerWidth, window.innerHeight, 
+    vrSceneService, base, utils);
 };
 
 export let SspCylSceneProvider = {
   provide: SspCylSceneService,
   useFactory: SspCylSceneFactory,
-  deps: [VRSceneService]
+  deps: [VRSceneService, BaseService, UtilsService]
 }

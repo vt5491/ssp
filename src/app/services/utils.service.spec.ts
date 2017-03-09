@@ -34,7 +34,15 @@ describe('Service: Utils', () => {
       // call the callback
       cb(scene);
     }
+  }
 
+  let fakeTextureLoader = (fn, cb) => {
+    if (fn === 'myPath/testImg1.jpg') {
+      let mat = new THREE.MeshBasicMaterial({ color: 0x808080 });
+      mat.name = "ut1";
+
+      cb(mat);
+    }
   }
 
   beforeEach(() => {
@@ -86,32 +94,31 @@ describe('Service: Utils', () => {
 
     let p = service.getGamepadConnectedPromise();
 
-    // p.then(console.log(`hi from p.then`));
-    // p.then((res) => {console.log(`hi from p.then, res={res}`)});
-    // p.then(() => {});
-    // p.then();
-
-    // let gpe = new GamepadEvent('gamepadconnected');
-    // let gpe = new GamepadEvent();
-    // gpe.gamepad = new Gamepad();
-    // window.dispatchEvent(gpe);
-    // let result = service.getGamePad();
-
-    // expect(<any>result instanceof Gamepad).toBe(true);
     navigator.getGamepads = origFunc;
   }));
 
-  fit('should load a three.json model properly', inject([UtilsService],
+  it('should load a three.json model properly', inject([UtilsService],
     (utils: UtilsService) => {
+      console.log(`ut: entered`);
+      
       // spyOn(THREE.ObjectLoader.prototype, "load").call(fakeJsonLoad);
       let scene = new THREE.Scene();
-      let sspSurface: THREE.Mesh;
-      let sspMaterial: THREE.Material;
+      let sspSurface = new THREE.Mesh();
+      let sspMaterial = new THREE.Material();
+      let sspSurfaceUpdateFn = (newMesh) => {
+        console.log('now in sspSurfaceUpdateFn');
+        sspSurface = newMesh;
+      };
+      let sspMaterialUpdateFn = (newMaterial) => {
+        console.log('now in sspMaterialUpdateFn');
+        sspMaterial = newMaterial;
+      };
       // debugger;
 
+      let saveObjectLoader = THREE.ObjectLoader.prototype.load;
       THREE.ObjectLoader.prototype.load = fakeJsonLoad;
       let loadPromise: Promise<string> = utils.loadJsonModel(
-        'myPath/abc.json', scene, 'cube', sspSurface, sspMaterial);
+        'myPath/abc.json', scene, 'cube', sspSurfaceUpdateFn, sspMaterialUpdateFn);
 
       expect(loadPromise).toBeTruthy();
 
@@ -122,6 +129,34 @@ describe('Service: Utils', () => {
         expect(scene.children.length).toEqual(2);
         expect(sspSurface.name).toEqual('cube'); 
         expect(sspMaterial).toBeTruthy();
+
+        // restore original saveLoader
+        THREE.ObjectLoader.prototype.load = saveObjectLoader;
       })
     }));
+
+  fit('should load a three.js texture properly', inject([UtilsService],
+    (utils: UtilsService) => {
+      console.log(`now in ut`);
+      
+      let saveTextureLoader = THREE.TextureLoader.prototype.load;
+      let tmpFn : any = THREE.TextureLoader.prototype.load as any;
+      // debugger;
+      tmpFn = fakeTextureLoader;
+      THREE.TextureLoader.prototype.load = tmpFn;
+
+      let texturePromise = utils.loadTexture('myPath/testImg1.jpg');
+
+      expect(texturePromise).toBeTruthy();
+
+      texturePromise.then((texture) => {
+        console.log(`ut: now in texturePromise handler, texture=${texture}`);
+        expect(texture).toBeTruthy();
+        expect(texture instanceof THREE.MeshBasicMaterial).toBeTruthy();
+
+        THREE.TextureLoader.prototype.load = saveTextureLoader;
+      })
+
+  }));
+  
 });

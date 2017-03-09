@@ -56,8 +56,35 @@ export class SspPyramidScene implements ISspScene {
 
   // initScene() {
   init() {
-    return this.utils.loadJsonModel( '../../assets/models/luxorPyramidScene.json', 
-    this.vrScene.scene, 'Pyramid', this.sspSurface, this.sspMaterial);
+    let sspSurfaceUpdateFn = this.utils.sspSurfaceUpdateFn.bind(this);
+    let sspMaterialUpdateFn = this.utils.sspMaterialUpdateFn.bind(this);
+
+    let initDonePromise = new Promise((initDoneResolve, initDoneReject) => {
+      let loadPromise = this.utils.loadJsonModel('../../assets/models/luxorPyramidScene.json',
+        this.vrScene.scene, 'Pyramid', sspSurfaceUpdateFn, sspMaterialUpdateFn);
+
+      loadPromise.then( () => {
+        // compensate for blender 
+        console.log(`SspPyramidScene.init: now rotating objects in scene`);
+        
+        // this.vrScene.scene.rotateY(Math.PI / 2.0); 
+        for (var i= 0; i < this.vrScene.scene.children.length; i++) {
+          var object = this.vrScene.scene.children[i];
+          if (object instanceof THREE.Mesh) {
+            object.rotateX(-Math.PI / 2.0);
+            // object.rotateY(Math.PI / 4.0);
+            // object.rotateZ(Math.PI / 8.0);
+          }
+        }
+        // for (var i=0; i < this.vrScene.scene.children.length; i)
+
+        initDoneResolve();
+      })
+    })
+    // return this.utils.loadJsonModel( '../../assets/models/luxorPyramidScene.json', 
+    // this.vrScene.scene, 'Pyramid', sspSurfaceUpdateFn, sspMaterialUpdateFn);
+
+    return initDonePromise;
   }
 
   initScene1() {
