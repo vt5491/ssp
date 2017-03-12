@@ -26,7 +26,8 @@
         "../node_modules/stats-js/build/stats.min.js",
         "../node_modules/three/examples/js/controls/OrbitControls.js",
         "../node_modules/three/examples/js/loaders/OBJLoader.js",
-        "../node_modules/three/examples/js/loaders/MTLLoader.js"
+        "../node_modules/three/examples/js/loaders/MTLLoader.js",
+        "../node_modules/three/examples/js/loaders/ColladaLoader.js"
         ],
       "environments": {
         "source": "environments/environment.ts",

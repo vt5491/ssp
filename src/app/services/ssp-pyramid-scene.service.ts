@@ -56,6 +56,12 @@ export class SspPyramidScene implements ISspScene {
 
   // initScene() {
   init() {
+    // return this.initJsonLoad();
+    // return this.initObjLoad();
+    return this.initColladaLoad();
+  }
+
+  initJsonLoad() {
     let sspSurfaceUpdateFn = this.utils.sspSurfaceUpdateFn.bind(this);
     let sspMaterialUpdateFn = this.utils.sspMaterialUpdateFn.bind(this);
 
@@ -64,14 +70,29 @@ export class SspPyramidScene implements ISspScene {
         this.vrScene.scene, 'Pyramid', sspSurfaceUpdateFn, sspMaterialUpdateFn);
 
       loadPromise.then( () => {
-        // compensate for blender 
         console.log(`SspPyramidScene.init: now rotating objects in scene`);
         
         // this.vrScene.scene.rotateY(Math.PI / 2.0); 
+        // compensate for blender 
         for (var i= 0; i < this.vrScene.scene.children.length; i++) {
           var object = this.vrScene.scene.children[i];
           if (object instanceof THREE.Mesh) {
             object.rotateX(-Math.PI / 2.0);
+
+            if(object.name === 'WCircle') {
+              // object.rotateY(-this.base.ONE_DEG * 10);
+              // object.rotateZ(-this.base.ONE_DEG * 20);
+              object.rotateX(-this.base.ONE_DEG * 90);
+            }
+            // if(object.name === 'Ground') {
+            if(object.name !== 'Pyramid') {
+              object.material = new THREE.MeshBasicMaterial({
+                side : THREE.DoubleSide, color: Math.random() * 500000 + 500000});
+            }
+            // else if(object.name === 'BillBoard') {
+            //   object.material = new THREE.MeshBasicMaterial({
+            //     side : THREE.DoubleSide, color : 0xd6c1b6 });
+            // }
             // object.rotateY(Math.PI / 4.0);
             // object.rotateZ(Math.PI / 8.0);
           }
@@ -83,6 +104,43 @@ export class SspPyramidScene implements ISspScene {
     })
     // return this.utils.loadJsonModel( '../../assets/models/luxorPyramidScene.json', 
     // this.vrScene.scene, 'Pyramid', sspSurfaceUpdateFn, sspMaterialUpdateFn);
+
+    return initDonePromise;
+  }
+
+  initObjLoad() {
+    let sspSurfaceUpdateFn = this.utils.sspSurfaceUpdateFn.bind(this);
+    let sspMaterialUpdateFn = this.utils.sspMaterialUpdateFn.bind(this);
+
+    let initDonePromise = new Promise((resolve, reject) => {
+      let loadPromise = this.utils.loadObjModel(
+        '../../assets/models/luxorPyramidScene.mtl',
+        '../../assets/models/luxorPyramidScene.obj',
+        this.vrScene.scene, 'Pyramid', sspSurfaceUpdateFn, sspMaterialUpdateFn);
+
+      loadPromise.then( () => {
+        console.log(`SspPyramidScene.initObjLoad: now in loadPromise`);
+        resolve("init done");
+      })
+    })
+
+    return initDonePromise;
+  }
+
+  initColladaLoad() {
+    let sspSurfaceUpdateFn = this.utils.sspSurfaceUpdateFn.bind(this);
+    let sspMaterialUpdateFn = this.utils.sspMaterialUpdateFn.bind(this);
+
+    let initDonePromise = new Promise((resolve, reject) => {
+      let loadPromise = this.utils.loadColladaModel(
+        '../../assets/models/welcome-to-las-vegas-2.dae',
+        this.vrScene.scene, 'Pyramid', sspSurfaceUpdateFn, sspMaterialUpdateFn);
+
+      loadPromise.then( () => {
+        console.log(`SspPyramidScene.initColladaLoad: now in loadPromise`);
+        resolve("init done");
+      })
+    })
 
     return initDonePromise;
   }

@@ -43,7 +43,7 @@ export class SspRuntimeService {
 
       this.webGLRenderer = this.outerVrScene.webGLRenderer;
       // this.webGLRenderer.setClearColor(0x1313f3, 1.0);
-      this.webGLRenderer.setClearColor(0x000020, 1.0);
+      this.webGLRenderer.setClearColor(0x202020, 1.0);
       this.webGLRenderer.domElement.id = 'webGLRenderer';
       document.body.appendChild( this.webGLRenderer.domElement );
 

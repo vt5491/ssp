@@ -171,6 +171,87 @@ export class UtilsService {
     return promise
   }
 
+  // loadObjModel()  {
+  loadObjModel(fpMtl, fpObj, scene, sspName, sspSurfaceUpdateFn, sspMaterialUpdateFn) {
+    console.log('now in loadObjModel');
+    var promise = new Promise(function(resolve, reject) {
+    var mtlLoader = new (THREE as any).MTLLoader();
+    mtlLoader.load( fpMtl, function( materials ) {
+      console.log(`loadObjModel: materials=${materials}`);
+      materials.preload();
+      var loader = new (THREE as any).OBJLoader();
+      loader.setMaterials(materials);
+      loader.load( fpObj, function(object) {
+        console.log(`loadObjModel: object.children.length=${object.children.length}`);
+        for (var i = 0; i < object.children.length; i++) {
+          let defaultMat = new THREE.MeshBasicMaterial(
+            {
+              color: Math.random() * 500000 + 500000,
+              wireframe: false,
+              side: THREE.DoubleSide
+            }
+          );
+          let obj = object.children[i];
+
+          if( obj instanceof THREE.Mesh || obj instanceof THREE.LineSegments) {
+            // if( obj instanceof THREE.Mesh || obj instanceof THREE.LineSegments) {
+            // if(  obj instanceof THREE.LineSegments) {
+                // let mesh= new THREE.Mesh(obj.geometry as THREE.BufferGeometry, defaultMat);
+                let mesh= new THREE.Mesh(obj.geometry as THREE.BufferGeometry, obj.material);
+                // let mesh= new THREE.Mesh(obj.geometry as THREE.Geometry, obj.material);
+                // var bufferGeometry = new THREE.BufferGeometry().fromGeometry( obj.geometry );
+                // let mesh= new THREE.Mesh(bufferGeometry as THREE.BufferGeometry, obj.material);
+            // }
+            mesh.material = defaultMat;
+            mesh.scale.set(25,25,25);
+            // by adding this, I no longer get the pyramid, for some strange reason.kkkkjj
+            // the reason is becuase the mesh created from obj is not "capable" enough somehow
+            // to accomodate the dynamic texturing in ssp-runtime
+            mesh.name = obj.name;
+
+            // if (mesh.name === sspName) {
+            if (mesh.name.match(sspName)) {
+              mesh.material = defaultMat;
+              sspSurfaceUpdateFn(mesh);
+              sspMaterialUpdateFn(mesh.material);
+            }
+            // this.scene.add(mesh);
+            scene.add(mesh);
+          }
+        }
+        resolve("loadedObj");
+      }.bind(this), () => {}, () => {} );
+    }.bind(this));
+  }.bind(this))
+    return promise;
+  }
+
+  loadColladaModel(fp, scene, sspName, sspSurfaceUpdateFn, sspMaterialUpdateFn) {
+      console.log(`now in loadColladaModel`); 
+      var loader = new (THREE as any).ColladaLoader();
+      loader.options.convertUpAxs = true;
+
+      // var mat = new THREE.MeshBasicMaterial({color: 0x806040, side: THREE.DoubleSide})
+
+      var promise = new Promise( (resolve, reject) => {
+        // loader.load( 'assets/cube.dae', (collada) => {
+        // loader.load( 'assets/luxorPyramidScene.dae', (collada) => {
+        loader.load( fp, (collada) => {
+          console.log(`now in collada load closure`);
+          let dae = collada.scene
+          dae.rotateX(-Math.PI / 2.0);
+          dae.scale.x = dae.scale.y = dae.scale.z = 5.0;
+          dae.updateMatrix();
+          scene.add(dae);
+
+          resolve('loaded');
+        })
+      })
+
+      return promise;
+
+  }
+
   loadTexture (fp) {
     let promise = new Promise((resolve, reject) => {
       console.log(`Utils: point a`);
