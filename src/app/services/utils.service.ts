@@ -226,7 +226,10 @@ export class UtilsService {
     return promise;
   }
 
-  loadColladaModel(fp, scene, sspName, sspSurfaceUpdateFn, sspMaterialUpdateFn) {
+  loadColladaModel(fp, scene, sspName, 
+    sspSurfaceUpdateFn, sspMaterialUpdateFn,
+    setAnimationsClosure, kfAnimations 
+    ) {
       console.log(`now in loadColladaModel`); 
       var loader = new (THREE as any).ColladaLoader();
       loader.options.convertUpAxs = true;
@@ -240,10 +243,26 @@ export class UtilsService {
           console.log(`now in collada load closure`);
           let dae = collada.scene
           dae.rotateX(-Math.PI / 2.0);
-          dae.scale.x = dae.scale.y = dae.scale.z = 5.0;
+          dae.scale.x = dae.scale.y = dae.scale.z = 15.0;
           dae.updateMatrix();
           scene.add(dae);
 
+          //vt add
+          // animations = collada.animations;
+          setAnimationsClosure(collada.animations);
+          let animations = collada.animations;
+          // kfAnimationsLength = animations.length;
+          // model.scale.x = model.scale.y = model.scale.z = 0.125; // 1/8 scale, modeled in cm
+          // model.scale.x = model.scale.y = model.scale.z = 5.0; // 1/8 scale, modeled in cm
+
+          for (var i = 0; i < animations.length; ++i) {
+            var animation = animations[i];
+
+            var kfAnimation = new (THREE as any).KeyFrameAnimation(animation);
+            kfAnimation.timeScale = 1;
+            kfAnimations.push(kfAnimation);
+          }
+        //vt end
           resolve('loaded');
         })
       })
@@ -286,6 +305,33 @@ export class UtilsService {
     console.log('SspCylScene.init: now in sspMaterialUpdateFn');
     this.sspMaterial = newMaterial;
   };
+
+  startColladaAnimations = function (animations, kfAnimations) {
+    for (var i = 0; i < animations.length; ++i) {
+      var animation = kfAnimations[i];
+
+      for (var h = 0, hl = animation.hierarchy.length; h < hl; h++) {
+        var keys = animation.data.hierarchy[h].keys;
+        var sids = animation.data.hierarchy[h].sids;
+        var obj = animation.hierarchy[h];
+
+        if (keys.length && sids) {
+          for (var s = 0; s < sids.length; s++) {
+            var sid = sids[s];
+            var next = animation.getNextKeyWith(sid, h, 0);
+
+            if (next) next.apply(sid);
+          }
+
+          obj.matrixAutoUpdate = false;
+          animation.data.hierarchy[h].node.updateMatrix();
+          obj.matrixWorldNeedsUpdate = true;
+        }
+      }
+      animation.loop = false;
+      animation.play();
+    }
+  }
 
 }
 

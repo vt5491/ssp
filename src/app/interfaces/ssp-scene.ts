@@ -16,6 +16,13 @@ export interface ISspScene {
   // sspGeometry : THREE.Geometry;
   //vt end
   tag : string;
+  // collada animation support variables
+  lastTimestamp? : number;
+  animationDuration? : number;
+  animations? : [any];
+  kfAnimations? : [any];
+  animationProgress? : number;
+  // end collada animation support variables
 
   // keyEventHandler(event : KeyboardEvent);
   outerCameraTrack(

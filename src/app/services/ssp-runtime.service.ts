@@ -86,7 +86,8 @@ export class SspRuntimeService {
       .prototype.mainLoop.bind(this));
 
     this.utils.stats.begin();
-    this.gamepadHandler();
+    // temporarily comment out since Mozilla nightly can't deal with this.
+    // this.gamepadHandler();
     // update the innerGame
     (<any>this.innerGame).updateScene();
 
@@ -195,6 +196,35 @@ export class SspRuntimeService {
 
     this.utils.stats.end();
   }
+
+  colladaAnimateMainloop( timestamp ) {
+    // timestamp = Date.now();
+    let sspScene = this.outerSspScene;
+    var frameTime = ( timestamp - sspScene.lastTimestamp ) * 0.001;
+
+    if ( sspScene.animationProgress >= 0 && sspScene.animationProgress < sspScene.animationDuration ) {
+      for ( var i = 0; i < sspScene.animations.length; ++i ) {
+        sspScene.kfAnimations[ i ].update( frameTime );
+      }
+    } else if ( sspScene.animationProgress >= sspScene.animationDuration ) {
+      for ( var i = 0; i < sspScene.animations.length; ++i ) {
+        sspScene.kfAnimations[ i ].stop();
+      }
+
+      sspScene.animationProgress = 0;
+      this.utils.startColladaAnimations(sspScene.animations, sspScene.kfAnimations);
+    }
+
+    // pointLight.position.copy( camera.position );
+    sspScene.animationProgress += frameTime;
+    sspScene.lastTimestamp = timestamp;
+    // this.renderer.render( this.scene, this.camera );
+    this.outerVrScene.webVrManager.render(this.outerVrScene.scene, this.outerVrScene.camera);
+    // window.requestAnimationFrame( this.animate.bind(this) );
+    window.requestAnimationFrame(SspRuntimeService
+      .prototype.colladaAnimateMainloop.bind(this));
+  }
+
 
   initOffscreenImageBuf() {
     // let webglEl = document.getElementById('webGLRenderer');

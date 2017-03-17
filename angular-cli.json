@@ -27,7 +27,10 @@
         "../node_modules/three/examples/js/controls/OrbitControls.js",
         "../node_modules/three/examples/js/loaders/OBJLoader.js",
         "../node_modules/three/examples/js/loaders/MTLLoader.js",
-        "../node_modules/three/examples/js/loaders/ColladaLoader.js"
+        "../node_modules/three/examples/js/loaders/ColladaLoader.js",
+        "../node_modules/three/examples/js/loaders/collada/Animation.js",
+        "../node_modules/three/examples/js/loaders/collada/AnimationHandler.js",
+        "../node_modules/three/examples/js/loaders/collada/KeyFrameAnimation.js"
         ],
       "environments": {
         "source": "environments/environment.ts",

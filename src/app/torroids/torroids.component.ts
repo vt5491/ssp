@@ -181,7 +181,14 @@ export class TorroidsComponent implements OnInit {
     //vt add
     console.log("TorroidsComponent: now sleeping for 3s before kicking off mainLoop");
     // setTimeout( () => {this.sspRuntime.mainLoop()}, 3000);
-    this.sspScene.init().then( () => {this.sspRuntime.mainLoop()});
+    this.sspScene.init().then( () => {
+      if (this.model.outerScene == "pyramid") {
+        this.sspRuntime.colladaAnimateMainloop(0);        
+      } 
+      else {
+        this.sspRuntime.mainLoop();
+      }
+    })
     //vt end
     //this.sspRuntime.mainLoop();
   }

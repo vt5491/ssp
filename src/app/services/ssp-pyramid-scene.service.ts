@@ -8,6 +8,8 @@ import {BaseService} from './base.service';
 import {UtilsService} from './utils.service';
 // declare var THREE.OBJLoader: any;
 
+// Note: Use a cube projection on the UV map in blender for best results. 
+
 @Injectable()
 export class SspPyramidScene implements ISspScene {
   pyramidMesh: THREE.Mesh;
@@ -17,6 +19,11 @@ export class SspPyramidScene implements ISspScene {
   tag : string;
   // base: BaseService;
   // utils: UtilsService;
+  animations : [any];
+  kfAnimations : [any];
+  lastTimestamp = 0;
+  animationProgress = 0;
+  animationDuration = 1;
 
   constructor(width, height, public vrScene : VRSceneService, 
     public base: BaseService, public utils: UtilsService) {
@@ -27,8 +34,15 @@ export class SspPyramidScene implements ISspScene {
     this.sspSurface = new THREE.Mesh();
     this.sspMaterial = new THREE.MeshBasicMaterial();
 
-    var light = new THREE.AmbientLight( 0x404040 ); // soft white light
-    this.vrScene.scene.add( light );
+    // let light = new THREE.AmbientLight( 0x404040 ); // soft white light
+    // this.vrScene.scene.add( light );
+
+    let pointLight = new THREE.PointLight(0xffffff, 1, 100);
+    pointLight.position.set(-50, 0, 0);
+    this.vrScene.scene.add(pointLight);
+
+    this.animations = [] as any;
+    this.kfAnimations = [] as any;
 
     // this.initScene2();
     // this.initScene3();
@@ -58,7 +72,10 @@ export class SspPyramidScene implements ISspScene {
   init() {
     // return this.initJsonLoad();
     // return this.initObjLoad();
-    return this.initColladaLoad();
+    let promise = this.initColladaLoad();
+    // this.initLuxorScene();
+    // return this.initColladaLoad();
+    return promise;
   }
 
   initJsonLoad() {
@@ -67,6 +84,7 @@ export class SspPyramidScene implements ISspScene {
 
     let initDonePromise = new Promise((initDoneResolve, initDoneReject) => {
       let loadPromise = this.utils.loadJsonModel('../../assets/models/luxorPyramidScene.json',
+      // let loadPromise = this.utils.loadJsonModel('../../assets/models/luxor_pyramid_decorated.dae',
         this.vrScene.scene, 'Pyramid', sspSurfaceUpdateFn, sspMaterialUpdateFn);
 
       loadPromise.then( () => {
@@ -130,19 +148,71 @@ export class SspPyramidScene implements ISspScene {
   initColladaLoad() {
     let sspSurfaceUpdateFn = this.utils.sspSurfaceUpdateFn.bind(this);
     let sspMaterialUpdateFn = this.utils.sspMaterialUpdateFn.bind(this);
+    let setAnimationsClosure = (newAnimations) => {
+      console.log('SspCylScene.init: now in animationsUpdateClosure');
+      this.animations = newAnimations;
+    };
 
     let initDonePromise = new Promise((resolve, reject) => {
       let loadPromise = this.utils.loadColladaModel(
-        '../../assets/models/welcome-to-las-vegas-2.dae',
-        this.vrScene.scene, 'Pyramid', sspSurfaceUpdateFn, sspMaterialUpdateFn);
+        // '../../assets/models/welcome-to-las-vegas-2.dae',
+        '../../assets/models/luxor_pyramid_decorated.dae',
+        // '../../assets/models/sand_dune_hills.dae',
+        this.vrScene.scene, 'Pyramid', 
+        sspSurfaceUpdateFn, sspMaterialUpdateFn,
+        setAnimationsClosure, this.kfAnimations 
+        );
 
       loadPromise.then( () => {
         console.log(`SspPyramidScene.initColladaLoad: now in loadPromise`);
+        // this.sspSurface = this.vrScene.scene.getObjectByName('ground').children[0] as THREE.Mesh; 
+        // this.sspMaterial = this.sspSurface.material;
+        this.initLuxorScene();
         resolve("init done");
       })
     })
 
     return initDonePromise;
+  }
+
+  initLuxorScene() {
+    this.sspSurface = this.vrScene.scene.getObjectByName('luxorTower').children[0] as THREE.Mesh;
+
+    // apply sand_dune texture to the ground
+    // let sandDuneTexture = new THREE.TextureLoader().load( "../../assets/img/sand_dune_simple.jpg" );
+//     sandDuneTexture = THREE.ImageUtils.loadTexture("../../assets/img/sand_dune_simple.jpg", {}, function() {
+//     renderer.render(scene);
+// }),
+    let loader = new THREE.TextureLoader();
+
+    // loader.load("../../assets/img/sand_dune_simple.jpg", (texture) => {
+    loader.load("../../assets/img/sand_dune_ripples.jpg", (texture) => {
+      console.log(`now setting ground texture`);
+      // texture.repeat.set( 2, 2 );
+      let ground = this.vrScene.scene.getObjectByName('ground').children[0] as THREE.Mesh;
+      // ground.material = new THREE.MeshPhongMaterial({ map: texture });
+      ground.material = new THREE.MeshBasicMaterial({ map: texture, side: THREE.DoubleSide });
+      ground.material.needsUpdate = true;
+    })
+    loader.load("../../assets/img/CGSkies_0038_free.jpg", (texture) => {
+      // add a sky
+      // let skyGeo = new THREE.SphereGeometry(100000, 25, 25);
+      // let skyGeo = new THREE.SphereGeometry(100, 25, 25);
+      let skyGeo = new THREE.SphereGeometry(500, 500, 500);
+      console.log(`now setting sky texture`);
+      // let material = new THREE.MeshPhongMaterial({
+      //   map: texture,
+      // });
+      let material = new THREE.MeshBasicMaterial({
+        // color: 0x806040
+        map: texture
+      });
+      let sky = new THREE.Mesh(skyGeo, material);
+      sky.material.side = THREE.BackSide;
+      sky.material.needsUpdate = true;
+      this.vrScene.scene.add(sky);
+    })
+    // let texture = THREE.ImageUtils.loadTexture( "../../assets/img/CGSkies_0038_free.jpg" );
   }
 
   initScene1() {
