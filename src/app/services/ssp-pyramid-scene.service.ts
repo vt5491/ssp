@@ -43,7 +43,6 @@ export class SspPyramidScene implements ISspScene {
 
     this.animations = [] as any;
     this.kfAnimations = [] as any;
-
     // this.initScene2();
     // this.initScene3();
     // this.initScene();
@@ -148,10 +147,14 @@ export class SspPyramidScene implements ISspScene {
   initColladaLoad() {
     let sspSurfaceUpdateFn = this.utils.sspSurfaceUpdateFn.bind(this);
     let sspMaterialUpdateFn = this.utils.sspMaterialUpdateFn.bind(this);
-    let setAnimationsClosure = (newAnimations) => {
+    let setAnimationsClosure = ((newAnimations) => {
       console.log('SspCylScene.init: now in animationsUpdateClosure');
       this.animations = newAnimations;
-    };
+    }).bind(this);
+    let getKfAnimationsClosure = (() => {
+      // console.log('SspCylScene.init: now in animationsUpdateClosure');
+      return this.kfAnimations;
+    }).bind(this);
 
     let initDonePromise = new Promise((resolve, reject) => {
       let loadPromise = this.utils.loadColladaModel(
@@ -160,7 +163,7 @@ export class SspPyramidScene implements ISspScene {
         // '../../assets/models/sand_dune_hills.dae',
         this.vrScene.scene, 'Pyramid', 
         sspSurfaceUpdateFn, sspMaterialUpdateFn,
-        setAnimationsClosure, this.kfAnimations 
+        setAnimationsClosure, getKfAnimationsClosure 
         );
 
       loadPromise.then( () => {

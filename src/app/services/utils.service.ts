@@ -228,7 +228,7 @@ export class UtilsService {
 
   loadColladaModel(fp, scene, sspName, 
     sspSurfaceUpdateFn, sspMaterialUpdateFn,
-    setAnimationsClosure, kfAnimations 
+    setAnimationsClosure, getKfAnimationsClosure 
     ) {
       console.log(`now in loadColladaModel`); 
       var loader = new (THREE as any).ColladaLoader();
@@ -260,7 +260,8 @@ export class UtilsService {
 
             var kfAnimation = new (THREE as any).KeyFrameAnimation(animation);
             kfAnimation.timeScale = 1;
-            kfAnimations.push(kfAnimation);
+            // kfAnimations.push(kfAnimation);
+            getKfAnimationsClosure().push(kfAnimation);
           }
         //vt end
           resolve('loaded');

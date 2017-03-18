@@ -81,9 +81,10 @@ export class SspRuntimeService {
     return texture;
   };
 
-  mainLoop() {
+  mainLoop(timestamp) {
     window.requestAnimationFrame(SspRuntimeService
       .prototype.mainLoop.bind(this));
+    this.colladaAnimateMainloop(timestamp);
 
     this.utils.stats.begin();
     // temporarily comment out since Mozilla nightly can't deal with this.
@@ -120,20 +121,15 @@ export class SspRuntimeService {
       console.log(`torus.proj.mainLoop: caught error ${e}`)
     }
 
-    // }
 
     // comment out these two lines if doing the coke texture
     // this.offscreenImageBuf.needsUpdate = true; //need this
     // this.outerSspScene.sspMaterial.map = this.offscreenImageBuf;//note: done in ctor now
-    //vt add
-    // let vertShader = document.getElementById('vertex_shh').innerHTML;
-    // let fragShader = document.getElementById('fragment_shh').innerHTML;
     let vertShader = document.getElementById('simple-vertex-shader').innerHTML;
     let fragShader = document.getElementById('simple-fragment-shader').innerHTML;
 
     let attributes = {};
     let uniforms = {
-      // t1: { type: "t", value: this.cokeTexture },
       t1: { type: "t", value: this.poolBallTexture },
       t2: { type: "t", value: this.offscreenImageBuf }
     };
@@ -143,36 +139,13 @@ export class SspRuntimeService {
 
     let material_shader = new THREE.ShaderMaterial({
       uniforms: uniforms,
-      // attributes: attributes,
       defines     : defines,
       vertexShader: vertShader,
       fragmentShader: fragShader
     });
-    // material_shh
-    // material_shh.map = true;
-    // material_shh.map = this.offscreenImageBuf;
 
     this.offscreenImageBuf.needsUpdate = true; //need this
-    // this.outerSspScene.sspMaterial.map = this.offscreenImageBuf;
-    // this.outerSspScene.sspMaterial = material_shh as any; //needed?
-    // (this.outerSspScene as any).can.material.map = this.brickTexture.image;
-    // (this.outerSspScene as any).can.material.map = this.brickTexture;
-    //following line roughly works
-    // (this.outerSspScene as any).can.material.map = this.offscreenImageBuf;
-    // (this.outerSspScene as any).can.material.needsUpdate = true;
-    // (this.outerSspScene as any).cylMesh.needsUpdate = true;
-    // material_shh.needsUpdate = true;//dont need
-    // this.outerSspScene.sspMaterial.needsUpdate = true;//dont need
-    // (this.outerSspScene as any).cylMesh.material = material_shh;
     this.outerSspScene.sspSurface.material = material_shader;
-    // (this.outerSspScene as any).cylMesh.needsUpdate = true;
-    // this.outerSspScene.sspMaterial.map = material_shh.map as any;
-    // this.outerSspScene.sspMaterial.map = material_shh as any;//gets runtime error
-    // material_shh.
-    // this.outerSspScene.sspMaterial.map = this.offscreenImageBuf;
-    // this.outerSspScene.sspSurface = new THREE.Mesh(this.outerSspScene.sspGeometry, material_shh)
-    // this.outerSspScene.sspMaterial.map.needsUpdate = true;
-    //vt end
 
     if (this.outerVrScene.vrControls) {
       this.outerVrScene.vrControls.update();
@@ -193,8 +166,6 @@ export class SspRuntimeService {
     }
 
     this.outerVrScene.webVrManager.render(this.outerVrScene.scene, this.outerVrScene.camera);
-
-    this.utils.stats.end();
   }
 
   colladaAnimateMainloop( timestamp ) {
@@ -219,10 +190,10 @@ export class SspRuntimeService {
     sspScene.animationProgress += frameTime;
     sspScene.lastTimestamp = timestamp;
     // this.renderer.render( this.scene, this.camera );
-    this.outerVrScene.webVrManager.render(this.outerVrScene.scene, this.outerVrScene.camera);
-    // window.requestAnimationFrame( this.animate.bind(this) );
-    window.requestAnimationFrame(SspRuntimeService
-      .prototype.colladaAnimateMainloop.bind(this));
+    // this.outerVrScene.webVrManager.render(this.outerVrScene.scene, this.outerVrScene.camera);
+    // // window.requestAnimationFrame( this.animate.bind(this) );
+    // window.requestAnimationFrame(SspRuntimeService
+    //   .prototype.colladaAnimateMainloop.bind(this));
   }
 
 
