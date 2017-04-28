@@ -1,4 +1,5 @@
 // <reference path="../../../typings/index.d.ts" />
+// <reference path="../../../typings/globals/aframe/AFRAME.d.ts" />
 import { Component, OnInit, ElementRef, Inject, ViewChild, Injectable, Renderer, Injector } from '@angular/core';
 import { WebGLCanvasComponent } from '../directives/webgl-canvas/webgl-canvas.component';
 import { VRSceneService, VRSceneServiceProvider } from '../services/vr-scene.service';
@@ -48,6 +49,12 @@ export class TorroidsComponent implements OnInit {
   //TODO create an official interface for this type
   innerGame : InnerGame;
   gPad : Gamepad;
+  //vt add
+  oculusLeftControllerElem : Element;
+  // ocuLeftControllerElem : AFrame.Entity;
+  // oculusLeftControllerElem : AFrame.AframeFramework;
+  oculusLeftController : AFrame.Entity;
+  //vt end
 
   constructor(
     private el: ElementRef,
@@ -70,6 +77,9 @@ export class TorroidsComponent implements OnInit {
      };
 
     this.utils.addControls(control);
+    //vt add
+    // this.initControllers();
+    //vt end
   }
 
   ngOnInit() {
@@ -86,9 +96,20 @@ export class TorroidsComponent implements OnInit {
     let webglRendererCanvas : HTMLElement = this.el.nativeElement.querySelector('#webgl-renderer-canvas');
     // note: this is needed to give the element keyboard focus
     webglRendererCanvas.setAttribute('tabindex', "1");
-    let listenFunc = this.renderer.listen(webglRendererCanvas, 'keydown', (event) => {
+    //vt-x
+    // you can't listen on a canvas at all.  I don't know how this even worked.  
+    // But if you do it this way, you have to click on the canvas first.
+    // let listenFunc = this.renderer.listen(webglRendererCanvas, 'keydown', (event) => {
+    //   this.kbdEventHandler(event);
+    // });
+    // Don't listen on the canvas as a) you technically can't do this, b) it requires
+    // you click on it after going into vr mode.  By listening on the window, we don't
+    // have to do the second click.
+    let listenFunc = window.addEventListener( 'keydown',
+    (event) => {
       this.kbdEventHandler(event);
     });
+
 
     if (this.utils.parms.enableGridHelpers) {
       let gridHelper_xy = new THREE.GridHelper(100, 20);
@@ -110,6 +131,23 @@ export class TorroidsComponent implements OnInit {
     webglRendererCanvas.focus();
     document.getElementById('webgl-renderer-canvas').focus();
   }
+
+//vt add
+  initControllers = () => {
+    console.log(`TorroidsComponent.initControllers: entered`);
+    
+    this.oculusLeftControllerElem = document.querySelector('#oc-control-left');
+
+    // this.oculusLeftController = (this.oculusLeftControllerElem as any).components['oculus-touch-controls'];
+    this.oculusLeftController = (this.oculusLeftControllerElem as AFrame.Entity).components['oculus-touch-controls'];
+
+    this.oculusLeftControllerElem.addEventListener('triggerdown', function (evt) {
+      console.log('trigger pressed');
+      let posData = this.oculusLeftController.el.components.position.data;
+      console.log(`x=${posData.x * 100}, y=${posData.y * 100}, z=${posData.z * 100}`);
+    });
+  }
+  //vt end
 
   debugButtonClick(input, $event) {
     // console.log(`TorroidsComponent.debugButtonClick: webGLCanvasComponent.width=

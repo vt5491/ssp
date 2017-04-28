@@ -82,11 +82,12 @@ export class SspRuntimeService {
   };
 
   mainLoop(timestamp) {
+    this.utils.stats.begin();
+
     window.requestAnimationFrame(SspRuntimeService
       .prototype.mainLoop.bind(this));
     this.colladaAnimateMainloop(timestamp);
 
-    this.utils.stats.begin();
     // temporarily comment out since Mozilla nightly can't deal with this.
     // this.gamepadHandler();
     // update the innerGame
@@ -166,6 +167,8 @@ export class SspRuntimeService {
     }
 
     this.outerVrScene.webVrManager.render(this.outerVrScene.scene, this.outerVrScene.camera);
+
+    this.utils.stats.end();
   }
 
   colladaAnimateMainloop( timestamp ) {

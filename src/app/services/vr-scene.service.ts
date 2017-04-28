@@ -38,6 +38,9 @@ export class VRSceneService {
     console.log(`->VrSceneSerivce.ctor: webGLRenderer.width=${this.webGLRenderer.getSize().width},width=${this.webGLRenderer.getSize().height}`);
     
     this.scene = new THREE.Scene;
+    //vt add
+    // this.scene = ((document.querySelector('a-scene') as AFrame.Entity).object3D as THREE.Scene);
+    //vt end
 
     this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight);
     this.camera.name = 'vrscene_camera'

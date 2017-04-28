@@ -132,10 +132,14 @@ export class UtilsService {
   //   let sspSurfaceUpdateFn = (newMesh) => {
   //   sspSurface = newMesh;
   // };
+  //TODO: this is really the OBJ loader, not a JSON loader.  However, merely swapping
+  // in JSONLoader doesn't fix the problem as Json object has no children
+  // No: JSONLoader has been replaced by OBJLoader
   loadJsonModel(fp, scene, sspName, sspSurfaceUpdateFn, sspMaterialUpdateFn) {
     console.log(`Utils.loadJsonModel: fp=${fp}`);
 
     var loader = new THREE.ObjectLoader();
+    // var loader = new THREE.JSONLoader();
     // debugger;
 
     var promise = new Promise((resolve, reject) => {
@@ -330,6 +334,7 @@ export class UtilsService {
         }
       }
       animation.loop = false;
+      // console.log(`Utils.startColladaAnimations: about to play animation ${animation.data.name}`);
       animation.play();
     }
   }

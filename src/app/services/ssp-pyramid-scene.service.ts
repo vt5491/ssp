@@ -23,7 +23,7 @@ export class SspPyramidScene implements ISspScene {
   kfAnimations : [any];
   lastTimestamp = 0;
   animationProgress = 0;
-  animationDuration = 1;
+  animationDuration = 1 * 5;
 
   constructor(width, height, public vrScene : VRSceneService, 
     public base: BaseService, public utils: UtilsService) {
@@ -40,6 +40,14 @@ export class SspPyramidScene implements ISspScene {
     let pointLight = new THREE.PointLight(0xffffff, 1, 100);
     pointLight.position.set(-50, 0, 0);
     this.vrScene.scene.add(pointLight);
+    
+    pointLight = new THREE.PointLight(0xffffff, 1, 100);
+    pointLight.position.set(0, 20, 150);
+    this.vrScene.scene.add(pointLight);
+
+    let directionalLight = new THREE.DirectionalLight(0xffffff);
+    directionalLight.position.set(0, 150, 0);
+    this.vrScene.scene.add(directionalLight);
 
     this.animations = [] as any;
     this.kfAnimations = [] as any;
@@ -179,7 +187,10 @@ export class SspPyramidScene implements ISspScene {
   }
 
   initLuxorScene() {
-    this.sspSurface = this.vrScene.scene.getObjectByName('luxorTower').children[0] as THREE.Mesh;
+    let lt;
+    if (lt = this.vrScene.scene.getObjectByName('luxorTower')) {
+      this.sspSurface = lt.children[0] as THREE.Mesh;
+    }
 
     // apply sand_dune texture to the ground
     // let sandDuneTexture = new THREE.TextureLoader().load( "../../assets/img/sand_dune_simple.jpg" );
